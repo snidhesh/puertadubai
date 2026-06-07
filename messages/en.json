@@ -1,0 +1,51 @@
+{
+  "Site": {
+    "name": "Puerta Dubai",
+    "tagline": "Invest in the vision of the UAE"
+  },
+  "Nav": {
+    "home": "Home",
+    "about": "What is Puerta Dubai?",
+    "founder": "Founder",
+    "projects": "Projects",
+    "areas": "Area Guides",
+    "services": "Services",
+    "investmentReadiness": "Investment Readiness",
+    "partners": "Partners",
+    "press": "Editorial",
+    "goldenVisa": "Golden Visa",
+    "contact": "Contact"
+  },
+  "Hero": {
+    "headline": "Invest in the vision of the UAE",
+    "subhead": "A private gateway for global investors entering the UAE market.",
+    "primaryCta": "Join the Private Circle",
+    "secondaryCta": "View Projects"
+  },
+  "PrivateCircle": {
+    "title": "Private Circle — Priority Access",
+    "subtitle": "Pre-register to receive curated investment opportunities, area briefings and Golden Visa guidance.",
+    "step1Title": "Tell us where to start",
+    "step2Title": "Stay in touch",
+    "country": "Country of residence",
+    "interest": "Primary interest",
+    "interestRealEstate": "Real Estate",
+    "interestBusiness": "Business Setup",
+    "interestBoth": "Real Estate & Business",
+    "interestGoldenVisa": "Golden Visa",
+    "name": "Full name",
+    "email": "Email",
+    "phone": "Phone (optional)",
+    "consent": "I agree to Puerta Dubai contacting me about UAE investment opportunities and have read the Privacy Policy.",
+    "marketingOptIn": "I would also like to receive market briefings (optional).",
+    "submit": "Continue",
+    "successTitle": "You're in",
+    "successBody": "We'll be in touch within 48 hours with a curated brief.",
+    "successCta": "Take the Investment Readiness assessment"
+  },
+  "Footer": {
+    "rights": "All rights reserved.",
+    "legalNotice": "Legal Notice",
+    "privacy": "Privacy Policy"
+  }
+}

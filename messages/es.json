@@ -1,0 +1,51 @@
+{
+  "Site": {
+    "name": "Puerta Dubai",
+    "tagline": "Invierta en la visión de los Emiratos Árabes Unidos"
+  },
+  "Nav": {
+    "home": "Inicio",
+    "about": "¿Qué es Puerta Dubai?",
+    "founder": "Fundador",
+    "projects": "Proyectos",
+    "areas": "Guías de zonas",
+    "services": "Servicios",
+    "investmentReadiness": "Preparación para invertir",
+    "partners": "Socios",
+    "press": "Editorial",
+    "goldenVisa": "Visa Dorada",
+    "contact": "Contacto"
+  },
+  "Hero": {
+    "headline": "Invierta en la visión de los Emiratos",
+    "subhead": "Una puerta de entrada privada para inversores internacionales en los EAU.",
+    "primaryCta": "Únase al Círculo Privado",
+    "secondaryCta": "Ver proyectos"
+  },
+  "PrivateCircle": {
+    "title": "Círculo Privado — Acceso prioritario",
+    "subtitle": "Pre-regístrese para recibir oportunidades de inversión, informes por zonas y orientación sobre la Visa Dorada.",
+    "step1Title": "Cuéntenos por dónde empezar",
+    "step2Title": "Mantengamos el contacto",
+    "country": "País de residencia",
+    "interest": "Interés principal",
+    "interestRealEstate": "Inmobiliario",
+    "interestBusiness": "Creación de empresa",
+    "interestBoth": "Inmobiliario y empresa",
+    "interestGoldenVisa": "Visa Dorada",
+    "name": "Nombre completo",
+    "email": "Correo electrónico",
+    "phone": "Teléfono (opcional)",
+    "consent": "Acepto que Puerta Dubai me contacte sobre oportunidades de inversión en los EAU y he leído la Política de Privacidad.",
+    "marketingOptIn": "También deseo recibir briefings de mercado (opcional).",
+    "submit": "Continuar",
+    "successTitle": "Listo",
+    "successBody": "Nos pondremos en contacto en menos de 48 horas con un brief a medida.",
+    "successCta": "Realizar la evaluación de preparación para invertir"
+  },
+  "Footer": {
+    "rights": "Todos los derechos reservados.",
+    "legalNotice": "Aviso legal",
+    "privacy": "Política de Privacidad"
+  }
+}

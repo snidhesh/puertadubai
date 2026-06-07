@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+/* ──────────────────────────────────────────────────────────────────────
+ * Design tokens — monochrome palette (the brand carries colour via
+ * photography only; no chromatic accent). Type pairing is Mahsheed-
+ * inspired: Arsenal display + Roboto Flex body on Latin pages,
+ * El Messiri + IBM Plex Sans Arabic on Arabic pages.
+ * ────────────────────────────────────────────────────────────────────── */
+:root {
+  --bg: #ffffff;
+  --bg-alt: #f5f5f5;
+  --bg-dark: #1a1a1a;
+
+  --text-title: #1a1a1a;
+  --text-body: #545454;
+  --text-muted: #7a7e82;
+  --text-on-dark: #f5f5f5;
+
+  --accent: #1a1a1a;
+  --hover: #545454;
+  --divider: #e5e5e5;
+
+  --gradient-hero: linear-gradient(to right, #000 0%, #2a2a2a 100%);
+  --gradient-overlay: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.55) 100%);
+
+  /* Latin defaults; switched to Arabic stack under [lang="ar"]. */
+  --font-display: var(--font-display-latin);
+  --font-sans: var(--font-sans-latin);
+
+  /* Type scale — line-height 1.7 on body is non-negotiable. */
+  --line-height-body: 1.7;
+}
+
+:root[lang="ar"] {
+  --font-display: var(--font-display-arabic);
+  --font-sans: var(--font-sans-arabic);
+  --line-height-body: 1.85; /* Arabic glyphs run heavier; need more leading. */
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-alt: var(--bg-alt);
+  --color-bg-dark: var(--bg-dark);
+  --color-text-title: var(--text-title);
+  --color-text-body: var(--text-body);
+  --color-text-muted: var(--text-muted);
+  --color-text-on-dark: var(--text-on-dark);
+  --color-accent: var(--accent);
+  --color-hover: var(--hover);
+  --color-divider: var(--divider);
+  --font-display: var(--font-display);
+  --font-sans: var(--font-sans);
+}
+
+body {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 16px;
+  line-height: var(--line-height-body);
+  color: var(--text-body);
+  background: var(--bg);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display), serif;
+  color: var(--text-title);
+  letter-spacing: -0.005em;
+}
+
+/* Arabic UI labels: never uppercase, never tracked. Arabic letters
+ * connect, and tracking breaks joining behaviour. Latin button conventions
+ * (12px / uppercase / 0.08em letter-spacing) are wrong for Arabic.
+ *
+ * The Nautigal script font is reserved for the Founder signature on Latin
+ * pages only — it has no Arabic glyphs, so do not render it on AR pages.
+ */
+:root[lang="ar"] button,
+:root[lang="ar"] .ui-label,
+:root[lang="ar"] [data-ui-label] {
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+}
+
+/* Arabic display tracking: stay at 0. Negative tracking degrades joining. */
+:root[lang="ar"] h1,
+:root[lang="ar"] h2,
+:root[lang="ar"] h3,
+:root[lang="ar"] h4,
+:root[lang="ar"] h5,
+:root[lang="ar"] h6 {
+  letter-spacing: 0;
+}

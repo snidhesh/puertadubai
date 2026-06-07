@@ -1,0 +1,51 @@
+{
+  "Site": {
+    "name": "Puerta Dubai",
+    "tagline": "Investissez dans la vision des Émirats arabes unis"
+  },
+  "Nav": {
+    "home": "Accueil",
+    "about": "Qu'est-ce que Puerta Dubai ?",
+    "founder": "Fondateur",
+    "projects": "Projets",
+    "areas": "Guides de quartier",
+    "services": "Services",
+    "investmentReadiness": "Préparation à l'investissement",
+    "partners": "Partenaires",
+    "press": "Éditorial",
+    "goldenVisa": "Visa Or",
+    "contact": "Contact"
+  },
+  "Hero": {
+    "headline": "Investissez dans la vision des Émirats",
+    "subhead": "Une porte d'entrée privée pour les investisseurs internationaux qui s'implantent aux Émirats.",
+    "primaryCta": "Rejoindre le Cercle Privé",
+    "secondaryCta": "Voir les projets"
+  },
+  "PrivateCircle": {
+    "title": "Cercle Privé — Accès prioritaire",
+    "subtitle": "Pré-inscrivez-vous pour recevoir des opportunités d'investissement, des briefings de quartier et des conseils sur le Visa Or.",
+    "step1Title": "Dites-nous par où commencer",
+    "step2Title": "Restons en contact",
+    "country": "Pays de résidence",
+    "interest": "Intérêt principal",
+    "interestRealEstate": "Immobilier",
+    "interestBusiness": "Création d'entreprise",
+    "interestBoth": "Immobilier et entreprise",
+    "interestGoldenVisa": "Visa Or",
+    "name": "Nom complet",
+    "email": "E-mail",
+    "phone": "Téléphone (facultatif)",
+    "consent": "J'accepte que Puerta Dubai me contacte au sujet d'opportunités d'investissement aux Émirats et j'ai lu la politique de confidentialité.",
+    "marketingOptIn": "Je souhaite également recevoir des briefings de marché (facultatif).",
+    "submit": "Continuer",
+    "successTitle": "Vous êtes inscrit",
+    "successBody": "Nous vous contacterons sous 48 heures avec un brief sur mesure.",
+    "successCta": "Faire l'évaluation de préparation à l'investissement"
+  },
+  "Footer": {
+    "rights": "Tous droits réservés.",
+    "legalNotice": "Mentions légales",
+    "privacy": "Politique de confidentialité"
+  }
+}
