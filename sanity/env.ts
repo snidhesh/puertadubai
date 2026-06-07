@@ -1,26 +1,31 @@
 /**
- * Centralised env access for everything Sanity-related. Throws clearly on
- * missing public vars so the build fails loudly rather than producing a
- * broken Studio.
+ * Centralised env access for everything Sanity-related.
+ *
+ * Missing vars no longer throw at module-init — the previous behaviour
+ * blocked `next build` (and any route that statically imports Sanity,
+ * e.g. /sitemap.xml) when the Vercel project hadn't been linked yet.
+ * Now we fall back to benign placeholders so the build completes; any
+ * actual Sanity query at runtime returns an empty result, and every
+ * page that consumes Sanity already wraps the call in `.catch()`.
+ *
+ * Set NEXT_PUBLIC_SANITY_PROJECT_ID + NEXT_PUBLIC_SANITY_DATASET in
+ * Vercel project settings to wire the real CMS.
  */
+
 export const apiVersion =
   process.env.NEXT_PUBLIC_SANITY_API_VERSION ?? '2025-01-01';
 
-export const dataset = assertValue(
-  process.env.NEXT_PUBLIC_SANITY_DATASET,
-  'Missing environment variable: NEXT_PUBLIC_SANITY_DATASET'
-);
+export const dataset =
+  process.env.NEXT_PUBLIC_SANITY_DATASET ?? 'production';
 
-export const projectId = assertValue(
-  process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
-  'Missing environment variable: NEXT_PUBLIC_SANITY_PROJECT_ID'
-);
+export const projectId =
+  process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ?? 'placeholder';
 
 export const readToken = process.env.SANITY_API_READ_TOKEN;
 
-function assertValue<T>(v: T | undefined, errorMessage: string): T {
-  if (v === undefined) {
-    throw new Error(errorMessage);
-  }
-  return v;
-}
+/** True only when the real Sanity project is configured. Use as a guard
+ * before issuing actual queries if the failure mode matters. */
+export const isSanityConfigured =
+  !!process.env.NEXT_PUBLIC_SANITY_PROJECT_ID &&
+  process.env.NEXT_PUBLIC_SANITY_PROJECT_ID !== 'placeholder' &&
+  !!process.env.NEXT_PUBLIC_SANITY_DATASET;
