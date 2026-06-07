@@ -7,6 +7,7 @@ import {Arsenal, Roboto_Flex, El_Messiri, IBM_Plex_Sans_Arabic} from 'next/font/
 import {NuqsAdapter} from 'nuqs/adapters/next/app';
 import {SiteNav} from '@/components/site/nav';
 import {SiteFooter} from '@/components/site/footer';
+import {SplashScreen} from '@/components/site/splash-screen';
 import {HashHandler} from '@/components/site/hash-handler';
 import {PrivateCircleModal} from '@/components/private-circle/private-circle-modal';
 import {getDirection, routing, type Locale} from '@/lib/i18n/routing';
@@ -85,6 +86,7 @@ export default async function LocaleLayout({children, params}: Props) {
              * useSearchParams (via nuqs). Lets the surrounding shell
              * statically prerender while client URL state hydrates. */}
             <Suspense>
+              <SplashScreen />
               <HashHandler />
               <SiteNav />
               <main className="flex-1 pt-16 [&>section:first-child#hero]:-mt-16 [&>section:first-child#hero]:pt-16">{children}</main>

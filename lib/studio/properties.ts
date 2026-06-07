@@ -21,7 +21,10 @@ import {z} from 'zod';
 const STUDIO_API_URL =
   process.env.STUDIO_API_URL ?? 'https://studio.blackoak-re.com/api/v1/public/listings';
 const REVALIDATE_SECONDS = 300;
-const FETCH_TIMEOUT_MS = 8_000;
+// 25s per request — comfortable headroom for Studio cold-starts on the
+// paginated agent fetch (8 pages in parallel). Warm requests still
+// resolve in ~1s; this only sets the budget for outliers.
+const FETCH_TIMEOUT_MS = 25_000;
 
 const StudioListingSchema = z.object({
   id: z.string(),
@@ -291,7 +294,10 @@ export async function fetchListingsByAgent(
   const target = agentName.trim().toLowerCase();
   const apiKeyStr: string = apiKey;
 
-  const fetchPage = async (page: number) => {
+  // Single-attempt fetch with timeout. Returns parsed JSON, `null` on
+  // HTTP error, or throws a tagged error on abort/network failure so
+  // the caller can decide whether to retry.
+  const fetchPageOnce = async (page: number) => {
     const url = new URL(STUDIO_API_URL);
     url.searchParams.set('page', String(page));
     url.searchParams.set('limit', '25');
@@ -308,14 +314,31 @@ export async function fetchListingsByAgent(
         return null;
       }
       return await res.json();
-    } catch (err) {
-      console.warn(
-        `[studio] page ${page} fetch failed:`,
-        err instanceof Error ? err.message : err
-      );
-      return null;
     } finally {
       clearTimeout(timer);
+    }
+  };
+
+  // Fetch with one retry on transient errors (abort, network). Studio
+  // cold-starts sometimes drop specific pages — a single retry catches
+  // those without cascading to multiple attempts.
+  const fetchPage = async (page: number) => {
+    try {
+      return await fetchPageOnce(page);
+    } catch (err) {
+      console.warn(
+        `[studio] page ${page} attempt 1 failed, retrying:`,
+        err instanceof Error ? err.message : err
+      );
+      try {
+        return await fetchPageOnce(page);
+      } catch (err2) {
+        console.warn(
+          `[studio] page ${page} retry also failed:`,
+          err2 instanceof Error ? err2.message : err2
+        );
+        return null;
+      }
     }
   };
 
@@ -369,38 +392,59 @@ export async function fetchStudioListings(
     return [];
   }
 
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+  // One retry on transient network errors / aborts — Studio cold-starts
+  // can drop a request without notice; a second attempt usually succeeds
+  // within the warm-up window.
+  const fetchOnce = async (): Promise<unknown> => {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+    try {
+      const res = await fetch(STUDIO_API_URL, {
+        headers: {'X-API-Key': apiKey},
+        signal: controller.signal,
+        next: {revalidate: REVALIDATE_SECONDS, tags: ['studio-properties']}
+      });
+      if (!res.ok) {
+        console.warn(`[studio] API returned ${res.status}`);
+        return null;
+      }
+      return await res.json();
+    } finally {
+      clearTimeout(timeout);
+    }
+  };
 
+  let raw: unknown;
   try {
-    const res = await fetch(STUDIO_API_URL, {
-      headers: {'X-API-Key': apiKey},
-      signal: controller.signal,
-      next: {revalidate: REVALIDATE_SECONDS, tags: ['studio-properties']}
-    });
-
-    if (!res.ok) {
-      console.warn(`[studio] API returned ${res.status}`);
+    raw = await fetchOnce();
+  } catch (err) {
+    console.warn(
+      '[studio] featured fetch attempt 1 failed, retrying:',
+      err instanceof Error ? err.message : err
+    );
+    try {
+      raw = await fetchOnce();
+    } catch (err2) {
+      console.warn(
+        '[studio] featured retry also failed:',
+        err2 instanceof Error ? err2.message : err2
+      );
       return [];
     }
-
-    const raw = await res.json();
-    const items: unknown[] = Array.isArray(raw)
-      ? raw
-      : (raw?.data ?? raw?.properties ?? raw?.listings ?? []);
-
-    const cards: StudioListingCard[] = [];
-    for (const item of items) {
-      const parsed = StudioListingSchema.safeParse(item);
-      if (!parsed.success) continue;
-      cards.push(toCard(parsed.data, locale));
-      if (cards.length >= limit) break;
-    }
-    return cards;
-  } catch (err) {
-    console.warn('[studio] fetch failed:', err instanceof Error ? err.message : err);
-    return [];
-  } finally {
-    clearTimeout(timeout);
   }
+  if (!raw) return [];
+
+  const obj = raw as Record<string, unknown>;
+  const items: unknown[] = Array.isArray(raw)
+    ? raw
+    : ((obj.data ?? obj.properties ?? obj.listings) as unknown[] | undefined) ?? [];
+
+  const cards: StudioListingCard[] = [];
+  for (const item of items) {
+    const parsed = StudioListingSchema.safeParse(item);
+    if (!parsed.success) continue;
+    cards.push(toCard(parsed.data, locale));
+    if (cards.length >= limit) break;
+  }
+  return cards;
 }

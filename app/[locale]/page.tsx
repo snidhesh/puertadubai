@@ -277,16 +277,28 @@ export default async function HomePage({params}: Props) {
         </Container>
       </Section>
 
-      {/* 4. CTA ROW — image-backed editorial cards */}
+      {/* 4. CTA ROW — image-backed editorial cards.
+       *
+       *   Mobile: horizontal snap-scroll carousel (each card ~85vw, with
+       *   the next card peeking on the right edge so users know there's
+       *   more to swipe through).
+       *   md+: 3-col grid (each card 1/3 width). */}
       <section
         aria-label="Quick paths"
-        className="grid bg-[var(--bg-dark)] md:grid-cols-3"
+        className={[
+          // Mobile carousel
+          'flex snap-x snap-mandatory overflow-x-auto scroll-smooth',
+          '[scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden',
+          // Desktop grid
+          'md:grid md:grid-cols-3 md:overflow-visible',
+          'bg-[var(--bg-dark)]'
+        ].join(' ')}
       >
         {/* Card 1: Priority Access — opens the Private Circle modal */}
         <PrivateCircleTrigger
           source="hero"
           variant="ghost"
-          className="group relative isolate !block !h-auto overflow-hidden border-0 !p-0 !text-left text-white aspect-[5/4] md:aspect-[4/3] lg:aspect-[5/4]"
+          className="group relative isolate !block !h-auto w-[85vw] shrink-0 snap-start overflow-hidden border-0 !p-0 !text-left text-white aspect-[5/4] md:w-auto md:aspect-[4/3] lg:aspect-[5/4]"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -1118,7 +1130,7 @@ function CtaImageCard({
   return (
     <Link
       href={href}
-      className="group relative isolate block overflow-hidden text-white aspect-[5/4] md:aspect-[4/3] lg:aspect-[5/4]"
+      className="group relative isolate block w-[85vw] shrink-0 snap-start overflow-hidden text-white aspect-[5/4] md:w-auto md:aspect-[4/3] lg:aspect-[5/4]"
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
@@ -1259,18 +1271,25 @@ function FeaturedListingsTitleCell() {
 function StudioListingsGridWithTitleCell({listings}: {listings: StudioListingCard[]}) {
   // Title cell + up to 5 listing cards in a 3-col grid (1 + 5 = 6 cells).
   // Landscape image aspect (~7:5) matches the Mahsheed listings rhythm.
+  // Each Studio card links to its own /projects/[id] detail view.
   const cards = listings.slice(0, 5);
   return (
     <div className="grid gap-x-8 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
       <FeaturedListingsTitleCell />
       {cards.map((listing) => (
-        <StudioListingCardView
+        <Link
           key={listing.id}
-          listing={listing}
-          aspect="aspect-[7/5]"
-          size="small"
-          onDark
-        />
+          href={`/projects/${listing.id}`}
+          aria-label={`View listing: ${listing.title}`}
+          className="block"
+        >
+          <StudioListingCardView
+            listing={listing}
+            aspect="aspect-[7/5]"
+            size="small"
+            onDark
+          />
+        </Link>
       ))}
     </div>
   );
@@ -1282,14 +1301,20 @@ function PlaceholderListingsGridWithTitleCell() {
     <div className="grid gap-x-8 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
       <FeaturedListingsTitleCell />
       {cards.map((listing, i) => (
-        <PlaceholderListingCard
+        <Link
           key={listing.id}
-          listing={listing}
-          seed={100 + i}
-          aspect="aspect-[7/5]"
-          size="small"
-          onDark
-        />
+          href="/projects"
+          aria-label={`${listing.title} — view all projects`}
+          className="block"
+        >
+          <PlaceholderListingCard
+            listing={listing}
+            seed={100 + i}
+            aspect="aspect-[7/5]"
+            size="small"
+            onDark
+          />
+        </Link>
       ))}
     </div>
   );
