@@ -1,7 +1,6 @@
 {
   "crons": [
     {
-      "_comment": "Mandatory daily Postgres purge — leads >24mo, webhook_deliveries >7d, lead_submission_limits >24h. Hobby tier supports daily, which is what the 24-month retention promise requires.",
       "path": "/api/cron/purge-leads",
       "schedule": "0 3 * * *"
     }
