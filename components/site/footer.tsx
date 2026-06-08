@@ -21,12 +21,12 @@ export async function SiteFooter() {
             className="h-12 w-auto"
           />
           <p className="mt-4 max-w-xs text-sm text-[var(--text-muted)]">
-            A private gateway for global investors entering the UAE market.
+            {t('brandLine')}
           </p>
         </div>
-        <nav aria-label="Footer" className="text-sm">
+        <nav aria-label={t('ariaLabel')} className="text-sm">
           <p className="text-[11px] uppercase tracking-[0.12em] text-[var(--text-muted)]" data-ui-label>
-            Explore
+            {t('exploreHeading')}
           </p>
           <ul className="mt-3 space-y-2">
             <li>
@@ -53,7 +53,7 @@ export async function SiteFooter() {
         </nav>
         <div className="text-sm">
           <p className="text-[11px] uppercase tracking-[0.12em] text-[var(--text-muted)]" data-ui-label>
-            Legal
+            {t('legalHeading')}
           </p>
           <ul className="mt-3 space-y-2">
             <li>

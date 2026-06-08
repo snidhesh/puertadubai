@@ -117,12 +117,12 @@ export function PrivateCircleModal() {
             className="text-[11px] uppercase tracking-[0.12em] text-[var(--text-muted)]"
             data-ui-label
           >
-            {pc_src ? `Private Circle · ${pc_src}` : 'Private Circle'}
+            {pc_src ? `${t('modalChip')} · ${pc_src}` : t('modalChip')}
           </p>
           <button
             type="button"
             onClick={closeModal}
-            aria-label="Close"
+            aria-label={t('close')}
             className="text-2xl leading-none text-[var(--text-muted)] hover:text-[var(--accent)]"
           >
             ×
@@ -149,13 +149,13 @@ export function PrivateCircleModal() {
 
         {stage === 'error' && (
           <div className="mt-6 border border-[var(--divider)] p-4 text-sm text-[var(--text-body)]">
-            Something went wrong. Please try again or use the WhatsApp link.
+            {t('errorMessage')}
             <button
               type="button"
               onClick={() => setStage('step1')}
               className="ms-3 underline"
             >
-              Retry
+              {t('retry')}
             </button>
           </div>
         )}
@@ -259,7 +259,8 @@ export function PrivateCircleModal() {
                     className="text-[11px] uppercase tracking-[0.12em] text-[var(--text-muted)] hover:text-[var(--accent)]"
                     data-ui-label
                   >
-                    ← Back
+                    <span aria-hidden="true" className="me-1 rtl:scale-x-[-1]">←</span>
+                    {t('back')}
                   </button>
                   <button
                     type="submit"

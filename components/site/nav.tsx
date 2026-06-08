@@ -90,7 +90,7 @@ export function SiteNav() {
         <Container className="flex h-16 items-center justify-between gap-4 md:gap-8">
           <Link
             href="/"
-            aria-label="Puerta Dubai — home"
+            aria-label={t('logoAria')}
             className="flex items-center"
           >
             <Image
@@ -106,7 +106,7 @@ export function SiteNav() {
             />
           </Link>
           <nav
-            aria-label="Primary"
+            aria-label={t('siteNavAria')}
             className="hidden items-center gap-6 text-[11px] uppercase tracking-[0.12em] lg:flex"
             data-ui-label
           >
@@ -129,7 +129,7 @@ export function SiteNav() {
             <LanguageSwitcher transparent={transparent} />
             <button
               type="button"
-              aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+              aria-label={mobileOpen ? t('closeMenu') : t('openMenu')}
               aria-expanded={mobileOpen}
               aria-controls="mobile-nav-drawer"
               onClick={() => setMobileOpen((v) => !v)}
@@ -173,7 +173,7 @@ export function SiteNav() {
         id="mobile-nav-drawer"
         role="dialog"
         aria-modal="true"
-        aria-label="Site navigation"
+        aria-label={t('siteNavAria')}
         className={cn(
           'fixed inset-0 z-30 flex flex-col bg-[var(--bg-dark)] text-white transition-opacity duration-300 lg:hidden',
           mobileOpen
@@ -185,7 +185,7 @@ export function SiteNav() {
         <div className="h-16 shrink-0" aria-hidden="true" />
 
         <div className="flex flex-1 flex-col justify-between overflow-y-auto px-6 py-10 md:px-10">
-          <nav aria-label="Mobile primary">
+          <nav aria-label={t('siteNavAria')}>
             <ul className="space-y-5">
               {NAV_ITEMS.map((item) => (
                 <li key={item.key}>
@@ -208,7 +208,7 @@ export function SiteNav() {
               style={{color: 'rgba(255,255,255,0.55)'}}
               data-ui-label
             >
-              Follow
+              {t('follow')}
             </p>
             <ul className="mt-4 flex items-center gap-3">
               {SOCIAL_ICONS.map((icon) => (

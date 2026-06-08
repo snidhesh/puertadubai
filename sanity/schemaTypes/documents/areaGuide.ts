@@ -1,5 +1,12 @@
 import {defineField, defineType} from 'sanity';
 
+type I18nEntry = {language: string; value: string};
+
+const pickEn = (arr: unknown): string | undefined =>
+  Array.isArray(arr)
+    ? (arr as I18nEntry[]).find((entry) => entry.language === 'en')?.value
+    : undefined;
+
 /**
  * AreaGuide — investment area pages. v1 launch route.
  *
@@ -71,6 +78,67 @@ export const areaGuideType = defineType({
       title: 'Lifestyle',
       type: 'internationalizedArrayText',
       group: 'content'
+    }),
+    defineField({
+      name: 'attractions',
+      title: 'Attractions',
+      type: 'array',
+      group: 'content',
+      of: [
+        {
+          type: 'object',
+          name: 'attraction',
+          fields: [
+            defineField({
+              name: 'name',
+              type: 'internationalizedArrayString',
+              validation: (r) => r.required()
+            }),
+            defineField({name: 'description', type: 'internationalizedArrayText'}),
+            defineField({name: 'image', type: 'image', options: {hotspot: true}})
+          ],
+          preview: {
+            select: {nameArr: 'name', media: 'image'},
+            prepare: ({nameArr, media}) => ({
+              title: pickEn(nameArr) ?? 'Untitled attraction',
+              media
+            })
+          }
+        }
+      ]
+    }),
+    defineField({
+      name: 'investmentHighlights',
+      title: 'Investment highlights',
+      description:
+        'Factual, verifiable points only — location, scarcity, infrastructure, tenure. No yield / appreciation / ROI claims.',
+      type: 'array',
+      group: 'content',
+      of: [
+        {
+          type: 'object',
+          name: 'investmentHighlight',
+          fields: [
+            defineField({
+              name: 'title',
+              type: 'internationalizedArrayString',
+              validation: (r) => r.required()
+            }),
+            defineField({
+              name: 'description',
+              type: 'internationalizedArrayText',
+              validation: (r) => r.required()
+            })
+          ],
+          preview: {
+            select: {titleArr: 'title', descArr: 'description'},
+            prepare: ({titleArr, descArr}) => ({
+              title: pickEn(titleArr) ?? 'Untitled highlight',
+              subtitle: pickEn(descArr)
+            })
+          }
+        }
+      ]
     }),
     defineField({
       name: 'priceBand',
@@ -158,10 +226,7 @@ export const areaGuideType = defineType({
   preview: {
     select: {nameArr: 'name', emirate: 'emirate', media: 'heroImage'},
     prepare({nameArr, emirate, media}) {
-      const en = Array.isArray(nameArr)
-        ? nameArr.find((entry: {language: string; value: string}) => entry.language === 'en')?.value
-        : undefined;
-      return {title: en ?? 'Untitled area', subtitle: emirate, media};
+      return {title: pickEn(nameArr) ?? 'Untitled area', subtitle: emirate, media};
     }
   }
 });

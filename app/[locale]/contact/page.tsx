@@ -1,5 +1,5 @@
 import type {Metadata} from 'next';
-import {setRequestLocale} from 'next-intl/server';
+import {setRequestLocale, getTranslations} from 'next-intl/server';
 import {ContactForm} from '@/components/home/contact-form';
 import {routing, type Locale} from '@/lib/i18n/routing';
 
@@ -7,22 +7,27 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({locale}));
 }
 
-export const metadata: Metadata = {
-  title: 'Contact',
-  description: 'Reach Puerta Dubai by email, phone or WhatsApp.'
-};
-
 type Props = {params: Promise<{locale: Locale}>};
+
+export async function generateMetadata({params}: Props): Promise<Metadata> {
+  const {locale} = await params;
+  const t = await getTranslations({locale, namespace: 'Contact'});
+  return {
+    title: t('metaTitle'),
+    description: t('metaDescription')
+  };
+}
 
 export default async function ContactPage({params}: Props) {
   const {locale} = await params;
   setRequestLocale(locale);
+  const t = await getTranslations({locale, namespace: 'Contact'});
 
   // Same image+form composition as the home page's Let's Connect section,
   // so the contact route and the homepage band share one visual treatment.
   return (
     <section
-      aria-label="Contact the desk"
+      aria-label={t('ariaLabel')}
       className="grid bg-[var(--bg-dark)] md:grid-cols-2"
     >
       {/* Image — Dayan, full bleed left */}
@@ -44,21 +49,20 @@ export default async function ContactPage({params}: Props) {
               style={{color: 'rgba(255,255,255,0.65)'}}
               data-ui-label
             >
-              Let&apos;s Connect
+              {t('eyebrow')}
             </span>
             <span
               className="mt-3 block text-3xl leading-[1.05] !text-white md:text-5xl lg:text-6xl"
               style={{color: '#ffffff'}}
             >
-              Contact the desk
+              {t('heading')}
             </span>
           </h1>
           <p
             className="mt-6 max-w-sm text-sm leading-[1.7] !text-white/75 md:text-base"
             style={{color: 'rgba(255,255,255,0.75)'}}
           >
-            A short, no-commitment conversation about your move into the UAE.
-            We respond within 48 hours, in your preferred language.
+            {t('body')}
           </p>
 
           <div className="mt-10">
@@ -72,7 +76,7 @@ export default async function ContactPage({params}: Props) {
                 style={{color: 'rgba(255,255,255,0.55)'}}
                 data-ui-label
               >
-                Email
+                {t('email')}
               </dt>
               <dd className="mt-1">
                 <a
@@ -90,7 +94,7 @@ export default async function ContactPage({params}: Props) {
                 style={{color: 'rgba(255,255,255,0.55)'}}
                 data-ui-label
               >
-                WhatsApp
+                {t('whatsApp')}
               </dt>
               <dd className="mt-1">
                 <a

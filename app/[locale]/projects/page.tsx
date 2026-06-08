@@ -1,5 +1,5 @@
 import type {Metadata} from 'next';
-import {setRequestLocale} from 'next-intl/server';
+import {setRequestLocale, getTranslations} from 'next-intl/server';
 import {Link} from '@/lib/i18n/navigation';
 import {Container, Section} from '@/components/ui/container';
 import {fetchListingsByAgent, type StudioListingCard} from '@/lib/studio/properties';
@@ -12,19 +12,25 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({locale}));
 }
 
-export const metadata: Metadata = {
-  title: 'Projects',
-  description:
-    "Dayan Candamil's active UAE real-estate listings, sourced live from the BlackOak Studio CRM."
-};
-
 type Props = {params: Promise<{locale: Locale}>};
+
+export async function generateMetadata({params}: Props): Promise<Metadata> {
+  const {locale} = await params;
+  const t = await getTranslations({locale, namespace: 'Projects'});
+  return {
+    title: t('metaTitle'),
+    description: t('metaDescription')
+  };
+}
 
 export default async function ProjectsIndexPage({params}: Props) {
   const {locale} = await params;
   setRequestLocale(locale);
 
-  const listings = await fetchListingsByAgent('Dayan Candamil', locale);
+  const [t, listings] = await Promise.all([
+    getTranslations({locale, namespace: 'Projects'}),
+    fetchListingsByAgent('Dayan Candamil', locale)
+  ]);
 
   return (
     <Section className="py-20 md:py-28">
@@ -35,37 +41,33 @@ export default async function ProjectsIndexPage({params}: Props) {
               className="block text-sm uppercase tracking-[0.32em] text-[var(--text-muted)]"
               data-ui-label
             >
-              Projects
+              {t('eyebrow')}
             </span>
             <span className="mt-3 block text-4xl leading-[1] text-[var(--text-title)] md:text-5xl lg:text-6xl">
-              Active listings
+              {t('heading')}
             </span>
           </h1>
           <p className="mt-6 max-w-xl text-sm leading-[1.7] text-[var(--text-body)] md:text-base">
-            UAE real-estate listings personally represented by Dayan, sourced
-            live from the BlackOak Studio CRM. Inventory updates automatically;
-            click any listing to inquire directly.
+            {t('body')}
           </p>
           <p
             className="mt-4 text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)]"
             data-ui-label
           >
-            <bdi>{listings.length}</bdi>
-            {listings.length === 1 ? ' active listing' : ' active listings'}
+            <bdi>{t('activeListings', {count: listings.length})}</bdi>
           </p>
         </div>
 
         {listings.length === 0 ? (
           <p className="mt-16 max-w-xl text-sm text-[var(--text-body)]">
-            No active listings at the moment. New inventory is added regularly —
-            check back soon, or send an inquiry via the contact page.
+            {t('empty')}
           </p>
         ) : (
           <ul className="mt-14 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
             {listings.map((listing) => (
               <li key={listing.id}>
                 <Link href={`/projects/${listing.id}`} className="block">
-                  <ProjectListingCard listing={listing} />
+                  <ProjectListingCard listing={listing} t={t} />
                 </Link>
               </li>
             ))}
@@ -76,7 +78,9 @@ export default async function ProjectsIndexPage({params}: Props) {
   );
 }
 
-function ProjectListingCard({listing}: {listing: StudioListingCard}) {
+type ProjectsT = Awaited<ReturnType<typeof getTranslations<'Projects'>>>;
+
+function ProjectListingCard({listing, t}: {listing: StudioListingCard; t: ProjectsT}) {
   return (
     <article className="group flex flex-col gap-5">
       <div className={cn('relative aspect-[7/5] w-full overflow-hidden bg-[var(--bg-alt)]')}>
@@ -112,17 +116,17 @@ function ProjectListingCard({listing}: {listing: StudioListingCard}) {
           <p className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-[12px] text-[var(--text-body)]">
             {listing.bedrooms > 0 && (
               <span>
-                <bdi>{listing.bedrooms}</bdi> Beds
+                <bdi>{listing.bedrooms}</bdi> {t('beds')}
               </span>
             )}
             {listing.bathrooms > 0 && (
               <span>
-                <bdi>{listing.bathrooms}</bdi> Baths
+                <bdi>{listing.bathrooms}</bdi> {t('baths')}
               </span>
             )}
             {listing.sqft > 0 && (
               <span>
-                <bdi>{listing.sqft.toLocaleString()}</bdi> Sq.Ft.
+                <bdi>{listing.sqft.toLocaleString()}</bdi> {t('sqft')}
               </span>
             )}
           </p>
@@ -131,7 +135,7 @@ function ProjectListingCard({listing}: {listing: StudioListingCard}) {
               className="mt-2 text-[10px] uppercase tracking-[0.22em] text-[var(--text-muted)]"
               data-ui-label
             >
-              Ref {listing.reference}
+              {t('refPrefix')} {listing.reference}
             </p>
           )}
         </div>

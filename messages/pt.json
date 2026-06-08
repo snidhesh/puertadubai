@@ -1,8 +1,4 @@
 {
-  "Site": {
-    "name": "Puerta Dubai",
-    "tagline": "Invista na visão dos Emirados Árabes Unidos"
-  },
   "Nav": {
     "home": "Início",
     "about": "O que é a Puerta Dubai?",
@@ -14,7 +10,12 @@
     "partners": "Parceiros",
     "press": "Editorial",
     "goldenVisa": "Visto Gold",
-    "contact": "Contacto"
+    "contact": "Contacto",
+    "openMenu": "Abrir menu",
+    "closeMenu": "Fechar menu",
+    "logoAria": "Puerta Dubai — início",
+    "siteNavAria": "Navegação do site",
+    "follow": "Siga-nos"
   },
   "Hero": {
     "headline": "Invista na visão dos Emirados",
@@ -25,8 +26,6 @@
   "PrivateCircle": {
     "title": "Círculo Privado — Acesso prioritário",
     "subtitle": "Pré-registe-se para receber oportunidades de investimento, briefings por zona e orientação sobre o Visto Gold.",
-    "step1Title": "Diga-nos por onde começar",
-    "step2Title": "Vamos manter contacto",
     "country": "País de residência",
     "interest": "Interesse principal",
     "interestRealEstate": "Imobiliário",
@@ -41,11 +40,154 @@
     "submit": "Continuar",
     "successTitle": "Está dentro",
     "successBody": "Entraremos em contacto em menos de 48 horas com um brief curado.",
-    "successCta": "Fazer a avaliação de preparação para investir"
+    "successCta": "Fazer a avaliação de preparação para investir",
+    "modalChip": "Círculo Privado",
+    "close": "Fechar",
+    "errorMessage": "Algo correu mal. Tente novamente ou use o link do WhatsApp.",
+    "retry": "Tentar de novo",
+    "back": "Voltar"
   },
   "Footer": {
+    "ariaLabel": "Rodapé",
+    "brandLine": "Uma porta de entrada privada para investidores internacionais nos EAU.",
+    "exploreHeading": "Explorar",
+    "legalHeading": "Legal",
     "rights": "Todos os direitos reservados.",
     "legalNotice": "Aviso Legal",
     "privacy": "Política de Privacidade"
+  },
+  "Areas": {
+    "index": {
+      "metaTitle": "Guias de zonas — áreas de investimento nos EAU | Puerta Dubai",
+      "metaDescription": "Notas para investidores sobre as zonas mais relevantes dos EAU — transportes, regime de propriedade, estilo de vida e projetos associados.",
+      "eyebrow": "Guias de zonas",
+      "heading": "Onde investe importa mais do que em quê.",
+      "subtitle": "Notas para investidores por zona — transportes, regime de propriedade, estilo de vida e projetos associados."
+    },
+    "detail": {
+      "backToIndex": "Guias de zonas",
+      "headings": {
+        "lifestyle": "Estilo de vida",
+        "attractions": "Atrações",
+        "investmentHighlights": "Pontos-chave do investimento"
+      }
+    }
+  },
+  "Projects": {
+    "metaTitle": "Projetos",
+    "metaDescription": "Listagens imobiliárias ativas nos EAU representadas pessoalmente por Dayan Candamil.",
+    "eyebrow": "Projetos",
+    "heading": "Listagens ativas",
+    "body": "Listagens imobiliárias nos EAU representadas pessoalmente por Dayan, alimentadas em direto pelo CRM da BlackOak Studio. O inventário é atualizado automaticamente; clique em qualquer listagem para enviar uma consulta direta.",
+    "activeListings": "{count, plural, =0 {Sem listagens ativas} one {# listagem ativa} other {# listagens ativas}}",
+    "empty": "Não há listagens ativas de momento. Novo inventário é adicionado regularmente — volte em breve ou envie uma consulta através da página de contacto.",
+    "beds": "Quartos",
+    "baths": "Casas de banho",
+    "sqft": "Pé²",
+    "refPrefix": "Ref.",
+    "viewDetails": "Ver detalhes",
+    "fromPrefix": "Desde"
+  },
+  "Contact": {
+    "metaTitle": "Contacto",
+    "metaDescription": "Contacte a Puerta Dubai por e-mail, telefone ou WhatsApp.",
+    "ariaLabel": "Contactar o desk",
+    "eyebrow": "Falemos",
+    "heading": "Contactar o desk",
+    "body": "Uma conversa breve e sem compromisso sobre a sua mudança para os EAU. Respondemos em menos de 48 horas, no seu idioma.",
+    "email": "E-mail",
+    "whatsApp": "WhatsApp"
+  },
+  "Home": {
+    "overview": {
+      "ariaLabel": "Puerta Dubai num relance",
+      "eyebrow": "Um desk de investimento privado",
+      "headingPart1": "Imobiliário, residência, banca, relocação.",
+      "headingItalic": "Um único desk.",
+      "headingPart2": "Cinco emirados.",
+      "body": "Um concierge buyer-side para famílias internacionais que chegam aos EAU — liderado pelo fundador, pequeno por design, deliberadamente limitado em mandatos.",
+      "skylineAlt": "Burj Al Arab e Palm Jumeirah, Dubai",
+      "statEmirates": "Emirados",
+      "statDevelopers": "Promotores parceiros",
+      "statLanguages": "Idiomas"
+    },
+    "ctaRow": {
+      "ariaLabel": "Acessos rápidos",
+      "pcEyebrow": "Círculo Privado",
+      "pcTitle": "Acesso Prioritário",
+      "pcBody": "Por convite. O desk aceita um número limitado de mandatos por ano.",
+      "pcCta": "Pedir acesso",
+      "highRisesEyebrow": "Por tipo de propriedade",
+      "highRisesTitle": "Torres de luxo",
+      "highRisesSublabel": "Marina · Downtown · Creek",
+      "highRisesCta": "Ver torres",
+      "communitiesEyebrow": "Por comunidade",
+      "communitiesTitle": "Comunidades de luxo",
+      "communitiesSublabel": "Saadiyat · Hills · Palm",
+      "communitiesCta": "Ver comunidades"
+    },
+    "about": {
+      "eyebrow": "Sobre",
+      "name": "Dayan Candamil",
+      "h1": "Uma porta de entrada privada para os EAU.",
+      "body1": "A Puerta Dubai é um concierge de investimento buyer-side para famílias HNW internacionais que chegam aos EAU — imobiliário, criação de empresa, banca, fiscalidade, Visto Gold e relocação tratados num único desk. Liderado pelo fundador, pequeno por design, o desk aceita um número limitado de mandatos por ano para que cada relação seja vivida pessoalmente.",
+      "h2": "Um percurso que viaja.",
+      "body2": "O percurso de Dayan abrange direito, branding e projetos culturais de luxo na Europa, América Latina e Golfo. O desk trabalha em cinco idiomas e coordena regularmente com assessoria internacional, family offices e promotores em nome de clientes que não residem na região a tempo inteiro.",
+      "h3": "Uma só conversa, do início ao fim.",
+      "body3": "Sourcing de off-plan e secundário, due diligence, planos de pagamento, escrow, apresentação de hipotecas, constituição de empresa, residência, banca — o mesmo interlocutor acompanha cada passo. Sem transferências, sem account managers juniores.",
+      "founderCta": "Perfil do fundador",
+      "imageAlt": "Dayan Candamil, fundador da Puerta Dubai"
+    },
+    "explore": {
+      "eyebrow": "Explorar o desk",
+      "heading": "Navegue pelo que lhe importa",
+      "browseLabel": "Ver"
+    },
+    "featuredListings": {
+      "eyebrow": "Em destaque",
+      "heading": "Listagens",
+      "viewAll": "Ver todas"
+    },
+    "testimonials": {
+      "eyebrow": "Testemunhos",
+      "heading": "O que dizem os investidores"
+    },
+    "videos": {
+      "eyebrow": "Em destaque",
+      "heading": "Vídeos",
+      "body": "Visitas a propriedades por todos os EAU, apresentadas pessoalmente por Dayan. Cada visita dá uma noção mais clara do imóvel — o edifício, o promotor, o contexto — do que uma brochura alguma vez poderia.",
+      "viewAll": "Ver todos os vídeos no YouTube"
+    },
+    "media": {
+      "eyebrowLine1": "Nos",
+      "eyebrowLine2": "media",
+      "body": "Aparições e cobertura selecionadas no imobiliário e no design. Dayan é também Diretor Criativo da House of Candamil — um atelier sediado em Bogotá conhecido pelos seus acessórios couture e prêt-à-porter.",
+      "bazaarSource": "Harper's Bazaar Vietnam",
+      "bazaarDate": "Agosto 2021",
+      "bazaarBody": "Capa e perfil de Dayan Candamil para a edição de agosto de 2021, sobre a visão criativa da House of Candamil.",
+      "bazaarAlt": "Capa da Harper's Bazaar Vietnam, agosto 2021, com Dayan Candamil",
+      "mfwSource": "Marrakech Fashion Week",
+      "mfwDate": "2022",
+      "mfwTitle": "House of Candamil — Desfile",
+      "mfwBody": "Apresentação completa do desfile da coleção House of Candamil na Marrakech Fashion Week 2022.",
+      "mfwAria": "Ver House of Candamil na Marrakech Fashion Week 2022 no YouTube",
+      "mfwAlt": "Desfile House of Candamil na Marrakech Fashion Week 2022",
+      "certSource": "Reconhecimento profissional",
+      "certDate": "2024",
+      "certTitle": "Top 1% de profissionais imobiliários do Dubai",
+      "certBody": "Certificado de mérito entregue a Dayan Candamil pelo seu desempenho excecional no mercado imobiliário do Dubai.",
+      "certAlt": "Certificado de mérito: Top 1% de profissionais imobiliários do Dubai 2024 entregue a Dayan Candamil"
+    },
+    "contact": {
+      "ariaLabel": "Falemos",
+      "eyebrow": "Falemos",
+      "heading": "Contactar o desk",
+      "body": "Uma conversa breve e sem compromisso sobre a sua mudança para os EAU. Respondemos em menos de 48 horas, no seu idioma.",
+      "email": "E-mail",
+      "whatsApp": "WhatsApp"
+    },
+    "partners": {
+      "eyebrow": "Promotores parceiros"
+    }
   }
 }

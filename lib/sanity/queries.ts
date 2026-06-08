@@ -65,12 +65,17 @@ export async function getAllProjects(locale: Locale): Promise<ProjectCard[]> {
   );
 }
 
+export type ResolvedImage = {
+  url: string;
+  lqip: string | null;
+};
+
 export type AreaGuideCard = {
   _id: string;
   name: string;
   slug: string;
   emirate: string;
-  heroImage: SanityImage | null;
+  heroImage: ResolvedImage | null;
   summary: string | null;
 };
 
@@ -79,7 +84,10 @@ const AREA_CARD_PROJECTION = `
   ${localized('name')},
   "slug": slug.current,
   emirate,
-  heroImage,
+  "heroImage": select(defined(heroImage.asset) => {
+    "url": heroImage.asset->url,
+    "lqip": heroImage.asset->metadata.lqip
+  }),
   ${localized('summary')}
 `;
 

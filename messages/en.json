@@ -1,8 +1,4 @@
 {
-  "Site": {
-    "name": "Puerta Dubai",
-    "tagline": "Invest in the vision of the UAE"
-  },
   "Nav": {
     "home": "Home",
     "about": "What is Puerta Dubai?",
@@ -14,7 +10,12 @@
     "partners": "Partners",
     "press": "Editorial",
     "goldenVisa": "Golden Visa",
-    "contact": "Contact"
+    "contact": "Contact",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "logoAria": "Puerta Dubai — home",
+    "siteNavAria": "Site navigation",
+    "follow": "Follow"
   },
   "Hero": {
     "headline": "Invest in the vision of the UAE",
@@ -25,8 +26,6 @@
   "PrivateCircle": {
     "title": "Private Circle — Priority Access",
     "subtitle": "Pre-register to receive curated investment opportunities, area briefings and Golden Visa guidance.",
-    "step1Title": "Tell us where to start",
-    "step2Title": "Stay in touch",
     "country": "Country of residence",
     "interest": "Primary interest",
     "interestRealEstate": "Real Estate",
@@ -41,11 +40,154 @@
     "submit": "Continue",
     "successTitle": "You're in",
     "successBody": "We'll be in touch within 48 hours with a curated brief.",
-    "successCta": "Take the Investment Readiness assessment"
+    "successCta": "Take the Investment Readiness assessment",
+    "modalChip": "Private Circle",
+    "close": "Close",
+    "errorMessage": "Something went wrong. Please try again or use the WhatsApp link.",
+    "retry": "Retry",
+    "back": "Back"
   },
   "Footer": {
+    "ariaLabel": "Footer",
+    "brandLine": "A private gateway for global investors entering the UAE market.",
+    "exploreHeading": "Explore",
+    "legalHeading": "Legal",
     "rights": "All rights reserved.",
     "legalNotice": "Legal Notice",
     "privacy": "Privacy Policy"
+  },
+  "Areas": {
+    "index": {
+      "metaTitle": "Area guides — UAE investment areas | Puerta Dubai",
+      "metaDescription": "Investor briefings for the UAE's most relevant areas — transit, ownership, lifestyle and related projects.",
+      "eyebrow": "Area guides",
+      "heading": "Where you invest matters more than what.",
+      "subtitle": "Investor briefings per area — transit, ownership, lifestyle and related projects."
+    },
+    "detail": {
+      "backToIndex": "Area guides",
+      "headings": {
+        "lifestyle": "Lifestyle",
+        "attractions": "Attractions",
+        "investmentHighlights": "Investment highlights"
+      }
+    }
+  },
+  "Projects": {
+    "metaTitle": "Projects",
+    "metaDescription": "Active UAE real-estate listings personally represented by Dayan Candamil.",
+    "eyebrow": "Projects",
+    "heading": "Active listings",
+    "body": "UAE real-estate listings personally represented by Dayan, sourced live from the BlackOak Studio CRM. Inventory updates automatically; click any listing to inquire directly.",
+    "activeListings": "{count, plural, =0 {No active listings} one {# active listing} other {# active listings}}",
+    "empty": "No active listings at the moment. New inventory is added regularly — check back soon, or send an inquiry via the contact page.",
+    "beds": "Beds",
+    "baths": "Baths",
+    "sqft": "Sq.Ft.",
+    "refPrefix": "Ref",
+    "viewDetails": "View details",
+    "fromPrefix": "From"
+  },
+  "Contact": {
+    "metaTitle": "Contact",
+    "metaDescription": "Reach Puerta Dubai by email, phone or WhatsApp.",
+    "ariaLabel": "Contact the desk",
+    "eyebrow": "Let's Connect",
+    "heading": "Contact the desk",
+    "body": "A short, no-commitment conversation about your move into the UAE. We respond within 48 hours, in your preferred language.",
+    "email": "Email",
+    "whatsApp": "WhatsApp"
+  },
+  "Home": {
+    "overview": {
+      "ariaLabel": "Puerta Dubai at a glance",
+      "eyebrow": "A private investment desk",
+      "headingPart1": "Real estate, residency, banking, relocation.",
+      "headingItalic": "One desk.",
+      "headingPart2": "Five emirates.",
+      "body": "A buyer-side concierge for global families entering the UAE — founder-led, small by design, deliberately limited in mandates.",
+      "skylineAlt": "Burj Al Arab and Palm Jumeirah, Dubai",
+      "statEmirates": "Emirates",
+      "statDevelopers": "Developer partners",
+      "statLanguages": "Languages"
+    },
+    "ctaRow": {
+      "ariaLabel": "Quick paths",
+      "pcEyebrow": "Private Circle",
+      "pcTitle": "Get Priority Access",
+      "pcBody": "By invitation. The desk takes a limited number of mandates each year.",
+      "pcCta": "Request access",
+      "highRisesEyebrow": "By property type",
+      "highRisesTitle": "Luxury High-Rises",
+      "highRisesSublabel": "Marina · Downtown · Creek",
+      "highRisesCta": "Browse high-rises",
+      "communitiesEyebrow": "By community",
+      "communitiesTitle": "Luxury Communities",
+      "communitiesSublabel": "Saadiyat · Hills · Palm",
+      "communitiesCta": "Browse communities"
+    },
+    "about": {
+      "eyebrow": "About",
+      "name": "Dayan Candamil",
+      "h1": "A private gateway to the UAE.",
+      "body1": "Puerta Dubai is a buyer-side investment concierge for global HNW families entering the UAE — real estate, business setup, banking, tax, Golden Visa and relocation handled under one desk. Founder-led, small by design, the desk takes a limited number of mandates each year so every relationship runs in person.",
+      "h2": "Background that travels.",
+      "body2": "Dayan's background spans law, branding and luxury cultural ventures across Europe, Latin America and the Gulf. The desk works in five languages and routinely coordinates with international counsel, family offices and developer principals on behalf of clients who do not live in the region full-time.",
+      "h3": "One conversation, end-to-end.",
+      "body3": "Sourcing off-plan and secondary inventory, due diligence, payment plans, escrow, mortgage introductions, company formation, residency, banking — the same point of contact walks each step. No handoffs, no junior account managers.",
+      "founderCta": "Founder profile",
+      "imageAlt": "Dayan Candamil, founder of Puerta Dubai"
+    },
+    "explore": {
+      "eyebrow": "Explore the desk",
+      "heading": "Browse by what matters to you",
+      "browseLabel": "Browse"
+    },
+    "featuredListings": {
+      "eyebrow": "Featured",
+      "heading": "Listings",
+      "viewAll": "View all"
+    },
+    "testimonials": {
+      "eyebrow": "Testimonials",
+      "heading": "What investors say"
+    },
+    "videos": {
+      "eyebrow": "Featured",
+      "heading": "Videos",
+      "body": "Property tours and walkthroughs from across the UAE, presented in person by Dayan. Each visit gives a clearer sense of the listing — the building, the developer, the context — than a brochure ever could.",
+      "viewAll": "View all videos on YouTube"
+    },
+    "media": {
+      "eyebrowLine1": "In the",
+      "eyebrowLine2": "Media",
+      "body": "Selected appearances and coverage spanning real estate and design. Dayan is also the Creative Director of House of Candamil — a Bogotá-based atelier known for couture-quality accessories and ready-to-wear.",
+      "bazaarSource": "Harper's Bazaar Vietnam",
+      "bazaarDate": "August 2021",
+      "bazaarBody": "Cover and feature profile of Dayan Candamil for the August 2021 issue, on the design ethos behind House of Candamil.",
+      "bazaarAlt": "Harper's Bazaar Vietnam cover, August 2021, featuring Dayan Candamil",
+      "mfwSource": "Marrakech Fashion Week",
+      "mfwDate": "2022",
+      "mfwTitle": "House of Candamil — Runway show",
+      "mfwBody": "Full runway presentation of the House of Candamil collection at Marrakech Fashion Week 2022.",
+      "mfwAria": "Watch House of Candamil at Marrakech Fashion Week 2022 on YouTube",
+      "mfwAlt": "House of Candamil runway at Marrakech Fashion Week 2022",
+      "certSource": "Industry recognition",
+      "certDate": "2024",
+      "certTitle": "Top 1% Dubai Real Estate Professional",
+      "certBody": "Certificate of Achievement awarded to Dayan Candamil for outstanding achievement in the Dubai real estate market.",
+      "certAlt": "Certificate of Achievement: Top 1% Dubai Real Estate Professional 2024 awarded to Dayan Candamil"
+    },
+    "contact": {
+      "ariaLabel": "Let's connect",
+      "eyebrow": "Let's Connect",
+      "heading": "Contact the desk",
+      "body": "A short, no-commitment conversation about your move into the UAE. We respond within 48 hours, in your preferred language.",
+      "email": "Email",
+      "whatsApp": "WhatsApp"
+    },
+    "partners": {
+      "eyebrow": "Developer partners"
+    }
   }
 }

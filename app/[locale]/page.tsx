@@ -86,8 +86,10 @@ export default async function HomePage({params}: Props) {
   const {locale} = await params;
   setRequestLocale(locale);
 
-  const [t, home, press, coverage, studioListings] = await Promise.all([
-    getTranslations('Hero'),
+  const [t, tHome, tProjects, home, press, coverage, studioListings] = await Promise.all([
+    getTranslations({locale, namespace: 'Hero'}),
+    getTranslations({locale, namespace: 'Home'}),
+    getTranslations({locale, namespace: 'Projects'}),
     getHomePage(locale).catch(() => null),
     getRecentPress(locale, 3).catch(() => []),
     getCoverageStats().catch(() => ({emirates: 0, developers: 0, services: 0})),
@@ -96,8 +98,8 @@ export default async function HomePage({params}: Props) {
 
   const headline = home?.heroHeadline ?? t('headline');
   const subhead = home?.heroSub ?? t('subhead');
-  const primaryCta = home?.heroPrimaryCtaLabel ?? 'Explore Properties';
-  const secondaryCta = home?.heroSecondaryCtaLabel ?? 'Early Access';
+  const primaryCta = home?.heroPrimaryCtaLabel ?? t('primaryCta');
+  const secondaryCta = home?.heroSecondaryCtaLabel ?? t('secondaryCta');
   const showVideo = (home?.heroBackgroundVideoMode ?? 'bg-video') === 'bg-video';
   const featuredProjects = home?.featuredProjects ?? [];
   const realTestimonials = home?.featuredTestimonials ?? [];
@@ -179,7 +181,7 @@ export default async function HomePage({params}: Props) {
 
       {/* 2. OVERVIEW STRIP — image | editorial | stats, split-color bg */}
       <section
-        aria-label="Puerta Dubai at a glance"
+        aria-label={tHome('overview.ariaLabel')}
         className="grid md:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)]"
       >
         {/* Left: full-bleed Dubai skyline */}
@@ -187,7 +189,7 @@ export default async function HomePage({params}: Props) {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/dummy/dubai-skyline.jpg"
-            alt="Burj Al Arab and Palm Jumeirah, Dubai"
+            alt={tHome('overview.skylineAlt')}
             className="absolute inset-0 h-full w-full object-cover"
           />
         </div>
@@ -199,20 +201,19 @@ export default async function HomePage({params}: Props) {
               className="text-[11px] uppercase tracking-[0.32em] text-[var(--text-muted)]"
               data-ui-label
             >
-              A private investment desk
+              {tHome('overview.eyebrow')}
             </p>
             <p className="mt-5 font-display text-2xl leading-[1.35] text-[var(--text-title)] md:text-3xl">
-              Real estate, residency, banking, relocation.
-              <span className="italic text-[var(--text-muted)]"> One desk. </span>
-              Five emirates.
+              {tHome('overview.headingPart1')}
+              <span className="italic text-[var(--text-muted)]"> {tHome('overview.headingItalic')} </span>
+              {tHome('overview.headingPart2')}
             </p>
             <span
               aria-hidden="true"
               className="mt-8 block h-px w-12 bg-[var(--divider)]"
             />
             <p className="mt-6 max-w-sm text-sm leading-[1.7] text-[var(--text-muted)]">
-              A buyer-side concierge for global families entering the UAE —
-              founder-led, small by design, deliberately limited in mandates.
+              {tHome('overview.body')}
             </p>
           </div>
         </div>
@@ -228,7 +229,7 @@ export default async function HomePage({params}: Props) {
                 className="text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)]"
                 data-ui-label
               >
-                Emirates
+                {tHome('overview.statEmirates')}
               </span>
             </li>
             <li className="flex items-baseline justify-between gap-6 border-b border-[var(--divider)] pb-5">
@@ -239,7 +240,7 @@ export default async function HomePage({params}: Props) {
                 className="text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)]"
                 data-ui-label
               >
-                Developer partners
+                {tHome('overview.statDevelopers')}
               </span>
             </li>
             <li className="flex items-baseline justify-between gap-6">
@@ -250,7 +251,7 @@ export default async function HomePage({params}: Props) {
                 className="text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)]"
                 data-ui-label
               >
-                Languages
+                {tHome('overview.statLanguages')}
               </span>
             </li>
           </ul>
@@ -260,20 +261,47 @@ export default async function HomePage({params}: Props) {
       {/* 3. FEATURED LISTINGS — title cell + asymmetric photo grid */}
       <Section tone="dark">
         <Container>
-          {useStudioListings ? (
-            <StudioListingsGridWithTitleCell listings={studioListings} />
-          ) : showListingsDummies ? (
-            <PlaceholderListingsGridWithTitleCell />
-          ) : (
-            <div className="grid gap-6 lg:grid-cols-3">
-              <FeaturedListingsTitleCell />
-              {featuredProjects.slice(0, 5).map((project) => (
-                <div key={project._id}>
-                  <ProjectCard project={project} />
-                </div>
-              ))}
-            </div>
-          )}
+          {(() => {
+            const titleLabels = {
+              eyebrow: tHome('featuredListings.eyebrow'),
+              heading: tHome('featuredListings.heading'),
+              viewAll: tHome('featuredListings.viewAll')
+            };
+            const listingLabels = {
+              beds: tProjects('beds'),
+              baths: tProjects('baths'),
+              sqft: tProjects('sqft'),
+              viewDetails: tProjects('viewDetails'),
+              fromPrefix: tProjects('fromPrefix')
+            };
+            if (useStudioListings) {
+              return (
+                <StudioListingsGridWithTitleCell
+                  listings={studioListings}
+                  titleLabels={titleLabels}
+                  listingLabels={listingLabels}
+                />
+              );
+            }
+            if (showListingsDummies) {
+              return (
+                <PlaceholderListingsGridWithTitleCell
+                  titleLabels={titleLabels}
+                  listingLabels={listingLabels}
+                />
+              );
+            }
+            return (
+              <div className="grid gap-6 lg:grid-cols-3">
+                <FeaturedListingsTitleCell labels={titleLabels} />
+                {featuredProjects.slice(0, 5).map((project) => (
+                  <div key={project._id}>
+                    <ProjectCard project={project} />
+                  </div>
+                ))}
+              </div>
+            );
+          })()}
         </Container>
       </Section>
 
@@ -284,7 +312,7 @@ export default async function HomePage({params}: Props) {
        *   more to swipe through).
        *   md+: 3-col grid (each card 1/3 width). */}
       <section
-        aria-label="Quick paths"
+        aria-label={tHome('ctaRow.ariaLabel')}
         className={[
           // Mobile carousel
           'flex snap-x snap-mandatory overflow-x-auto scroll-smooth',
@@ -316,29 +344,29 @@ export default async function HomePage({params}: Props) {
               style={{color: 'rgba(255,255,255,0.7)'}}
               data-ui-label
             >
-              Private Circle
+              {tHome('ctaRow.pcEyebrow')}
             </p>
             <p
               className="mt-3 font-display text-2xl leading-[1.1] !text-white md:text-3xl"
               style={{color: '#ffffff'}}
             >
-              Get Priority Access
+              {tHome('ctaRow.pcTitle')}
             </p>
             <p
               className="mt-2 max-w-xs text-sm !text-white/80"
               style={{color: 'rgba(255,255,255,0.8)'}}
             >
-              By invitation. The desk takes a limited number of mandates each year.
+              {tHome('ctaRow.pcBody')}
             </p>
             <span
               className="mt-6 inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.22em] !text-white"
               style={{color: '#ffffff'}}
               data-ui-label
             >
-              Request access
+              {tHome('ctaRow.pcCta')}
               <span
                 aria-hidden="true"
-                className="transition-transform duration-300 group-hover:translate-x-2"
+                className="transition-transform duration-300 group-hover:translate-x-2 rtl:scale-x-[-1]"
               >
                 →
               </span>
@@ -349,20 +377,20 @@ export default async function HomePage({params}: Props) {
         {/* Card 2: Luxury High-Rises */}
         <CtaImageCard
           href="/projects?status=ready"
-          eyebrow="By property type"
-          title="Luxury High-Rises"
-          sublabel="Marina · Downtown · Creek"
-          cta="Browse high-rises"
+          eyebrow={tHome('ctaRow.highRisesEyebrow')}
+          title={tHome('ctaRow.highRisesTitle')}
+          sublabel={tHome('ctaRow.highRisesSublabel')}
+          cta={tHome('ctaRow.highRisesCta')}
           image="/dummy/dubai-skyline.jpg"
         />
 
         {/* Card 3: Luxury Communities */}
         <CtaImageCard
           href="/areas"
-          eyebrow="By community"
-          title="Luxury Communities"
-          sublabel="Saadiyat · Hills · Palm"
-          cta="Browse communities"
+          eyebrow={tHome('ctaRow.communitiesEyebrow')}
+          title={tHome('ctaRow.communitiesTitle')}
+          sublabel={tHome('ctaRow.communitiesSublabel')}
+          cta={tHome('ctaRow.communitiesCta')}
           image="/dummy/mh/cta-05.jpg"
         />
       </section>
@@ -376,7 +404,7 @@ export default async function HomePage({params}: Props) {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/dummy/founder.jpg"
-                  alt="Dayan Candamil, founder of Puerta Dubai"
+                  alt={tHome('about.imageAlt')}
                   className="absolute inset-0 h-full w-full object-cover object-top"
                 />
               </div>
@@ -387,10 +415,10 @@ export default async function HomePage({params}: Props) {
                   className="block text-sm uppercase tracking-[0.24em] text-[var(--text-muted)]"
                   data-ui-label
                 >
-                  About
+                  {tHome('about.eyebrow')}
                 </span>
                 <span className="mt-2 block text-4xl leading-[1.05] md:text-6xl">
-                  Dayan Candamil
+                  {tHome('about.name')}
                 </span>
               </h2>
               <div className="mt-8 lg:hidden">
@@ -398,7 +426,7 @@ export default async function HomePage({params}: Props) {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="/dummy/founder.jpg"
-                    alt="Dayan Candamil, founder of Puerta Dubai"
+                    alt={tHome('about.imageAlt')}
                     className="absolute inset-0 h-full w-full object-cover"
                   />
                 </div>
@@ -406,34 +434,26 @@ export default async function HomePage({params}: Props) {
               <div className="mt-10 space-y-10">
                 <div>
                   <h3 className="font-display text-xl text-[var(--text-title)] md:text-2xl">
-                    A private gateway to the UAE.
+                    {tHome('about.h1')}
                   </h3>
                   <p className="mt-4 max-w-xl text-base leading-[1.7] text-[var(--text-body)]">
-                    {home?.founderBlurb ??
-                      'Puerta Dubai is a buyer-side investment concierge for global HNW families entering the UAE — real estate, business setup, banking, tax, Golden Visa and relocation handled under one desk. Founder-led, small by design, the desk takes a limited number of mandates each year so every relationship runs in person.'}
+                    {home?.founderBlurb ?? tHome('about.body1')}
                   </p>
                 </div>
                 <div>
                   <h3 className="font-display text-xl text-[var(--text-title)] md:text-2xl">
-                    Background that travels.
+                    {tHome('about.h2')}
                   </h3>
                   <p className="mt-4 max-w-xl text-base leading-[1.7] text-[var(--text-body)]">
-                    Dayan&apos;s background spans law, branding and luxury cultural
-                    ventures across Europe, Latin America and the Gulf. The desk
-                    works in five languages and routinely coordinates with
-                    international counsel, family offices and developer principals
-                    on behalf of clients who do not live in the region full-time.
+                    {tHome('about.body2')}
                   </p>
                 </div>
                 <div>
                   <h3 className="font-display text-xl text-[var(--text-title)] md:text-2xl">
-                    One conversation, end-to-end.
+                    {tHome('about.h3')}
                   </h3>
                   <p className="mt-4 max-w-xl text-base leading-[1.7] text-[var(--text-body)]">
-                    Sourcing off-plan and secondary inventory, due diligence,
-                    payment plans, escrow, mortgage introductions, company
-                    formation, residency, banking — the same point of contact
-                    walks each step. No handoffs, no junior account managers.
+                    {tHome('about.body3')}
                   </p>
                 </div>
               </div>
@@ -442,7 +462,7 @@ export default async function HomePage({params}: Props) {
                 className="mt-10 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-[var(--accent)] hover:underline"
                 data-ui-label
               >
-                Founder profile <span aria-hidden="true">→</span>
+                {tHome('about.founderCta')} <span aria-hidden="true" className="rtl:scale-x-[-1]">→</span>
               </Link>
             </div>
           </div>
@@ -459,13 +479,13 @@ export default async function HomePage({params}: Props) {
                 style={{color: 'rgba(255,255,255,0.7)'}}
                 data-ui-label
               >
-                Explore the desk
+                {tHome('explore.eyebrow')}
               </span>
               <span
                 className="mt-4 block text-4xl leading-[1] !text-white md:text-6xl lg:text-7xl"
                 style={{color: '#ffffff'}}
               >
-                Browse by what matters to you
+                {tHome('explore.heading')}
               </span>
             </h2>
           </div>
@@ -512,10 +532,10 @@ export default async function HomePage({params}: Props) {
                         style={{color: '#ffffff'}}
                         data-ui-label
                       >
-                        Browse
+                        {tHome('explore.browseLabel')}
                         <span
                           aria-hidden="true"
-                          className="transition-transform duration-300 group-hover:translate-x-1"
+                          className="transition-transform duration-300 group-hover:translate-x-1 rtl:scale-x-[-1]"
                         >
                           →
                         </span>
@@ -538,10 +558,10 @@ export default async function HomePage({params}: Props) {
                 className="block text-sm uppercase tracking-[0.32em] text-[var(--text-muted)]"
                 data-ui-label
               >
-                Testimonials
+                {tHome('testimonials.eyebrow')}
               </span>
               <span className="mt-4 block text-4xl leading-[1] text-[var(--text-title)] md:text-6xl lg:text-7xl">
-                What investors say
+                {tHome('testimonials.heading')}
               </span>
             </h2>
           </div>
@@ -600,23 +620,20 @@ export default async function HomePage({params}: Props) {
                 style={{color: 'rgba(255,255,255,0.65)'}}
                 data-ui-label
               >
-                Featured
+                {tHome('videos.eyebrow')}
               </span>
               <span
                 className="mt-3 block text-4xl leading-[1] !text-white md:text-5xl lg:text-6xl"
                 style={{color: '#ffffff'}}
               >
-                Videos
+                {tHome('videos.heading')}
               </span>
             </h2>
             <p
               className="mt-6 max-w-xl text-sm leading-[1.7] !text-white/80 md:mt-7 md:text-base"
               style={{color: 'rgba(255,255,255,0.8)'}}
             >
-              Property tours and walkthroughs from across the UAE, presented in
-              person by Dayan. Each visit gives a clearer sense of the listing —
-              the building, the developer, the context — than a brochure ever
-              could.
+              {tHome('videos.body')}
             </p>
           </div>
 
@@ -648,7 +665,7 @@ export default async function HomePage({params}: Props) {
               style={{color: '#ffffff'}}
               data-ui-label
             >
-              View all videos on YouTube
+              {tHome('videos.viewAll')}
             </a>
           </div>
         </Container>
@@ -664,17 +681,14 @@ export default async function HomePage({params}: Props) {
                 className="block text-sm uppercase tracking-[0.32em] text-[var(--text-muted)]"
                 data-ui-label
               >
-                In the
+                {tHome('media.eyebrowLine1')}
               </span>
               <span className="mt-3 block text-4xl leading-[1] text-[var(--text-title)] md:text-5xl lg:text-6xl">
-                Media
+                {tHome('media.eyebrowLine2')}
               </span>
             </h2>
             <p className="mt-6 max-w-xl text-sm leading-[1.7] text-[var(--text-body)] md:mt-7 md:text-base">
-              Selected appearances and coverage spanning real estate and design.
-              Dayan is also the Creative Director of House of Candamil — a
-              Bogotá-based atelier known for couture-quality accessories and
-              ready-to-wear.
+              {tHome('media.body')}
             </p>
           </div>
 
@@ -686,7 +700,7 @@ export default async function HomePage({params}: Props) {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/dummy/press-bazaar-vn.jpg"
-                  alt="Harper's Bazaar Vietnam cover, August 2021, featuring Dayan Candamil"
+                  alt={tHome('media.bazaarAlt')}
                   loading="lazy"
                   className="absolute inset-0 h-full w-full object-cover"
                 />
@@ -696,13 +710,12 @@ export default async function HomePage({params}: Props) {
                   className="text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)]"
                   data-ui-label
                 >
-                  Harper&apos;s Bazaar Vietnam
+                  {tHome('media.bazaarSource')}
                   <span className="mx-2">·</span>
-                  August 2021
+                  {tHome('media.bazaarDate')}
                 </p>
                 <p className="mt-3 max-w-md text-sm leading-[1.7] text-[var(--text-body)] md:text-base">
-                  Cover and feature profile of Dayan Candamil for the August
-                  2021 issue, on the design ethos behind House of Candamil.
+                  {tHome('media.bazaarBody')}
                 </p>
               </div>
             </article>
@@ -715,13 +728,13 @@ export default async function HomePage({params}: Props) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group flex flex-col"
-                aria-label="Watch House of Candamil at Marrakech Fashion Week 2022 on YouTube"
+                aria-label={tHome('media.mfwAria')}
               >
                 <div className="relative aspect-video w-full overflow-hidden bg-[var(--bg)]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="/dummy/press-mfw.jpg"
-                    alt="House of Candamil runway at Marrakech Fashion Week 2022"
+                    alt={tHome('media.mfwAlt')}
                     loading="lazy"
                     className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                   />
@@ -745,16 +758,15 @@ export default async function HomePage({params}: Props) {
                     className="text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)]"
                     data-ui-label
                   >
-                    Marrakech Fashion Week
+                    {tHome('media.mfwSource')}
                     <span className="mx-2">·</span>
-                    2022
+                    {tHome('media.mfwDate')}
                   </p>
                   <p className="mt-3 font-display text-xl leading-snug text-[var(--text-title)] group-hover:underline md:text-2xl">
-                    House of Candamil — Runway show
+                    {tHome('media.mfwTitle')}
                   </p>
                   <p className="mt-3 max-w-md text-sm leading-[1.7] text-[var(--text-body)]">
-                    Full runway presentation of the House of Candamil collection
-                    at Marrakech Fashion Week 2022.
+                    {tHome('media.mfwBody')}
                   </p>
                 </div>
               </a>
@@ -765,7 +777,7 @@ export default async function HomePage({params}: Props) {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="/dummy/press-certificate.jpg"
-                    alt="Certificate of Achievement: Top 1% Dubai Real Estate Professional 2024 awarded to Dayan Candamil"
+                    alt={tHome('media.certAlt')}
                     loading="lazy"
                     className="absolute inset-0 h-full w-full object-cover"
                   />
@@ -775,16 +787,15 @@ export default async function HomePage({params}: Props) {
                     className="text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)]"
                     data-ui-label
                   >
-                    Industry recognition
+                    {tHome('media.certSource')}
                     <span className="mx-2">·</span>
-                    2024
+                    {tHome('media.certDate')}
                   </p>
                   <p className="mt-3 font-display text-xl leading-snug text-[var(--text-title)] md:text-2xl">
-                    Top 1% Dubai Real Estate Professional
+                    {tHome('media.certTitle')}
                   </p>
                   <p className="mt-3 max-w-md text-sm leading-[1.7] text-[var(--text-body)]">
-                    Certificate of Achievement awarded to Dayan Candamil for
-                    outstanding achievement in the Dubai real estate market.
+                    {tHome('media.certBody')}
                   </p>
                 </div>
               </article>
@@ -795,7 +806,7 @@ export default async function HomePage({params}: Props) {
 
       {/* 11. LET'S CONNECT — image (left) + contact form (right) */}
       <section
-        aria-label="Let's connect"
+        aria-label={tHome('contact.ariaLabel')}
         className="grid bg-[var(--bg-dark)] md:grid-cols-2"
       >
         {/* Image — Dayan, full bleed left */}
@@ -803,7 +814,7 @@ export default async function HomePage({params}: Props) {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/dummy/dayan-connect.jpg"
-            alt="Dayan Candamil"
+            alt={tHome('about.name')}
             className="absolute inset-0 h-full w-full object-cover object-right"
           />
         </div>
@@ -817,21 +828,20 @@ export default async function HomePage({params}: Props) {
                 style={{color: 'rgba(255,255,255,0.65)'}}
                 data-ui-label
               >
-                Let&apos;s Connect
+                {tHome('contact.eyebrow')}
               </span>
               <span
                 className="mt-3 block text-3xl leading-[1.05] !text-white md:text-5xl lg:text-6xl"
                 style={{color: '#ffffff'}}
               >
-                Contact the desk
+                {tHome('contact.heading')}
               </span>
             </h2>
             <p
               className="mt-6 max-w-sm text-sm leading-[1.7] !text-white/75 md:text-base"
               style={{color: 'rgba(255,255,255,0.75)'}}
             >
-              A short, no-commitment conversation about your move into the
-              UAE. We respond within 48 hours, in your preferred language.
+              {tHome('contact.body')}
             </p>
 
             <div className="mt-10">
@@ -845,7 +855,7 @@ export default async function HomePage({params}: Props) {
                   style={{color: 'rgba(255,255,255,0.55)'}}
                   data-ui-label
                 >
-                  Email
+                  {tHome('contact.email')}
                 </dt>
                 <dd className="mt-1">
                   <a
@@ -863,7 +873,7 @@ export default async function HomePage({params}: Props) {
                   style={{color: 'rgba(255,255,255,0.55)'}}
                   data-ui-label
                 >
-                  WhatsApp
+                  {tHome('contact.whatsApp')}
                 </dt>
                 <dd className="mt-1">
                   <a
@@ -888,7 +898,7 @@ export default async function HomePage({params}: Props) {
               className="text-[11px] uppercase tracking-[0.12em] text-[var(--text-muted)]"
               data-ui-label
             >
-              Developer partners
+              {tHome('partners.eyebrow')}
             </p>
             <ul className="mt-8 grid gap-px bg-[var(--divider)] sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               {partners.map((partner) => (
@@ -1237,7 +1247,10 @@ function renderAttribution(t: TestimonialCard): string {
  * own first card — matches Mahsheed's pattern where the section title sits
  * flush with the listing cards rather than floating above them.
  */
-function FeaturedListingsTitleCell() {
+type TitleCellLabels = {eyebrow: string; heading: string; viewAll: string};
+type ListingLabels = {beds: string; baths: string; sqft: string; viewDetails: string; fromPrefix: string};
+
+function FeaturedListingsTitleCell({labels}: {labels: TitleCellLabels}) {
   return (
     <div className="flex flex-col items-start justify-center gap-8 py-8">
       <h2 className="font-display">
@@ -1246,13 +1259,13 @@ function FeaturedListingsTitleCell() {
           style={{color: 'rgba(255,255,255,0.75)'}}
           data-ui-label
         >
-          Featured
+          {labels.eyebrow}
         </span>
         <span
           className="mt-3 block text-5xl leading-[1] !text-white md:text-6xl lg:text-7xl"
           style={{color: '#ffffff'}}
         >
-          Listings
+          {labels.heading}
         </span>
       </h2>
       <span aria-hidden="true" className="block h-px w-12 bg-white/40" />
@@ -1262,25 +1275,33 @@ function FeaturedListingsTitleCell() {
         style={{color: '#ffffff'}}
         data-ui-label
       >
-        View all
+        {labels.viewAll}
       </Link>
     </div>
   );
 }
 
-function StudioListingsGridWithTitleCell({listings}: {listings: StudioListingCard[]}) {
+function StudioListingsGridWithTitleCell({
+  listings,
+  titleLabels,
+  listingLabels
+}: {
+  listings: StudioListingCard[];
+  titleLabels: TitleCellLabels;
+  listingLabels: ListingLabels;
+}) {
   // Title cell + up to 5 listing cards in a 3-col grid (1 + 5 = 6 cells).
   // Landscape image aspect (~7:5) matches the Mahsheed listings rhythm.
   // Each Studio card links to its own /projects/[id] detail view.
   const cards = listings.slice(0, 5);
   return (
     <div className="grid gap-x-8 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
-      <FeaturedListingsTitleCell />
+      <FeaturedListingsTitleCell labels={titleLabels} />
       {cards.map((listing) => (
         <Link
           key={listing.id}
           href={`/projects/${listing.id}`}
-          aria-label={`View listing: ${listing.title}`}
+          aria-label={listing.title}
           className="block"
         >
           <StudioListingCardView
@@ -1288,6 +1309,7 @@ function StudioListingsGridWithTitleCell({listings}: {listings: StudioListingCar
             aspect="aspect-[7/5]"
             size="small"
             onDark
+            labels={listingLabels}
           />
         </Link>
       ))}
@@ -1295,16 +1317,22 @@ function StudioListingsGridWithTitleCell({listings}: {listings: StudioListingCar
   );
 }
 
-function PlaceholderListingsGridWithTitleCell() {
+function PlaceholderListingsGridWithTitleCell({
+  titleLabels,
+  listingLabels
+}: {
+  titleLabels: TitleCellLabels;
+  listingLabels: ListingLabels;
+}) {
   const cards = FEATURED_LISTING_PLACEHOLDERS.slice(0, 5);
   return (
     <div className="grid gap-x-8 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
-      <FeaturedListingsTitleCell />
+      <FeaturedListingsTitleCell labels={titleLabels} />
       {cards.map((listing, i) => (
         <Link
           key={listing.id}
           href="/projects"
-          aria-label={`${listing.title} — view all projects`}
+          aria-label={listing.title}
           className="block"
         >
           <PlaceholderListingCard
@@ -1313,6 +1341,7 @@ function PlaceholderListingsGridWithTitleCell() {
             aspect="aspect-[7/5]"
             size="small"
             onDark
+            labels={listingLabels}
           />
         </Link>
       ))}
@@ -1323,12 +1352,14 @@ function PlaceholderListingsGridWithTitleCell() {
 function StudioListingCardView({
   listing,
   aspect,
-  onDark = false
+  onDark = false,
+  labels
 }: {
   listing: StudioListingCard;
   aspect: string;
   size?: 'large' | 'small';
   onDark?: boolean;
+  labels: ListingLabels;
 }) {
   // Mahsheed-style caption: clean photo on top, structured caption below.
   // Left column = address + city + specs; right column = price + CTA.
@@ -1376,17 +1407,17 @@ function StudioListingCardView({
           <p className={cn('mt-3 flex flex-wrap gap-x-4 gap-y-1 text-[12px]', specColor)}>
             {listing.bedrooms > 0 && (
               <span>
-                <bdi>{listing.bedrooms}</bdi> Beds
+                <bdi>{listing.bedrooms}</bdi> {labels.beds}
               </span>
             )}
             {listing.bathrooms > 0 && (
               <span>
-                <bdi>{listing.bathrooms}</bdi> Baths
+                <bdi>{listing.bathrooms}</bdi> {labels.baths}
               </span>
             )}
             {listing.sqft > 0 && (
               <span>
-                <bdi>{listing.sqft.toLocaleString()}</bdi> Sq.Ft.
+                <bdi>{listing.sqft.toLocaleString()}</bdi> {labels.sqft}
               </span>
             )}
           </p>
@@ -1402,7 +1433,7 @@ function StudioListingCardView({
             )}
             data-ui-label
           >
-            View details
+            {labels.viewDetails}
           </p>
         </div>
       </div>
@@ -1416,13 +1447,15 @@ function PlaceholderListingCard({
   listing,
   seed,
   aspect,
-  onDark = false
+  onDark = false,
+  labels
 }: {
   listing: ListingPlaceholder;
   seed: number;
   aspect: string;
   size?: 'large' | 'small';
   onDark?: boolean;
+  labels: ListingLabels;
 }) {
   const titleColor = onDark ? 'text-white' : 'text-[var(--text-title)]';
   const subColor = onDark ? 'text-white/65' : 'text-[var(--text-muted)]';
@@ -1458,7 +1491,7 @@ function PlaceholderListingCard({
         </div>
         <div className="shrink-0 text-end">
           <p className={cn('font-display text-lg leading-snug md:text-xl', titleColor)}>
-            From <bdi>{listing.priceFrom}</bdi>
+            {labels.fromPrefix} <bdi>{listing.priceFrom}</bdi>
           </p>
           <p
             className={cn(
@@ -1467,7 +1500,7 @@ function PlaceholderListingCard({
             )}
             data-ui-label
           >
-            View details
+            {labels.viewDetails}
           </p>
         </div>
       </div>
