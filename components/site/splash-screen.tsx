@@ -3,6 +3,7 @@
 import {useEffect, useState} from 'react';
 import Image from 'next/image';
 import {usePathname} from 'next/navigation';
+import {useTranslations} from 'next-intl';
 import {cn} from '@/lib/utils';
 import logoBlack from '../../public/brand/logo-black.png';
 
@@ -29,6 +30,7 @@ function isHomePath(path: string) {
 }
 
 export function SplashScreen() {
+  const t = useTranslations('Nav');
   const pathname = usePathname();
   const onHome = isHomePath(pathname);
   // Conservative SSR / first-paint default: 'mounting' on home so the
@@ -104,7 +106,7 @@ export function SplashScreen() {
     <div
       role="status"
       aria-live="polite"
-      aria-label="Loading Puerta Dubai"
+      aria-label={t('loading')}
       className={cn(
         'fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[var(--bg-dark)] transition-opacity duration-[600ms] ease-out',
         phase === 'mounting' && 'opacity-0',

@@ -1,5 +1,5 @@
 import {notFound} from 'next/navigation';
-import {setRequestLocale} from 'next-intl/server';
+import {setRequestLocale, getTranslations} from 'next-intl/server';
 import {Link} from '@/lib/i18n/navigation';
 import {Container, Section} from '@/components/ui/container';
 import {client} from '@/lib/sanity/client';
@@ -60,7 +60,10 @@ export default async function PressDetailPage({params}: Props) {
   const {locale, slug} = await params;
   setRequestLocale(locale);
 
-  const article = await getArticle(slug, locale);
+  const [t, article] = await Promise.all([
+    getTranslations({locale, namespace: 'Press'}),
+    getArticle(slug, locale)
+  ]);
   if (!article) notFound();
 
   return (
@@ -71,13 +74,13 @@ export default async function PressDetailPage({params}: Props) {
           className="text-[11px] uppercase tracking-[0.12em] text-[var(--text-muted)] hover:text-[var(--accent)]"
           data-ui-label
         >
-          ← Editorial
+          {t('backToIndex')}
         </Link>
         <p
           className="mt-6 text-[11px] uppercase tracking-[0.12em] text-[var(--text-muted)]"
           data-ui-label
         >
-          {article.source === 'in-house' ? 'Announcement' : 'External coverage'}
+          {article.source === 'in-house' ? t('source.inHouse') : t('source.external')}
           {article.publishedAt && (
             <>
               {' · '}
@@ -105,7 +108,7 @@ export default async function PressDetailPage({params}: Props) {
             rel="noopener noreferrer"
             className="mt-8 inline-block text-sm underline underline-offset-4"
           >
-            Read on external source ↗
+            {t('readExternal')}
           </a>
         )}
       </Container>

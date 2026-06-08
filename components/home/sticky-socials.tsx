@@ -1,6 +1,7 @@
 'use client';
 
 import {useSyncExternalStore} from 'react';
+import {useTranslations} from 'next-intl';
 import {SOCIAL_ICONS} from '@/lib/site/social';
 import {cn} from '@/lib/utils';
 
@@ -37,6 +38,7 @@ function getServerSnapshotNearBottom() {
 }
 
 export function StickySocials() {
+  const t = useTranslations('Nav');
   const nearBottom = useSyncExternalStore(
     subscribeBottom,
     getSnapshotNearBottom,
@@ -45,7 +47,7 @@ export function StickySocials() {
 
   return (
     <ul
-      aria-label="Social channels"
+      aria-label={t('socialChannels')}
       className={cn(
         'pointer-events-none fixed top-1/2 z-30 hidden -translate-y-1/2 flex-col items-center gap-3 transition-opacity duration-300 md:flex',
         'end-4 lg:end-6',

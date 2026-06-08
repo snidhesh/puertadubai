@@ -13,6 +13,10 @@
     "contact": "Contact",
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
+    "changeLanguage": "Change language",
+    "languageList": "Language",
+    "loading": "Loading Puerta Dubai",
+    "socialChannels": "Social channels",
     "logoAria": "Puerta Dubai — home",
     "siteNavAria": "Site navigation",
     "follow": "Follow"
@@ -42,6 +46,7 @@
     "successBody": "We'll be in touch within 48 hours with a curated brief.",
     "successCta": "Take the Investment Readiness assessment",
     "modalChip": "Private Circle",
+    "preferredCompany": "Preferred company",
     "close": "Close",
     "errorMessage": "Something went wrong. Please try again or use the WhatsApp link.",
     "retry": "Retry",
@@ -86,7 +91,22 @@
     "sqft": "Sq.Ft.",
     "refPrefix": "Ref",
     "viewDetails": "View details",
-    "fromPrefix": "From"
+    "fromPrefix": "From",
+    "imagePending": "Image pending",
+    "emptySanity": "No projects have been published yet. Add them in Sanity Studio — they appear here automatically.",
+    "noFilterMatches": "No projects match the current filters. Reset to see everything.",
+    "filters": {
+      "emirate": "Emirate",
+      "status": "Status",
+      "bedrooms": "Bedrooms",
+      "allEmirates": "All emirates",
+      "anyStatus": "Any status",
+      "offPlan": "Off-plan",
+      "ready": "Ready",
+      "secondary": "Secondary",
+      "anyBedrooms": "Any bedrooms",
+      "reset": "Reset"
+    }
   },
   "Contact": {
     "metaTitle": "Contact",
@@ -189,5 +209,225 @@
     "partners": {
       "eyebrow": "Developer partners"
     }
+  },
+  "About": {
+    "metaTitle": "What is Puerta Dubai?",
+    "metaDescription": "A private gateway for global investors entering the UAE market.",
+    "eyebrow": "About",
+    "heading": "One platform. Complete access to the UAE.",
+    "body1": "Puerta Dubai is a private investment-concierge gateway for high-net-worth foreign investors entering the UAE — combining real-estate acquisition, business setup, tax and legal structuring, banking coordination, Golden Visa processing, and relocation under one roof.",
+    "body2": "The desk is founder-led and intentionally selective, coordinating each mandate through one trusted point of contact across property, residency, banking, and relocation."
+  },
+  "Founder": {
+    "metaTitle": "Founder · Dayan Candamil",
+    "metaDescription": "Senior investment strategist and cultural entrepreneur. Cross-border advisory between Latin America, the GCC, Morocco, and West Africa.",
+    "eyebrow": "Founder",
+    "role": "Senior investment strategist · Cultural entrepreneur",
+    "bio1": "Dayan Candamil sits at the intersection of capital and culture. As Associate Partner at BlackOak Real Estate, he leads international markets and structures cross-border investment flows between Latin America, the United States, the GCC, Morocco, and West Africa — originating complex transactions across prime land, luxury residential, and branded developments.",
+    "bio2": "Trilingual across English, Portuguese, and Spanish, he advises developers on market entry, investor positioning, and pricing frameworks, while serving as Creative Director of House of Candamil — the Bogotá-rooted atelier behind couture-quality accessories and ready-to-wear shown internationally.",
+    "positioningQuote": "Representing the <n>1%</n> since 2012.",
+    "positioningBody": "A bridge between international private capital and the developers, sponsors, and operators building the next decade of prime real estate across Dubai, Abu Dhabi, Casablanca, and the West African coast.",
+    "strategistHeading": "International markets, structured end-to-end.",
+    "strategistBody": "From originating prime-land transactions to advising on investor positioning and distribution across Latin American and African markets, Dayan manages high-value transaction pipelines and strategic partnerships — acting as the connective tissue between developers and the international private-client and family-office capital backing them.",
+    "journeyEyebrow": "Career",
+    "journeyHeading": "A career arc across capital and culture.",
+    "journeyIntro": "Fourteen years of building and advising at the intersection of luxury, hospitality, and real estate — across Bogotá, Miami, Panama City, Casablanca, and Dubai.",
+    "journey1Years": "2025 — Present",
+    "journey1Company": "BlackOak Real Estate",
+    "journey1Title": "Associate Partner",
+    "journey1Location": "Dubai, UAE",
+    "journey1Summary": "Senior Investment Strategist & International Markets Lead. Cross-border flows between Latin America, the U.S., the GCC, Morocco, and West Africa.",
+    "journey2Years": "2024 — 2025",
+    "journey2Company": "Pulse Real Estate",
+    "journey2Title": "Private Client Advisor",
+    "journey2Location": "Dubai, UAE",
+    "journey2Summary": "UAE/GCC market entry for large Latin American investors in prime and ultra-prime real estate.",
+    "journey3Years": "2023 — 2024",
+    "journey3Company": "Europe Emirates Group",
+    "journey3Title": "Corporate Advisor",
+    "journey3Location": "Dubai, UAE",
+    "journey3Summary": "Corporate structuring and inbound advisory for international clients establishing presence in the UAE.",
+    "journey4Years": "2021 — 2024",
+    "journey4Company": "Fortune International Group · PRADABRIDGER Florida",
+    "journey4Title": "Real Estate Advisor",
+    "journey4Location": "Miami, FL",
+    "journey4Summary": "Advising Latin American investors on U.S. market entry, large-ticket real estate, and portfolio building.",
+    "journey5Years": "2020 — Present",
+    "journey5Company": "House of Candamil",
+    "journey5Title": "Creative Director",
+    "journey5Location": "Dubai, UAE",
+    "journey5Summary": "Creative direction of the atelier across accessories, jewelry, and ready-to-wear collections.",
+    "journey6Years": "2019 — 2022",
+    "journey6Company": "Chevre S.A.",
+    "journey6Title": "Senior Consultant",
+    "journey6Location": "Panama City",
+    "journey6Summary": "Brand positioning for a multi-brand restaurant group and gourmet retail chain; premium sourcing from Italy and Spain.",
+    "journey7Years": "2011 — 2022",
+    "journey7Company": "Dayan Candamil Accessories",
+    "journey7Title": "Creative Director & Founder",
+    "journey7Location": "Key Biscayne",
+    "journey7Summary": "Founded and led the luxury accessories, jewelry, and lifestyle label across the U.S. and Latin America.",
+    "pressEyebrow": "Featured in",
+    "pressHeading": "Selected appearances.",
+    "press1Source": "Harper's Bazaar Vietnam",
+    "press1Date": "August 2021",
+    "press1Title": "Cover and feature profile on the design ethos behind House of Candamil.",
+    "press1Alt": "Harper's Bazaar Vietnam cover, August 2021, featuring Dayan Candamil",
+    "press2Source": "Marrakech Fashion Week",
+    "press2Date": "2022",
+    "press2Title": "House of Candamil — runway presentation.",
+    "press2Alt": "House of Candamil runway at Marrakech Fashion Week 2022",
+    "press3Source": "Industry recognition",
+    "press3Date": "2024",
+    "press3Title": "Top 1% Dubai Real Estate Professional — Certificate of Achievement.",
+    "press3Alt": "Certificate of Achievement: Top 1% Dubai Real Estate Professional 2024 awarded to Dayan Candamil",
+    "alsoFeaturedIn": "Also featured in Elle Magazine, CNN US, and THE EMERALD BOOK.",
+    "languagesHeading": "Languages",
+    "language1": "English — Native / Bilingual",
+    "language2": "Portuguese — Native / Bilingual",
+    "language3": "Spanish — Native / Bilingual",
+    "honorsHeading": "Honors",
+    "honor1": "Keys to the Cundinamarca State, awarded by Mayor Miguel Barbosa R.",
+    "honor2": "Recognition for Redesigning Fashion to Make it More Sustainable.",
+    "educationHeading": "Education",
+    "education1": "London College of Fashion — Fashion Entrepreneurship & Luxury Brand Management (2011)",
+    "education2": "London College of Fashion — Fashion Buying & Merchandising (2009)",
+    "education3": "City College of San Francisco — Fashion Illustration, American History, Art History (2009–2010)",
+    "ctaHeading": "Continue the conversation.",
+    "ctaBody": "Private-client introductions, cross-border mandates, and pre-launch access are handled through the Private Circle.",
+    "ctaButton": "Enter the Private Circle",
+    "credentialsEyebrow": "Credentials & Recognition",
+    "credentialsBody": "Content-review gated. Awaiting verifiable sources before publish.",
+    "responsibleEyebrow": "Responsible advisory",
+    "responsibleBody": "Content-review gated. Cross-border-trust and investor-education framing only — no donation or social-impact claims until verified."
+  },
+  "Services": {
+    "metaTitle": "Services",
+    "metaDescription": "Off-plan, secondary market, company formation, tax, banking, legal, Golden Visa, and curated investments.",
+    "eyebrow": "Services",
+    "heading": "Eight services. One concierge desk.",
+    "backToIndex": "← Services",
+    "goldenVisaLegalNote": "Golden Visa thresholds and timelines are governed by UAE federal and GDRFA Dubai guidance. Public copy here is gated on legal review and tied to the canonical AED 2,000,000 real-estate threshold.",
+    "detailPlaceholder": "Service detail body is authored in Sanity Studio per locale.",
+    "bookCall": "Book a call",
+    "investmentReadiness": "Investment readiness",
+    "items": {
+      "off-plan": {
+        "title": "How to buy off-plan",
+        "summary": "Pre-launch real estate with priority pricing, developer due diligence and ongoing escrow oversight."
+      },
+      "secondary-market": {
+        "title": "How to buy secondary market",
+        "summary": "Mature assets with proven rental yields — valuation through Land Department transfer."
+      },
+      "company-formation": {
+        "title": "Open your company in the Emirates",
+        "summary": "Mainland licenses and free zones, shareholder agreements, visa processing, banking coordination."
+      },
+      "tax": {
+        "title": "Tax in the Emirates",
+        "summary": "Corporate registration, VAT planning, treaty analysis and expatriate fiscal strategy."
+      },
+      "banking": {
+        "title": "Bank accounts",
+        "summary": "Personal and corporate accounts, multi-currency facilities, compliance pre-verification."
+      },
+      "legal-accounting": {
+        "title": "Accounting & legal",
+        "summary": "Bookkeeping, auditing, contract review, shareholder agreements, dispute resolution."
+      },
+      "golden-visa": {
+        "title": "Golden Visa",
+        "summary": "Eligibility verification through issuance — copy gated on legal review (AED 2M canonical threshold)."
+      },
+      "investments": {
+        "title": "Investments — Gulf & international",
+        "summary": "Curated access across real estate, hospitality and private equity with cross-border due diligence."
+      }
+    }
+  },
+  "GoldenVisa": {
+    "metaTitle": "Golden Visa",
+    "metaDescription": "UAE Golden Visa overview — eligibility, real-estate thresholds, residency benefits. Copy is gated on legal review.",
+    "eyebrow": "Golden Visa",
+    "heading": "Long-term UAE residency, structured properly.",
+    "body": "The UAE Golden Visa grants 5- or 10-year renewable residency to qualifying investors, entrepreneurs, and specialists. Real-estate investors qualify at AED 2,000,000 in property ownership per UAE federal portal and GDRFA Dubai guidance.",
+    "legalNote": "Public copy on this page is gated on counsel review before production. Numbers shown here are the canonical UAE references — any concierge offer must be reviewed independently.",
+    "cta": "Request private guidance",
+    "eligibilityHeading": "Eligibility routes",
+    "eligibilityBody": "Real-estate investor (≥ AED 2M), entrepreneur, specialised talent, executive, scientist, outstanding student. Each route has documentation and processing differences. We confirm fit before any commercial conversation.",
+    "renewalHeading": "Renewal, travel, tax",
+    "renewalBody": "Five- and ten-year terms, sponsor independence, household inclusion, tax-residency planning, and cross-border considerations are covered in the private brief — content is authored in Sanity per locale and gated on legal sign-off."
+  },
+  "InvestmentReadiness": {
+    "metaTitle": "Investment readiness",
+    "metaDescription": "A 3-minute qualification — tell us your budget, target emirate, residency goal and timeline.",
+    "eyebrow": "Investment readiness",
+    "heading": "Three minutes. One curated plan.",
+    "body": "Tell us your budget band, target emirate, timeline and residency goal. We categorise your enquiry deterministically and route it to the right desk within 48 hours.",
+    "note": "The full qualification form, bot protection, consent gate, and notification wiring land in the next implementation phase.",
+    "button": "Form coming online"
+  },
+  "Partners": {
+    "metaTitle": "Partners",
+    "metaDescription": "Aldar, Binghatti, Dubai Properties, Ellington, Emaar, Meraas, Sobha — and other developer partners.",
+    "eyebrow": "Partners",
+    "heading": "Developer partners.",
+    "body": "Direct access across the major UAE developers. Logos are rights-cleared in Sanity before display; pending that, names render as text."
+  },
+  "Press": {
+    "metaTitle": "Editorial",
+    "metaDescription": "Press releases and editorial coverage from Puerta Dubai.",
+    "eyebrow": "Editorial",
+    "heading": "Press & perspectives.",
+    "empty": "No press articles have been published yet. Anti-fabrication rule: in-house announcements only until third-party coverage is real.",
+    "backToIndex": "← Editorial",
+    "readExternal": "Read on external source ↗",
+    "source": {
+      "inHouse": "Announcement",
+      "external": "External coverage"
+    }
+  },
+  "LegalNotice": {
+    "metaTitle": "Legal notice",
+    "metaDescription": "Legal notice for Puerta Dubai.",
+    "heading": "Legal notice",
+    "body": "The legal notice body is authored in Sanity per locale. Editorial and counsel review are required before publish."
+  },
+  "Privacy": {
+    "metaTitle": "Privacy policy",
+    "metaDescription": "How Puerta Dubai handles personal data.",
+    "heading": "Privacy policy",
+    "body": "The privacy body is authored in Sanity per locale.",
+    "required": "Required content before any lead form ships: data collected, lawful basis, storage region, retention, data-subject rights, request contact, cookie inventory, and accepted vendor risk for plaintext personal data."
+  },
+  "ProjectDetail": {
+    "metaFallback": "Listing",
+    "forRent": "For rent",
+    "forSale": "For sale",
+    "listed": "Listed",
+    "backToProjects": "Back to projects",
+    "refPrefix": "Ref",
+    "aboutHeading": "About this property",
+    "amenitiesHeading": "Amenities",
+    "agent": "Agent",
+    "reference": "Reference",
+    "inquire": "Inquire about this listing",
+    "whatsapp": "WhatsApp the desk",
+    "gallery": "Gallery",
+    "imageAlt": "{title} — image {number}",
+    "facts": {
+      "beds": "Beds",
+      "baths": "Baths",
+      "sqft": "Sq.Ft.",
+      "type": "Type",
+      "furnishing": "Furnishing",
+      "parking": "Parking"
+    }
+  },
+  "NotFound": {
+    "heading": "Not found",
+    "body": "The page you were looking for could not be found.",
+    "returnHome": "Return home"
   }
 }

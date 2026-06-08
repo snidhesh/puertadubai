@@ -164,7 +164,7 @@ export function PrivateCircleModal() {
           <form onSubmit={handleSubmit} className="mt-6 space-y-4">
             {/* Honeypot — hidden from real users, irresistible to bots. */}
             <label className="sr-only" aria-hidden="true">
-              <span>Preferred company</span>
+              <span>{t('preferredCompany')}</span>
               <input type="text" name="company_pref" tabIndex={-1} autoComplete="off" />
             </label>
 

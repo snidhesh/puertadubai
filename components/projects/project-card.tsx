@@ -1,10 +1,11 @@
+import {useLocale, useTranslations} from 'next-intl';
 import {Link} from '@/lib/i18n/navigation';
 import {urlFor} from '@/lib/sanity/image';
 import type {ProjectCard as ProjectCardType} from '@/lib/sanity/queries';
 
-function formatPrice(value: number | null, currency: string | null): string | null {
+function formatPrice(value: number | null, currency: string | null, locale: string): string | null {
   if (value === null) return null;
-  return new Intl.NumberFormat('en', {
+  return new Intl.NumberFormat(locale, {
     style: 'currency',
     currency: currency ?? 'AED',
     maximumFractionDigits: 0
@@ -12,7 +13,9 @@ function formatPrice(value: number | null, currency: string | null): string | nu
 }
 
 export function ProjectCard({project}: {project: ProjectCardType}) {
-  const price = formatPrice(project.priceFrom, project.currency);
+  const locale = useLocale();
+  const t = useTranslations('Projects');
+  const price = formatPrice(project.priceFrom, project.currency, locale);
   const imageSrc =
     project.heroImage?.asset && urlFor(project.heroImage).width(800).height(600).fit('crop').url();
 
@@ -32,7 +35,7 @@ export function ProjectCard({project}: {project: ProjectCardType}) {
           />
         ) : (
           <div className="flex h-full items-center justify-center text-[11px] uppercase tracking-[0.12em] text-[var(--text-muted)]">
-            Image pending
+            {t('imagePending')}
           </div>
         )}
       </div>
@@ -49,7 +52,7 @@ export function ProjectCard({project}: {project: ProjectCardType}) {
         </h3>
         {price && (
           <p className="mt-1 text-sm text-[var(--text-body)]">
-            From <bdi>{price}</bdi>
+            {t('fromPrefix')} <bdi>{price}</bdi>
           </p>
         )}
       </div>

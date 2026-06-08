@@ -4,7 +4,7 @@ import {useQueryStates, parseAsString} from 'nuqs';
 import {forwardRef, type ReactNode} from 'react';
 import {cn} from '@/lib/utils';
 
-type Source = 'hero' | 'gv' | 'sticky' | 'areas-cta' | 'nav' | 'footer';
+type Source = 'hero' | 'gv' | 'sticky' | 'areas-cta' | 'nav' | 'footer' | 'founder';
 
 /**
  * Button that opens the Private Circle modal. URL state holds ONLY

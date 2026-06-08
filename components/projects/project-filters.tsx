@@ -1,6 +1,7 @@
 'use client';
 
 import {useQueryStates, parseAsString, parseAsArrayOf} from 'nuqs';
+import {useTranslations} from 'next-intl';
 import {cn} from '@/lib/utils';
 
 /**
@@ -26,31 +27,30 @@ export function useProjectFilters() {
   });
 }
 
-const EMIRATE_OPTIONS = [
-  {value: '', label: 'All emirates'},
-  {value: 'dubai', label: 'Dubai'},
-  {value: 'abu-dhabi', label: 'Abu Dhabi'},
-  {value: 'ras-al-khaimah', label: 'Ras Al Khaimah'},
-  {value: 'sharjah', label: 'Sharjah'}
-];
-
-const STATUS_OPTIONS = [
-  {value: '', label: 'Any status'},
-  {value: 'off-plan', label: 'Off-plan'},
-  {value: 'ready', label: 'Ready'},
-  {value: 'secondary', label: 'Secondary'}
-];
-
-const BEDROOM_OPTIONS = [
-  {value: '', label: 'Any bedrooms'},
-  {value: '1', label: '1+'},
-  {value: '2', label: '2+'},
-  {value: '3', label: '3+'},
-  {value: '4', label: '4+'}
-];
-
 export function ProjectFiltersBar({className}: {className?: string}) {
+  const t = useTranslations('Projects');
   const [filters, setFilters] = useProjectFilters();
+  const emirateOptions = [
+    {value: '', label: t('filters.allEmirates')},
+    {value: 'dubai', label: 'Dubai'},
+    {value: 'abu-dhabi', label: 'Abu Dhabi'},
+    {value: 'ras-al-khaimah', label: 'Ras Al Khaimah'},
+    {value: 'sharjah', label: 'Sharjah'}
+  ];
+  const statusOptions = [
+    {value: '', label: t('filters.anyStatus')},
+    {value: 'off-plan', label: t('filters.offPlan')},
+    {value: 'ready', label: t('filters.ready')},
+    {value: 'secondary', label: t('filters.secondary')}
+  ];
+  const bedroomOptions = [
+    {value: '', label: t('filters.anyBedrooms')},
+    {value: '1', label: '1+'},
+    {value: '2', label: '2+'},
+    {value: '3', label: '3+'},
+    {value: '4', label: '4+'}
+  ];
+
   return (
     <div
       className={cn(
@@ -59,22 +59,22 @@ export function ProjectFiltersBar({className}: {className?: string}) {
       )}
     >
       <Select
-        label="Emirate"
+        label={t('filters.emirate')}
         value={filters.emirate}
         onChange={(v) => setFilters({emirate: v})}
-        options={EMIRATE_OPTIONS}
+        options={emirateOptions}
       />
       <Select
-        label="Status"
+        label={t('filters.status')}
         value={filters.status}
         onChange={(v) => setFilters({status: v})}
-        options={STATUS_OPTIONS}
+        options={statusOptions}
       />
       <Select
-        label="Bedrooms"
+        label={t('filters.bedrooms')}
         value={filters.bedrooms}
         onChange={(v) => setFilters({bedrooms: v})}
-        options={BEDROOM_OPTIONS}
+        options={bedroomOptions}
       />
       <button
         type="button"
@@ -84,7 +84,7 @@ export function ProjectFiltersBar({className}: {className?: string}) {
         className="ms-auto text-[11px] uppercase tracking-[0.12em] text-[var(--text-muted)] hover:text-[var(--accent)]"
         data-ui-label
       >
-        Reset
+        {t('filters.reset')}
       </button>
     </div>
   );

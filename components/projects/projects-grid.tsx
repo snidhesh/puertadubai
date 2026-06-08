@@ -1,11 +1,13 @@
 'use client';
 
 import {useMemo} from 'react';
+import {useTranslations} from 'next-intl';
 import type {ProjectCard as ProjectCardType} from '@/lib/sanity/queries';
 import {ProjectCard} from './project-card';
 import {applyClientFilters, useProjectFilters} from './project-filters';
 
 export function ProjectsGrid({projects}: {projects: ProjectCardType[]}) {
+  const t = useTranslations('Projects');
   const [filters] = useProjectFilters();
   const filtered = useMemo(
     () => applyClientFilters(projects, filters),
@@ -15,8 +17,7 @@ export function ProjectsGrid({projects}: {projects: ProjectCardType[]}) {
   if (projects.length === 0) {
     return (
       <p className="rounded-sm border border-dashed border-[var(--divider)] p-6 text-sm text-[var(--text-muted)]">
-        No projects have been published yet. Add them in Sanity Studio
-        (<code>Project</code> document type) — they appear here automatically.
+        {t('emptySanity')}
       </p>
     );
   }
@@ -24,7 +25,7 @@ export function ProjectsGrid({projects}: {projects: ProjectCardType[]}) {
   if (filtered.length === 0) {
     return (
       <p className="text-sm text-[var(--text-muted)]">
-        No projects match the current filters. Reset to see everything.
+        {t('noFilterMatches')}
       </p>
     );
   }

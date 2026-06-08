@@ -1,7 +1,7 @@
 'use client';
 
 import {useEffect, useRef, useState} from 'react';
-import {useLocale} from 'next-intl';
+import {useLocale, useTranslations} from 'next-intl';
 import {usePathname, useRouter} from '@/lib/i18n/navigation';
 import {routing, type Locale} from '@/lib/i18n/routing';
 import {cn} from '@/lib/utils';
@@ -29,6 +29,7 @@ type Props = {
 };
 
 export function LanguageSwitcher({className, transparent = false}: Props) {
+  const t = useTranslations('Nav');
   const router = useRouter();
   const pathname = usePathname();
   const active = useLocale() as Locale;
@@ -68,7 +69,7 @@ export function LanguageSwitcher({className, transparent = false}: Props) {
         type="button"
         aria-haspopup="listbox"
         aria-expanded={open}
-        aria-label="Change language"
+        aria-label={t('changeLanguage')}
         onClick={() => setOpen((v) => !v)}
         className={cn(
           'inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] transition-colors',
@@ -90,7 +91,7 @@ export function LanguageSwitcher({className, transparent = false}: Props) {
       {open && (
         <ul
           role="listbox"
-          aria-label="Language"
+          aria-label={t('languageList')}
           className="absolute end-0 top-[calc(100%+12px)] z-50 min-w-[11rem] border border-[var(--divider)] bg-[var(--bg)] py-2 shadow-lg"
         >
           {routing.locales.map((locale) => (

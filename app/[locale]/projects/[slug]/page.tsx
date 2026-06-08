@@ -1,6 +1,6 @@
 import {notFound} from 'next/navigation';
 import type {Metadata} from 'next';
-import {setRequestLocale} from 'next-intl/server';
+import {setRequestLocale, getTranslations} from 'next-intl/server';
 import {Link} from '@/lib/i18n/navigation';
 import {Container, Section} from '@/components/ui/container';
 import {fetchListingById, type StudioListingDetail} from '@/lib/studio/properties';
@@ -20,8 +20,11 @@ type Props = {params: Promise<{locale: Locale; slug: string}>};
 
 export async function generateMetadata({params}: Props): Promise<Metadata> {
   const {locale, slug} = await params;
-  const listing = await fetchListingById(slug, locale).catch(() => null);
-  if (!listing) return {title: 'Listing'};
+  const [t, listing] = await Promise.all([
+    getTranslations({locale, namespace: 'ProjectDetail'}),
+    fetchListingById(slug, locale).catch(() => null)
+  ]);
+  if (!listing) return {title: t('metaFallback')};
   return {
     title: listing.title,
     description:
@@ -35,16 +38,19 @@ export default async function ListingDetailPage({params}: Props) {
   setRequestLocale(locale);
 
   if (slug === '__placeholder') notFound();
-  const listing = await fetchListingById(slug, locale);
+  const [t, listing] = await Promise.all([
+    getTranslations({locale, namespace: 'ProjectDetail'}),
+    fetchListingById(slug, locale)
+  ]);
   if (!listing) notFound();
 
   const [heroImage, ...galleryImages] = listing.images;
   const offeringLabel =
     listing.offering === 'rent'
-      ? 'For rent'
+      ? t('forRent')
       : listing.offering === 'sale'
-        ? 'For sale'
-        : 'Listed';
+        ? t('forSale')
+        : t('listed');
 
   return (
     <>
@@ -69,7 +75,7 @@ export default async function ListingDetailPage({params}: Props) {
             style={{color: 'rgba(255,255,255,0.75)'}}
             data-ui-label
           >
-            <span aria-hidden="true">←</span> Back to projects
+            <span aria-hidden="true">←</span> {t('backToProjects')}
           </Link>
           <p
             className="mt-6 text-[11px] uppercase tracking-[0.32em] !text-white/75"
@@ -79,7 +85,7 @@ export default async function ListingDetailPage({params}: Props) {
             {offeringLabel}
             {listing.reference && (
               <>
-                <span className="mx-2">·</span>Ref {listing.reference}
+                <span className="mx-2">·</span>{t('refPrefix')} {listing.reference}
               </>
             )}
           </p>
@@ -108,7 +114,14 @@ export default async function ListingDetailPage({params}: Props) {
       </section>
 
       {/* Quick facts strip */}
-      <QuickFacts listing={listing} />
+      <QuickFacts listing={listing} labels={{
+        beds: t('facts.beds'),
+        baths: t('facts.baths'),
+        sqft: t('facts.sqft'),
+        type: t('facts.type'),
+        furnishing: t('facts.furnishing'),
+        parking: t('facts.parking')
+      }} />
 
       {/* Description + amenities + side card */}
       <Section className="py-16 md:py-24">
@@ -118,7 +131,7 @@ export default async function ListingDetailPage({params}: Props) {
               {listing.description && (
                 <section>
                   <h2 className="font-display text-2xl text-[var(--text-title)] md:text-3xl">
-                    About this property
+                    {t('aboutHeading')}
                   </h2>
                   <div className="mt-6 space-y-4 text-base leading-[1.7] text-[var(--text-body)]">
                     {listing.description
@@ -134,7 +147,7 @@ export default async function ListingDetailPage({params}: Props) {
               {listing.amenities.length > 0 && (
                 <section className="mt-12">
                   <h2 className="font-display text-2xl text-[var(--text-title)] md:text-3xl">
-                    Amenities
+                    {t('amenitiesHeading')}
                   </h2>
                   <ul className="mt-6 grid gap-x-6 gap-y-2 sm:grid-cols-2 md:grid-cols-3">
                     {listing.amenities.map((a) => (
@@ -173,7 +186,7 @@ export default async function ListingDetailPage({params}: Props) {
                         className="text-[10px] uppercase tracking-[0.22em] text-[var(--text-muted)]"
                         data-ui-label
                       >
-                        Agent
+                        {t('agent')}
                       </dt>
                       <dd className="text-[var(--text-title)]">
                         {listing.agentName}
@@ -186,7 +199,7 @@ export default async function ListingDetailPage({params}: Props) {
                         className="text-[10px] uppercase tracking-[0.22em] text-[var(--text-muted)]"
                         data-ui-label
                       >
-                        Reference
+                        {t('reference')}
                       </dt>
                       <dd className="text-[var(--text-title)]">
                         {listing.reference}
@@ -199,14 +212,14 @@ export default async function ListingDetailPage({params}: Props) {
                   className="mt-8 inline-flex h-[50px] w-full items-center justify-center bg-[var(--text-title)] px-8 text-[11px] uppercase tracking-[0.22em] text-white transition-colors hover:bg-[var(--accent)]"
                   data-ui-label
                 >
-                  Inquire about this listing
+                  {t('inquire')}
                 </Link>
                 <a
                   href="https://wa.me/971544402792"
                   className="mt-3 inline-flex h-[50px] w-full items-center justify-center border border-[var(--text-title)] px-8 text-[11px] uppercase tracking-[0.22em] text-[var(--text-title)] transition-colors hover:bg-[var(--text-title)] hover:text-white"
                   data-ui-label
                 >
-                  WhatsApp the desk
+                  {t('whatsapp')}
                 </a>
               </div>
             </aside>
@@ -219,7 +232,7 @@ export default async function ListingDetailPage({params}: Props) {
         <Section tone="alt" className="py-16 md:py-24">
           <Container>
             <h2 className="font-display text-2xl text-[var(--text-title)] md:text-3xl">
-              Gallery
+              {t('gallery')}
             </h2>
             <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {galleryImages.map((src, i) => (
@@ -227,7 +240,7 @@ export default async function ListingDetailPage({params}: Props) {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={src}
-                    alt={`${listing.title} — image ${i + 2}`}
+                    alt={t('imageAlt', {title: listing.title, number: i + 2})}
                     loading="lazy"
                     className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 hover:scale-[1.03]"
                   />
@@ -241,23 +254,36 @@ export default async function ListingDetailPage({params}: Props) {
   );
 }
 
-function QuickFacts({listing}: {listing: StudioListingDetail}) {
+function QuickFacts({
+  listing,
+  labels
+}: {
+  listing: StudioListingDetail;
+  labels: {
+    beds: string;
+    baths: string;
+    sqft: string;
+    type: string;
+    furnishing: string;
+    parking: string;
+  };
+}) {
   const facts: Array<{label: string; value: string}> = [];
   if (listing.bedrooms > 0)
-    facts.push({label: 'Beds', value: String(listing.bedrooms)});
+    facts.push({label: labels.beds, value: String(listing.bedrooms)});
   if (listing.bathrooms > 0)
-    facts.push({label: 'Baths', value: String(listing.bathrooms)});
+    facts.push({label: labels.baths, value: String(listing.bathrooms)});
   if (listing.sqft > 0)
-    facts.push({label: 'Sq.Ft.', value: listing.sqft.toLocaleString()});
+    facts.push({label: labels.sqft, value: listing.sqft.toLocaleString()});
   if (listing.type)
-    facts.push({label: 'Type', value: listing.type.replace(/-/g, ' ')});
+    facts.push({label: labels.type, value: listing.type.replace(/-/g, ' ')});
   if (listing.furnishingType)
     facts.push({
-      label: 'Furnishing',
+      label: labels.furnishing,
       value: listing.furnishingType.replace(/-/g, ' ')
     });
   if (listing.parkingSlots && listing.parkingSlots > 0)
-    facts.push({label: 'Parking', value: String(listing.parkingSlots)});
+    facts.push({label: labels.parking, value: String(listing.parkingSlots)});
   if (facts.length === 0) return null;
   return (
     <Section className="border-b border-[var(--divider)] py-8 md:py-10">

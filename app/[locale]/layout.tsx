@@ -2,7 +2,7 @@ import type {Metadata} from 'next';
 import {Suspense} from 'react';
 import {notFound} from 'next/navigation';
 import {NextIntlClientProvider} from 'next-intl';
-import {getMessages, setRequestLocale} from 'next-intl/server';
+import {getMessages, getTranslations, setRequestLocale} from 'next-intl/server';
 import {Arsenal, Roboto_Flex, El_Messiri, IBM_Plex_Sans_Arabic} from 'next/font/google';
 import {NuqsAdapter} from 'nuqs/adapters/next/app';
 import {SiteNav} from '@/components/site/nav';
@@ -44,17 +44,6 @@ const ibmPlexArabic = IBM_Plex_Sans_Arabic({
   display: 'swap'
 });
 
-export const metadata: Metadata = {
-  title: {
-    default: 'Puerta Dubai',
-    template: '%s · Puerta Dubai'
-  },
-  description: 'A private gateway for global investors entering the UAE market.',
-  metadataBase: process.env.NEXT_PUBLIC_SITE_URL
-    ? new URL(process.env.NEXT_PUBLIC_SITE_URL)
-    : undefined
-};
-
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({locale}));
 }
@@ -63,6 +52,25 @@ type Props = {
   children: React.ReactNode;
   params: Promise<{locale: string}>;
 };
+
+export async function generateMetadata({params}: Props): Promise<Metadata> {
+  const {locale} = await params;
+  const safeLocale = routing.locales.includes(locale as Locale)
+    ? (locale as Locale)
+    : routing.defaultLocale;
+  const t = await getTranslations({locale: safeLocale, namespace: 'Footer'});
+
+  return {
+    title: {
+      default: 'Puerta Dubai',
+      template: '%s · Puerta Dubai'
+    },
+    description: t('brandLine'),
+    metadataBase: process.env.NEXT_PUBLIC_SITE_URL
+      ? new URL(process.env.NEXT_PUBLIC_SITE_URL)
+      : undefined
+  };
+}
 
 export default async function LocaleLayout({children, params}: Props) {
   const {locale} = await params;

@@ -9,10 +9,14 @@
     "investmentReadiness": "Préparation à l'investissement",
     "partners": "Partenaires",
     "press": "Éditorial",
-    "goldenVisa": "Visa Or",
+    "goldenVisa": "Visa doré",
     "contact": "Contact",
     "openMenu": "Ouvrir le menu",
     "closeMenu": "Fermer le menu",
+    "changeLanguage": "Changer de langue",
+    "languageList": "Langue",
+    "loading": "Chargement de Puerta Dubai",
+    "socialChannels": "Réseaux sociaux",
     "logoAria": "Puerta Dubai — accueil",
     "siteNavAria": "Navigation du site",
     "follow": "Suivez-nous"
@@ -20,28 +24,29 @@
   "Hero": {
     "headline": "Investissez dans la vision des Émirats",
     "subhead": "Une porte d'entrée privée pour les investisseurs internationaux qui s'implantent aux Émirats.",
-    "primaryCta": "Rejoindre le Cercle Privé",
+    "primaryCta": "Rejoindre le cercle privé",
     "secondaryCta": "Voir les projets"
   },
   "PrivateCircle": {
-    "title": "Cercle Privé — Accès prioritaire",
-    "subtitle": "Pré-inscrivez-vous pour recevoir des opportunités d'investissement, des briefings de quartier et des conseils sur le Visa Or.",
+    "title": "Cercle privé — Accès prioritaire",
+    "subtitle": "Préinscrivez-vous pour recevoir des opportunités d'investissement sélectionnées, des notes par zone et des conseils sur le visa doré.",
     "country": "Pays de résidence",
     "interest": "Intérêt principal",
     "interestRealEstate": "Immobilier",
     "interestBusiness": "Création d'entreprise",
     "interestBoth": "Immobilier et entreprise",
-    "interestGoldenVisa": "Visa Or",
+    "interestGoldenVisa": "Visa doré",
     "name": "Nom complet",
     "email": "E-mail",
     "phone": "Téléphone (facultatif)",
     "consent": "J'accepte que Puerta Dubai me contacte au sujet d'opportunités d'investissement aux Émirats et j'ai lu la politique de confidentialité.",
-    "marketingOptIn": "Je souhaite également recevoir des briefings de marché (facultatif).",
+    "marketingOptIn": "Je souhaite également recevoir des notes de marché (facultatif).",
     "submit": "Continuer",
     "successTitle": "Vous êtes inscrit",
-    "successBody": "Nous vous contacterons sous 48 heures avec un brief sur mesure.",
+    "successBody": "Nous vous contacterons sous 48 heures avec une note sur mesure.",
     "successCta": "Faire l'évaluation de préparation à l'investissement",
-    "modalChip": "Cercle Privé",
+    "modalChip": "Cercle privé",
+    "preferredCompany": "Entreprise préférée",
     "close": "Fermer",
     "errorMessage": "Une erreur s'est produite. Veuillez réessayer ou utiliser le lien WhatsApp.",
     "retry": "Réessayer",
@@ -86,14 +91,29 @@
     "sqft": "Pi²",
     "refPrefix": "Réf.",
     "viewDetails": "Voir le détail",
-    "fromPrefix": "À partir de"
+    "fromPrefix": "À partir de",
+    "imagePending": "Image à venir",
+    "emptySanity": "Aucun projet n'a encore été publié. Ajoutez-les dans Sanity Studio — ils apparaîtront ici automatiquement.",
+    "noFilterMatches": "Aucun projet ne correspond aux filtres actuels. Réinitialisez pour tout voir.",
+    "filters": {
+      "emirate": "Émirat",
+      "status": "Statut",
+      "bedrooms": "Chambres",
+      "allEmirates": "Tous les émirats",
+      "anyStatus": "Tous les statuts",
+      "offPlan": "Sur plan",
+      "ready": "Prêt",
+      "secondary": "Secondaire",
+      "anyBedrooms": "Toutes chambres",
+      "reset": "Réinitialiser"
+    }
   },
   "Contact": {
     "metaTitle": "Contact",
     "metaDescription": "Joindre Puerta Dubai par e-mail, téléphone ou WhatsApp.",
-    "ariaLabel": "Contacter le desk",
+    "ariaLabel": "Contacter le bureau",
     "eyebrow": "Échangeons",
-    "heading": "Contacter le desk",
+    "heading": "Contacter le bureau",
     "body": "Un échange court et sans engagement à propos de votre installation aux Émirats. Nous répondons sous 48 heures, dans votre langue.",
     "email": "E-mail",
     "whatsApp": "WhatsApp"
@@ -101,11 +121,11 @@
   "Home": {
     "overview": {
       "ariaLabel": "Puerta Dubai en un coup d'œil",
-      "eyebrow": "Un desk d'investissement privé",
-      "headingPart1": "Immobilier, résidence, banque, relocation.",
-      "headingItalic": "Un seul desk.",
+      "eyebrow": "Un bureau d'investissement privé",
+      "headingPart1": "Immobilier, résidence, banque, installation.",
+      "headingItalic": "Un seul interlocuteur.",
       "headingPart2": "Cinq émirats.",
-      "body": "Un concierge buyer-side pour les familles internationales entrant aux Émirats — piloté par son fondateur, volontairement petit, avec un nombre de mandats limité.",
+      "body": "Un service d'investissement côté acquéreur pour les familles internationales entrant aux Émirats — piloté par son fondateur, volontairement resserré et limité en mandats.",
       "skylineAlt": "Burj Al Arab et Palm Jumeirah, Dubaï",
       "statEmirates": "Émirats",
       "statDevelopers": "Promoteurs partenaires",
@@ -113,9 +133,9 @@
     },
     "ctaRow": {
       "ariaLabel": "Accès rapides",
-      "pcEyebrow": "Cercle Privé",
-      "pcTitle": "Accès Prioritaire",
-      "pcBody": "Sur invitation. Le desk accepte un nombre limité de mandats chaque année.",
+      "pcEyebrow": "Cercle privé",
+      "pcTitle": "Accès prioritaire",
+      "pcBody": "Sur invitation. Le bureau accepte un nombre limité de mandats chaque année.",
       "pcCta": "Demander l'accès",
       "highRisesEyebrow": "Par type de bien",
       "highRisesTitle": "Tours de luxe",
@@ -130,16 +150,16 @@
       "eyebrow": "À propos",
       "name": "Dayan Candamil",
       "h1": "Une porte d'entrée privée aux Émirats.",
-      "body1": "Puerta Dubai est un concierge d'investissement buyer-side pour les familles HNW internationales entrant aux Émirats — immobilier, création d'entreprise, banque, fiscalité, Visa Or et relocation pris en charge sous un seul desk. Piloté par son fondateur, volontairement petit, le desk accepte un nombre limité de mandats par an pour que chaque relation se vive en personne.",
+      "body1": "Puerta Dubai est un service d'investissement côté acquéreur pour les familles fortunées internationales entrant aux Émirats — immobilier, création d'entreprise, banque, fiscalité, visa doré et installation pris en charge par un seul interlocuteur. Piloté par son fondateur, volontairement resserré, le bureau accepte un nombre limité de mandats par an pour que chaque relation se vive en personne.",
       "h2": "Un parcours qui voyage.",
-      "body2": "Le parcours de Dayan s'étend du droit au branding et aux projets culturels de luxe, en Europe, en Amérique latine et dans le Golfe. Le desk travaille en cinq langues et coordonne régulièrement les family offices, les conseils internationaux et les promoteurs au nom de clients qui ne résident pas dans la région à plein temps.",
+      "body2": "Le parcours de Dayan s'étend du droit à la stratégie de marque et aux projets culturels de luxe, en Europe, en Amérique latine et dans le Golfe. Le bureau travaille en cinq langues et coordonne régulièrement les family offices, les conseils internationaux et les promoteurs au nom de clients qui ne résident pas dans la région à plein temps.",
       "h3": "Une seule conversation, de bout en bout.",
-      "body3": "Sourcing en off-plan et secondaire, due diligence, plans de paiement, séquestre, mise en relation hypothécaire, création de société, résidence, banque — le même interlocuteur accompagne chaque étape. Aucun transfert, aucun account manager junior.",
+      "body3": "Recherche de biens sur plan et sur le marché secondaire, vérification préalable, plans de paiement, séquestre, mise en relation hypothécaire, création de société, résidence, banque — le même interlocuteur accompagne chaque étape. Aucun transfert, aucun chargé de compte junior.",
       "founderCta": "Profil du fondateur",
       "imageAlt": "Dayan Candamil, fondateur de Puerta Dubai"
     },
     "explore": {
-      "eyebrow": "Explorer le desk",
+      "eyebrow": "Explorer le bureau",
       "heading": "Parcourez ce qui compte pour vous",
       "browseLabel": "Parcourir"
     },
@@ -161,7 +181,7 @@
     "media": {
       "eyebrowLine1": "Dans les",
       "eyebrowLine2": "médias",
-      "body": "Apparitions et couvertures sélectionnées dans l'immobilier et le design. Dayan est aussi Directeur Créatif de House of Candamil — un atelier basé à Bogotá, reconnu pour ses accessoires couture et son prêt-à-porter.",
+      "body": "Apparitions et couvertures sélectionnées dans l'immobilier et le design. Dayan est aussi directeur créatif de House of Candamil — un atelier basé à Bogotá, reconnu pour ses accessoires couture et son prêt-à-porter.",
       "bazaarSource": "Harper's Bazaar Vietnam",
       "bazaarDate": "Août 2021",
       "bazaarBody": "Couverture et portrait de Dayan Candamil pour l'édition d'août 2021, sur la vision créative de House of Candamil.",
@@ -181,7 +201,7 @@
     "contact": {
       "ariaLabel": "Échangeons",
       "eyebrow": "Échangeons",
-      "heading": "Contacter le desk",
+      "heading": "Contacter le bureau",
       "body": "Un échange court et sans engagement à propos de votre installation aux Émirats. Nous répondons sous 48 heures, dans votre langue.",
       "email": "E-mail",
       "whatsApp": "WhatsApp"
@@ -189,5 +209,226 @@
     "partners": {
       "eyebrow": "Promoteurs partenaires"
     }
+  },
+  "About": {
+    "metaTitle": "Qu'est-ce que Puerta Dubai ?",
+    "metaDescription": "Une porte d'entrée privée pour les investisseurs internationaux qui s'implantent aux Émirats.",
+    "eyebrow": "À propos",
+    "heading": "Une plateforme. Un accès complet aux Émirats.",
+    "body1": "Puerta Dubai est une porte d'entrée privée de conciergerie d'investissement pour les investisseurs étrangers fortunés qui s'implantent aux Émirats — acquisition immobilière, création d'entreprise, structuration fiscale et juridique, coordination bancaire, visa doré et installation réunis sous un même toit.",
+    "body2": "Le bureau est piloté par son fondateur et volontairement sélectif, avec un interlocuteur de confiance qui coordonne chaque mandat entre immobilier, résidence, banque et installation."
+  },
+  "Founder": {
+    "metaTitle": "Fondateur · Dayan Candamil",
+    "metaDescription": "Stratège senior en investissement et entrepreneur culturel. Conseil transfrontalier entre l'Amérique latine, le CCG, le Maroc et l'Afrique de l'Ouest.",
+    "eyebrow": "Fondateur",
+    "role": "Stratège en investissement · Entrepreneur culturel",
+    "bio1": "Dayan Candamil se tient à la croisée du capital et de la culture. En tant qu'Associate Partner chez BlackOak Real Estate, il pilote les marchés internationaux et structure les flux d'investissement transfrontaliers entre l'Amérique latine, les États-Unis, le CCG, le Maroc et l'Afrique de l'Ouest — orchestrant des transactions complexes sur des terrains de premier rang, des résidences de luxe et des projets de marque.",
+    "bio2": "Trilingue en anglais, portugais et espagnol, il conseille les promoteurs sur les stratégies d'entrée de marché, le positionnement investisseur et les grilles de prix, tout en assurant la direction créative de House of Candamil — la maison enracinée à Bogotá derrière les accessoires haute couture et le prêt-à-porter présentés à l'international.",
+    "positioningQuote": "Représenter le <n>1%</n> depuis 2012.",
+    "positioningBody": "Un pont entre le capital privé international et les promoteurs, sponsors et opérateurs qui bâtissent la prochaine décennie de l'immobilier prime à Dubaï, Abou Dhabi, Casablanca et sur la côte ouest-africaine.",
+    "strategistHeading": "Marchés internationaux, structurés de bout en bout.",
+    "strategistBody": "De l'origination de transactions sur des terrains de premier rang au conseil sur le positionnement investisseur et la distribution sur les marchés latino-américains et africains, Dayan pilote des pipelines de transactions à haute valeur et des partenariats stratégiques — agissant comme tissu conjonctif entre les promoteurs et les capitaux internationaux de clients privés et de family offices qui les soutiennent.",
+    "journeyEyebrow": "Parcours",
+    "journeyHeading": "Un arc de carrière entre capital et culture.",
+    "journeyIntro": "Quatorze ans à construire et conseiller à l'intersection du luxe, de l'hôtellerie et de l'immobilier — entre Bogotá, Miami, Panama, Casablanca et Dubaï.",
+    "journey1Years": "2025 — Présent",
+    "journey1Company": "BlackOak Real Estate",
+    "journey1Title": "Associate Partner",
+    "journey1Location": "Dubaï, EAU",
+    "journey1Summary": "Stratège senior en investissement et responsable des marchés internationaux. Flux transfrontaliers entre l'Amérique latine, les États-Unis, le CCG, le Maroc et l'Afrique de l'Ouest.",
+    "journey2Years": "2024 — 2025",
+    "journey2Company": "Pulse Real Estate",
+    "journey2Title": "Conseiller clientèle privée",
+    "journey2Location": "Dubaï, EAU",
+    "journey2Summary": "Entrée sur les marchés EAU/CCG pour de grands investisseurs latino-américains dans l'immobilier prime et ultra-prime.",
+    "journey3Years": "2023 — 2024",
+    "journey3Company": "Europe Emirates Group",
+    "journey3Title": "Conseiller d'entreprise",
+    "journey3Location": "Dubaï, EAU",
+    "journey3Summary": "Structuration corporate et conseil entrant pour clients internationaux établissant leur présence aux EAU.",
+    "journey4Years": "2021 — 2024",
+    "journey4Company": "Fortune International Group · PRADABRIDGER Florida",
+    "journey4Title": "Conseiller immobilier",
+    "journey4Location": "Miami, FL",
+    "journey4Summary": "Conseil aux investisseurs latino-américains pour leur entrée sur le marché américain et la constitution de portefeuilles.",
+    "journey5Years": "2020 — Présent",
+    "journey5Company": "House of Candamil",
+    "journey5Title": "Directeur de la création",
+    "journey5Location": "Dubaï, EAU",
+    "journey5Summary": "Direction créative de la maison pour les accessoires, la joaillerie et les collections de prêt-à-porter.",
+    "journey6Years": "2019 — 2022",
+    "journey6Company": "Chevre S.A.",
+    "journey6Title": "Consultant senior",
+    "journey6Location": "Panama",
+    "journey6Summary": "Positionnement de marque pour un groupe multi-restaurants et une chaîne de retail gourmet ; sourcing premium en Italie et en Espagne.",
+    "journey7Years": "2011 — 2022",
+    "journey7Company": "Dayan Candamil Accessories",
+    "journey7Title": "Directeur de la création & fondateur",
+    "journey7Location": "Key Biscayne",
+    "journey7Summary": "Fondation et direction du label d'accessoires de luxe, joaillerie et lifestyle aux États-Unis et en Amérique latine.",
+    "pressEyebrow": "Médias",
+    "pressHeading": "Apparitions sélectionnées.",
+    "press1Source": "Harper's Bazaar Vietnam",
+    "press1Date": "Août 2021",
+    "press1Title": "Couverture et portrait sur l'ethos de design de House of Candamil.",
+    "press1Alt": "Couverture Harper's Bazaar Vietnam, août 2021, mettant en vedette Dayan Candamil",
+    "press2Source": "Marrakech Fashion Week",
+    "press2Date": "2022",
+    "press2Title": "House of Candamil — présentation défilé.",
+    "press2Alt": "Défilé House of Candamil à la Marrakech Fashion Week 2022",
+    "press3Source": "Reconnaissance professionnelle",
+    "press3Date": "2024",
+    "press3Title": "Top 1% des professionnels de l'immobilier à Dubaï — Certificat de réussite.",
+    "press3Alt": "Certificat de réussite : Top 1% des professionnels de l'immobilier à Dubaï 2024 décerné à Dayan Candamil",
+    "alsoFeaturedIn": "Également présent dans Elle Magazine, CNN US et THE EMERALD BOOK.",
+    "languagesHeading": "Langues",
+    "language1": "Anglais — natif / bilingue",
+    "language2": "Portugais — natif / bilingue",
+    "language3": "Espagnol — natif / bilingue",
+    "honorsHeading": "Distinctions",
+    "honor1": "Clés de l'État de Cundinamarca, décernées par le maire Miguel Barbosa R.",
+    "honor2": "Reconnaissance pour Redesigning Fashion to Make it More Sustainable.",
+    "educationHeading": "Formation",
+    "education1": "London College of Fashion — Fashion Entrepreneurship & Luxury Brand Management (2011)",
+    "education2": "London College of Fashion — Fashion Buying & Merchandising (2009)",
+    "education3": "City College of San Francisco — Illustration de mode, histoire américaine, histoire de l'art (2009–2010)",
+    "ctaHeading": "Poursuivre la conversation.",
+    "ctaBody": "Les présentations privées, les mandats transfrontaliers et l'accès pré-lancement sont gérés via le Cercle Privé.",
+    "ctaButton": "Entrer dans le Cercle Privé",
+    "body": "Dayan Candamil dirige Puerta Dubai entre immobilier, résidence et conseil transfrontalier, avec un parcours dans le droit, la stratégie de marque et les projets culturels de luxe en Europe, en Amérique latine et dans le Golfe.",
+    "credentialsEyebrow": "Parcours et reconnaissance",
+    "credentialsBody": "Contenu soumis à vérification. En attente de sources vérifiables avant publication.",
+    "responsibleEyebrow": "Conseil responsable",
+    "responsibleBody": "Contenu soumis à vérification. Angle limité à la confiance transfrontalière et à l'éducation des investisseurs — aucune affirmation de don ou d'impact social avant vérification."
+  },
+  "Services": {
+    "metaTitle": "Services",
+    "metaDescription": "Sur plan, marché secondaire, création d'entreprise, fiscalité, banque, juridique, visa doré et investissements sélectionnés.",
+    "eyebrow": "Services",
+    "heading": "Huit services. Un seul bureau de conciergerie.",
+    "backToIndex": "← Services",
+    "goldenVisaLegalNote": "Les seuils et délais du visa doré sont régis par les directives fédérales des Émirats et de la GDRFA Dubai. Le contenu public ici est soumis à revue juridique et lié au seuil immobilier canonique de 2 000 000 AED.",
+    "detailPlaceholder": "Le contenu détaillé du service est rédigé dans Sanity Studio pour chaque langue.",
+    "bookCall": "Réserver un appel",
+    "investmentReadiness": "Préparation à l'investissement",
+    "items": {
+      "off-plan": {
+        "title": "Acheter sur plan",
+        "summary": "Immobilier avant lancement avec prix prioritaires, vérification préalable du promoteur et suivi continu du compte séquestre."
+      },
+      "secondary-market": {
+        "title": "Acheter sur le marché secondaire",
+        "summary": "Actifs matures aux rendements locatifs éprouvés — de l'évaluation au transfert auprès du Land Department."
+      },
+      "company-formation": {
+        "title": "Créer votre société aux Émirats",
+        "summary": "Licences mainland et zones franches, pactes d'associés, traitement des visas et coordination bancaire."
+      },
+      "tax": {
+        "title": "Fiscalité aux Émirats",
+        "summary": "Immatriculation fiscale des sociétés, planification TVA, analyse conventionnelle et stratégie fiscale pour expatriés."
+      },
+      "banking": {
+        "title": "Comptes bancaires",
+        "summary": "Comptes personnels et professionnels, facilités multidevises et prévalidation conformité."
+      },
+      "legal-accounting": {
+        "title": "Comptabilité et juridique",
+        "summary": "Tenue comptable, audit, revue contractuelle, pactes d'associés et résolution des litiges."
+      },
+      "golden-visa": {
+        "title": "Visa doré",
+        "summary": "Vérification d'éligibilité jusqu'à l'émission — contenu soumis à revue juridique (seuil canonique de 2 M AED)."
+      },
+      "investments": {
+        "title": "Investissements — Golfe et international",
+        "summary": "Accès sélectionné à l'immobilier, l'hôtellerie et le private equity avec vérification préalable transfrontalière."
+      }
+    }
+  },
+  "GoldenVisa": {
+    "metaTitle": "Visa doré",
+    "metaDescription": "Aperçu du visa doré des Émirats — éligibilité, seuils immobiliers, avantages de résidence. Contenu soumis à revue juridique.",
+    "eyebrow": "Visa doré",
+    "heading": "Résidence longue durée aux Émirats, structurée correctement.",
+    "body": "Le visa doré des Émirats accorde une résidence renouvelable de 5 ou 10 ans aux investisseurs, entrepreneurs et spécialistes éligibles. Les investisseurs immobiliers sont éligibles à partir de 2 000 000 AED de propriété immobilière, selon le portail fédéral des Émirats et les directives de la GDRFA Dubai.",
+    "legalNote": "Le contenu public de cette page est soumis à revue juridique avant production. Les montants indiqués sont les références canoniques des Émirats — toute offre de conciergerie doit être revue indépendamment.",
+    "cta": "Demander un conseil privé",
+    "eligibilityHeading": "Voies d'éligibilité",
+    "eligibilityBody": "Investisseur immobilier (≥ 2 M AED), entrepreneur, talent spécialisé, dirigeant, scientifique, étudiant exceptionnel. Chaque voie a ses propres documents et différences de traitement. Nous confirmons l'adéquation avant toute conversation commerciale.",
+    "renewalHeading": "Renouvellement, voyage, fiscalité",
+    "renewalBody": "Durées de cinq et dix ans, indépendance vis-à-vis d'un sponsor, inclusion du foyer, planification de résidence fiscale et considérations transfrontalières sont couvertes dans la note privée — le contenu est rédigé dans Sanity par langue et soumis à validation juridique."
+  },
+  "InvestmentReadiness": {
+    "metaTitle": "Préparation à l'investissement",
+    "metaDescription": "Une qualification de 3 minutes — indiquez votre budget, l'émirat cible, l'objectif de résidence et le calendrier.",
+    "eyebrow": "Préparation à l'investissement",
+    "heading": "Trois minutes. Un plan sélectionné.",
+    "body": "Indiquez votre tranche de budget, l'émirat cible, le calendrier et l'objectif de résidence. Nous qualifions votre demande de manière déterministe et l'orientons vers le bon bureau sous 48 heures.",
+    "note": "Le formulaire complet de qualification, la protection anti-bot, la gestion du consentement et les notifications seront livrés dans la prochaine phase d'implémentation.",
+    "button": "Formulaire bientôt disponible"
+  },
+  "Partners": {
+    "metaTitle": "Partenaires",
+    "metaDescription": "Aldar, Binghatti, Dubai Properties, Ellington, Emaar, Meraas, Sobha — et d'autres promoteurs partenaires.",
+    "eyebrow": "Partenaires",
+    "heading": "Promoteurs partenaires.",
+    "body": "Accès direct aux grands promoteurs des Émirats. Les logos sont validés dans Sanity avant affichage ; en attendant, les noms s'affichent en texte."
+  },
+  "Press": {
+    "metaTitle": "Éditorial",
+    "metaDescription": "Communiqués et couverture éditoriale de Puerta Dubai.",
+    "eyebrow": "Éditorial",
+    "heading": "Presse et perspectives.",
+    "empty": "Aucun article de presse n'a encore été publié. Règle anti-fabrication : uniquement des annonces internes tant qu'une couverture tierce réelle n'existe pas.",
+    "backToIndex": "← Éditorial",
+    "readExternal": "Lire à la source externe ↗",
+    "source": {
+      "inHouse": "Annonce",
+      "external": "Couverture externe"
+    }
+  },
+  "LegalNotice": {
+    "metaTitle": "Mentions légales",
+    "metaDescription": "Mentions légales de Puerta Dubai.",
+    "heading": "Mentions légales",
+    "body": "Le contenu des mentions légales est rédigé dans Sanity pour chaque langue. Une revue éditoriale et juridique est requise avant publication."
+  },
+  "Privacy": {
+    "metaTitle": "Politique de confidentialité",
+    "metaDescription": "Comment Puerta Dubai traite les données personnelles.",
+    "heading": "Politique de confidentialité",
+    "body": "Le contenu de la politique de confidentialité est rédigé dans Sanity pour chaque langue.",
+    "required": "Contenu requis avant tout formulaire de prospect : données collectées, base légale, région de stockage, durée de conservation, droits des personnes concernées, contact de demande, inventaire des cookies et risque fournisseur accepté pour les données personnelles en clair."
+  },
+  "ProjectDetail": {
+    "metaFallback": "Annonce",
+    "forRent": "À louer",
+    "forSale": "À vendre",
+    "listed": "Annonce",
+    "backToProjects": "Retour aux projets",
+    "refPrefix": "Réf.",
+    "aboutHeading": "À propos de ce bien",
+    "amenitiesHeading": "Équipements",
+    "agent": "Agent",
+    "reference": "Référence",
+    "inquire": "Se renseigner sur cette annonce",
+    "whatsapp": "Contacter le bureau sur WhatsApp",
+    "gallery": "Galerie",
+    "imageAlt": "{title} — image {number}",
+    "facts": {
+      "beds": "Chambres",
+      "baths": "Salles de bain",
+      "sqft": "Pi²",
+      "type": "Type",
+      "furnishing": "Ameublement",
+      "parking": "Parking"
+    }
+  },
+  "NotFound": {
+    "heading": "Page introuvable",
+    "body": "La page que vous recherchez est introuvable.",
+    "returnHome": "Retour à l'accueil"
   }
 }
