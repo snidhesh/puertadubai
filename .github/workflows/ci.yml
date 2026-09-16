@@ -15,7 +15,7 @@ jobs:
     env:
       # Placeholder values — keeps the build and typecheck honest about
       # required env shape without exposing real credentials in CI.
-      NEXT_PUBLIC_SITE_URL: https://www.puertadubai.com
+      NEXT_PUBLIC_SITE_URL: https://www.dayancandamil.com
       NEXT_PUBLIC_SANITY_PROJECT_ID: placeholder
       NEXT_PUBLIC_SANITY_DATASET: production
     steps:

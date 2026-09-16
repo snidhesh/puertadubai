@@ -1,28 +1,25 @@
+import {Suspense} from 'react';
 import {setRequestLocale, getTranslations} from 'next-intl/server';
 import {cn} from '@/lib/utils';
 import {Link} from '@/lib/i18n/navigation';
 import {Container, Section} from '@/components/ui/container';
-import {ProjectCard} from '@/components/projects/project-card';
-import {PrivateCircleTrigger} from '@/components/private-circle/private-circle-trigger';
-import {PlaceholderImage} from '@/components/home/placeholder-image';
 import {ContactForm} from '@/components/home/contact-form';
 import {ExpandableVideoList} from '@/components/home/expandable-video-list';
 import {StickySocials} from '@/components/home/sticky-socials';
-import {urlFor} from '@/lib/sanity/image';
 import {
-  getHomePage,
-  getRecentPress,
-  getCoverageStats,
-  type TestimonialCard
-} from '@/lib/sanity/queries';
-import {
-  FEATURED_LISTING_PLACEHOLDERS,
-  CTA_CARDS,
-  TESTIMONIAL_PLACEHOLDERS
-} from '@/lib/home/placeholders';
-import {fetchStudioListings, type StudioListingCard} from '@/lib/studio/properties';
+  CAREER_IDS,
+  ENDORSEMENT_IDS,
+  EXPERTISE,
+  FEATURED_VIDEOS,
+  LINKS,
+  MEDIA,
+  PORTRAITS,
+  type MediaItem
+} from '@/lib/home/content';
+import {DAYAN_AGENT, fetchAgentListings, type StudioListingCard} from '@/lib/studio/properties';
 import {routing, type Locale} from '@/lib/i18n/routing';
 
+// Featured listings come from the BlackOak Studio CRM feed; ISR every 5 min.
 export const revalidate = 300;
 
 export function generateStaticParams() {
@@ -36,83 +33,41 @@ const VIDEO_AV1 = '/video/bg3.av1.webm';
 const VIDEO_H264 = '/video/bg3.h264.mp4';
 
 /**
- * Curated subset of property-tour videos from the @Dayan.Candamil
- * YouTube channel. IDs are public YouTube video IDs; thumbnails come
- * from i.ytimg.com (allowed in next.config.ts CSP + remotePatterns).
- * Edit this list when newer tours land — RSS feed at
- * /feeds/videos.xml?channel_id=UC6N6_LhTHubhvTFsDraO_xA.
+ * Single-page portfolio. Section order and anchor ids:
+ *   #hero → overview → #listings → panels → #about → #expertise →
+ *   #experience → endorsements → videos → #atelier → #media → #contact
+ * The nav (About · Expertise · Experience · Listings · House of
+ * Candamil · Media · Contact) links to these anchors.
  */
-const FEATURED_VIDEOS: ReadonlyArray<{
-  id: string;
-  title: string;
-  published: string;
-  blurb?: string;
-}> = [
-  {
-    id: 'gIE6rMgkfUM',
-    title: 'Inside Meraas HQ — Exclusive Access',
-    published: '2026-06-03',
-    blurb:
-      "A walkthrough of what's currently available across Meraas's Dubai portfolio, presented from inside their headquarters with the development team. The kind of access a brochure can't substitute for."
-  },
-  {
-    id: 'Ts_3JFWGKoE',
-    title: 'Ramhan Island by Eagle Hills',
-    published: '2026-05-21'
-  },
-  {
-    id: 'cIgil8feeVM',
-    title: 'Four Seasons Private Residences, Saadiyat Island',
-    published: '2026-05-08'
-  },
-  {
-    id: 'Fc7rZRUo6OI',
-    title: 'EYWA Residence Tour, Dubai',
-    published: '2026-05-07'
-  },
-  {
-    id: 'UZPayy9Nbko',
-    title: 'Omoria, Dubai Islands',
-    published: '2026-05-07'
-  },
-  {
-    id: 'QezDyDXecO0',
-    title: 'Yas Park Place by Aldar Properties',
-    published: '2026-05-07'
-  }
-];
-
 export default async function HomePage({params}: Props) {
   const {locale} = await params;
   setRequestLocale(locale);
 
-  const [t, tHome, tProjects, home, press, coverage, studioListings] = await Promise.all([
+  const [t, tHome, tForm, tProjects] = await Promise.all([
     getTranslations({locale, namespace: 'Hero'}),
     getTranslations({locale, namespace: 'Home'}),
-    getTranslations({locale, namespace: 'Projects'}),
-    getHomePage(locale).catch(() => null),
-    getRecentPress(locale, 3).catch(() => []),
-    getCoverageStats().catch(() => ({emirates: 0, developers: 0, services: 0})),
-    fetchStudioListings(locale, 7)
+    getTranslations({locale, namespace: 'ContactForm'}),
+    getTranslations({locale, namespace: 'Projects'})
   ]);
 
-  const headline = home?.heroHeadline ?? t('headline');
-  const subhead = home?.heroSub ?? t('subhead');
-  const primaryCta = home?.heroPrimaryCtaLabel ?? t('primaryCta');
-  const secondaryCta = home?.heroSecondaryCtaLabel ?? t('secondaryCta');
-  const showVideo = (home?.heroBackgroundVideoMode ?? 'bg-video') === 'bg-video';
-  const featuredProjects = home?.featuredProjects ?? [];
-  const realTestimonials = home?.featuredTestimonials ?? [];
-  const partners = home?.partnerLogos ?? [];
+  const listingLabels = {
+    beds: tProjects('beds'),
+    baths: tProjects('baths'),
+    sqft: tProjects('sqft'),
+    viewDetails: tProjects('viewDetails')
+  };
 
-  // Listings precedence:
-  //   1. Sanity `featuredProjects` if curated (editorial override),
-  //   2. Studio API live feed (CRM source of truth),
-  //   3. Placeholder cards (no API key in dev / first run).
-  const useStudioListings = featuredProjects.length === 0 && studioListings.length > 0;
-  const showListingsDummies = featuredProjects.length === 0 && studioListings.length === 0;
-  const showTestimonialsDummies = realTestimonials.length === 0;
-  const showPressDummies = press.length === 0;
+  const formLabels = {
+    name: tForm('name'),
+    phone: tForm('phone'),
+    email: tForm('email'),
+    message: tForm('message'),
+    consent: tForm('consent'),
+    submit: tForm('submit'),
+    successTitle: tForm('successTitle'),
+    successBody: tForm('successBody'),
+    error: tForm('error')
+  };
 
   return (
     <>
@@ -121,59 +76,55 @@ export default async function HomePage({params}: Props) {
         id="hero"
         className="relative isolate flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 text-center"
       >
-        {showVideo ? (
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            poster={POSTER}
-            preload="metadata"
-            className="absolute inset-0 -z-20 h-full w-full object-cover"
-          >
-            <source src={VIDEO_AV1} type="video/webm" />
-            <source src={VIDEO_H264} type="video/mp4" />
-          </video>
-        ) : (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={POSTER} alt="" className="absolute inset-0 -z-20 h-full w-full object-cover" />
-        )}
-        {/* Solid dark dim behind the whole hero — strong enough that pure
-         * white text reads cleanly on any video frame without needing a
-         * soft text-shadow halo (which was bleeding into the letters). */}
-        <div
-          className="absolute inset-0 -z-10 bg-black/65"
-          aria-hidden="true"
-        />
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster={POSTER}
+          preload="metadata"
+          className="absolute inset-0 -z-20 h-full w-full object-cover"
+        >
+          <source src={VIDEO_AV1} type="video/webm" />
+          <source src={VIDEO_H264} type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 -z-10 bg-black/65" aria-hidden="true" />
+        <p
+          className="text-[11px] uppercase tracking-[0.32em] !text-white/75"
+          style={{color: 'rgba(255,255,255,0.75)'}}
+          data-ui-label
+        >
+          {t('kicker')}
+        </p>
         <h1
-          className="font-display text-3xl leading-[1.15] !text-white md:text-5xl lg:text-6xl"
+          className="mt-6 font-display text-4xl leading-[1.1] !text-white md:text-6xl lg:text-7xl"
           style={{color: '#ffffff'}}
         >
-          {headline}
+          {t('headline')}
         </h1>
         <p
-          className="mt-5 max-w-xl text-sm !text-white md:text-base lg:text-lg"
+          className="mt-6 max-w-2xl text-sm leading-[1.7] !text-white md:text-base lg:text-lg"
           style={{color: '#ffffff'}}
         >
-          {subhead}
+          {t('subhead')}
         </p>
         <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-          <Link
-            href="/projects"
+          <a
+            href="#contact"
             className="inline-flex h-[50px] items-center justify-center bg-white px-10 text-[12px] font-medium uppercase tracking-[0.18em] text-[var(--text-title)] transition-colors hover:bg-[var(--bg-alt)]"
             data-ui-label
           >
-            {primaryCta}
-          </Link>
-          <PrivateCircleTrigger
-            source="hero"
-            variant="ghost"
-            className="!h-[50px] border-white text-white hover:bg-white hover:text-[var(--text-title)] hover:border-white"
+            {t('primaryCta')}
+          </a>
+          <a
+            href="#experience"
+            className="inline-flex h-[50px] items-center justify-center border border-white bg-transparent px-10 text-[12px] font-medium uppercase tracking-[0.18em] !text-white transition-colors hover:bg-white hover:!text-[var(--text-title)]"
+            style={{color: '#ffffff'}}
+            data-ui-label
           >
-            {secondaryCta}
-          </PrivateCircleTrigger>
+            {t('secondaryCta')}
+          </a>
         </div>
-
       </section>
 
       {/* Sticky social column — stays right-edge through scroll, fades near footer */}
@@ -184,17 +135,15 @@ export default async function HomePage({params}: Props) {
         aria-label={tHome('overview.ariaLabel')}
         className="grid md:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)]"
       >
-        {/* Left: full-bleed Dubai skyline */}
         <div className="relative min-h-[260px] bg-[var(--bg-alt)] md:min-h-[440px]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/dummy/dubai-skyline.jpg"
-            alt={tHome('overview.skylineAlt')}
+            src="/images/uae/difc.jpg"
+            alt={tHome('overview.imageAlt')}
             className="absolute inset-0 h-full w-full object-cover"
           />
         </div>
 
-        {/* Middle: cream — editorial intro */}
         <div className="flex items-center justify-center bg-[var(--bg-alt)] px-6 py-14 md:px-10 md:py-20 lg:px-16">
           <div className="md:max-w-md">
             <p
@@ -208,202 +157,119 @@ export default async function HomePage({params}: Props) {
               <span className="italic text-[var(--text-muted)]"> {tHome('overview.headingItalic')} </span>
               {tHome('overview.headingPart2')}
             </p>
-            <span
-              aria-hidden="true"
-              className="mt-8 block h-px w-12 bg-[var(--divider)]"
-            />
+            <span aria-hidden="true" className="mt-8 block h-px w-12 bg-[var(--divider)]" />
             <p className="mt-6 max-w-sm text-sm leading-[1.7] text-[var(--text-muted)]">
               {tHome('overview.body')}
             </p>
           </div>
         </div>
 
-        {/* Right: white — coverage at a glance */}
         <div className="flex items-center justify-center bg-[var(--bg)] px-6 py-14 md:px-10 md:py-20 lg:px-16">
           <ul className="w-full max-w-sm space-y-7 md:space-y-9">
-            <li className="flex items-baseline justify-between gap-6 border-b border-[var(--divider)] pb-5">
-              <span className="font-display text-5xl leading-none text-[var(--text-title)] md:text-6xl">
-                <bdi>{coverage.emirates || 5}</bdi>
-              </span>
-              <span
-                className="text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)]"
-                data-ui-label
-              >
-                {tHome('overview.statEmirates')}
-              </span>
-            </li>
-            <li className="flex items-baseline justify-between gap-6 border-b border-[var(--divider)] pb-5">
-              <span className="font-display text-5xl leading-none text-[var(--text-title)] md:text-6xl">
-                <bdi>{coverage.developers || 7}+</bdi>
-              </span>
-              <span
-                className="text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)]"
-                data-ui-label
-              >
-                {tHome('overview.statDevelopers')}
-              </span>
-            </li>
-            <li className="flex items-baseline justify-between gap-6">
-              <span className="font-display text-5xl leading-none text-[var(--text-title)] md:text-6xl">
-                <bdi>5</bdi>
-              </span>
-              <span
-                className="text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)]"
-                data-ui-label
-              >
-                {tHome('overview.statLanguages')}
-              </span>
-            </li>
+            <Stat value="14" label={tHome('overview.statYears')} />
+            <Stat value="5" label={tHome('overview.statMarkets')} />
+            <Stat value="3" label={tHome('overview.statLanguages')} last />
           </ul>
         </div>
       </section>
 
-      {/* 3. FEATURED LISTINGS — title cell + asymmetric photo grid */}
-      <Section tone="dark">
+      {/* 3. FEATURED LISTINGS — dark band, title cell + live Studio CRM cards */}
+      <Section id="listings" tone="dark" className="scroll-mt-16">
         <Container>
-          {(() => {
-            const titleLabels = {
-              eyebrow: tHome('featuredListings.eyebrow'),
-              heading: tHome('featuredListings.heading'),
-              viewAll: tHome('featuredListings.viewAll')
-            };
-            const listingLabels = {
-              beds: tProjects('beds'),
-              baths: tProjects('baths'),
-              sqft: tProjects('sqft'),
-              viewDetails: tProjects('viewDetails'),
-              fromPrefix: tProjects('fromPrefix')
-            };
-            if (useStudioListings) {
-              return (
-                <StudioListingsGridWithTitleCell
-                  listings={studioListings}
-                  titleLabels={titleLabels}
-                  listingLabels={listingLabels}
-                />
-              );
-            }
-            if (showListingsDummies) {
-              return (
-                <PlaceholderListingsGridWithTitleCell
-                  titleLabels={titleLabels}
-                  listingLabels={listingLabels}
-                />
-              );
-            }
-            return (
-              <div className="grid gap-6 lg:grid-cols-3">
-                <FeaturedListingsTitleCell labels={titleLabels} />
-                {featuredProjects.slice(0, 5).map((project) => (
-                  <div key={project._id}>
-                    <ProjectCard project={project} />
-                  </div>
-                ))}
-              </div>
-            );
-          })()}
+          <div className="grid gap-x-8 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
+            <div className="flex flex-col items-start justify-center gap-8 py-8">
+              <h2 className="font-display">
+                <span
+                  className="block text-sm uppercase tracking-[0.24em] !text-white/75"
+                  style={{color: 'rgba(255,255,255,0.75)'}}
+                  data-ui-label
+                >
+                  {tHome('featuredListings.eyebrow')}
+                </span>
+                <span
+                  className="mt-3 block text-5xl leading-[1] !text-white md:text-6xl lg:text-7xl"
+                  style={{color: '#ffffff'}}
+                >
+                  {tHome('featuredListings.heading')}
+                </span>
+              </h2>
+              <p
+                className="max-w-sm text-sm leading-[1.7] !text-white/75"
+                style={{color: 'rgba(255,255,255,0.75)'}}
+              >
+                {tHome('featuredListings.intro')}
+              </p>
+              <span aria-hidden="true" className="block h-px w-12 bg-white/40" />
+              <Link
+                href="/projects"
+                className="inline-flex h-[45px] items-center justify-center border border-white px-8 text-[11px] uppercase tracking-[0.22em] !text-white transition-colors hover:bg-white hover:!text-[var(--text-title)]"
+                style={{color: '#ffffff'}}
+                data-ui-label
+              >
+                {tHome('featuredListings.viewAll')}
+              </Link>
+            </div>
+            {/* Streams in behind a skeleton so a cold CRM walk never blocks
+             * the page shell; warm reads come from the data cache. */}
+            <Suspense fallback={<ListingCardSkeletons count={5} />}>
+              <FeaturedListingCards
+                locale={locale}
+                labels={listingLabels}
+                emptyLabel={tHome('featuredListings.empty')}
+              />
+            </Suspense>
+          </div>
         </Container>
       </Section>
 
-      {/* 4. CTA ROW — image-backed editorial cards.
-       *
-       *   Mobile: horizontal snap-scroll carousel (each card ~85vw, with
-       *   the next card peeking on the right edge so users know there's
-       *   more to swipe through).
-       *   md+: 3-col grid (each card 1/3 width). */}
+      {/* 4. THREE-PANEL BAND — mobile snap carousel, md+ 3-col grid */}
       <section
-        aria-label={tHome('ctaRow.ariaLabel')}
+        aria-label={tHome('panels.ariaLabel')}
         className={[
-          // Mobile carousel
           'flex snap-x snap-mandatory overflow-x-auto scroll-smooth',
           '[scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden',
-          // Desktop grid
           'md:grid md:grid-cols-3 md:overflow-visible',
           'bg-[var(--bg-dark)]'
         ].join(' ')}
       >
-        {/* Card 1: Priority Access — opens the Private Circle modal */}
-        <PrivateCircleTrigger
-          source="hero"
-          variant="ghost"
-          className="group relative isolate !block !h-auto w-[85vw] shrink-0 snap-start overflow-hidden border-0 !p-0 !text-left text-white aspect-[5/4] md:w-auto md:aspect-[4/3] lg:aspect-[5/4]"
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/dummy/mh/cta-01.jpg"
-            alt=""
-            className="absolute inset-0 -z-20 h-full w-full object-cover transition-transform duration-[800ms] ease-out group-hover:scale-[1.06]"
-          />
-          <div
-            aria-hidden="true"
-            className="absolute inset-0 -z-10 bg-gradient-to-t from-black/85 via-black/45 to-black/15 transition-opacity duration-500 group-hover:opacity-90"
-          />
-          <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-10">
-            <p
-              className="text-[10px] uppercase tracking-[0.32em] !text-white/70"
-              style={{color: 'rgba(255,255,255,0.7)'}}
-              data-ui-label
-            >
-              {tHome('ctaRow.pcEyebrow')}
-            </p>
-            <p
-              className="mt-3 font-display text-2xl leading-[1.1] !text-white md:text-3xl"
-              style={{color: '#ffffff'}}
-            >
-              {tHome('ctaRow.pcTitle')}
-            </p>
-            <p
-              className="mt-2 max-w-xs text-sm !text-white/80"
-              style={{color: 'rgba(255,255,255,0.8)'}}
-            >
-              {tHome('ctaRow.pcBody')}
-            </p>
-            <span
-              className="mt-6 inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.22em] !text-white"
-              style={{color: '#ffffff'}}
-              data-ui-label
-            >
-              {tHome('ctaRow.pcCta')}
-              <span
-                aria-hidden="true"
-                className="transition-transform duration-300 group-hover:translate-x-2 rtl:scale-x-[-1]"
-              >
-                →
-              </span>
-            </span>
-          </div>
-        </PrivateCircleTrigger>
-
-        {/* Card 2: Luxury High-Rises */}
-        <CtaImageCard
-          href="/projects?status=ready"
-          eyebrow={tHome('ctaRow.highRisesEyebrow')}
-          title={tHome('ctaRow.highRisesTitle')}
-          sublabel={tHome('ctaRow.highRisesSublabel')}
-          cta={tHome('ctaRow.highRisesCta')}
-          image="/dummy/dubai-skyline.jpg"
+        <PanelCard
+          href="#contact"
+          eyebrow={tHome('panels.mandatesEyebrow')}
+          title={tHome('panels.mandatesTitle')}
+          body={tHome('panels.mandatesBody')}
+          cta={tHome('panels.mandatesCta')}
+          image={PORTRAITS.mandates}
+          imagePosition="top"
         />
-
-        {/* Card 3: Luxury Communities */}
-        <CtaImageCard
-          href="/areas"
-          eyebrow={tHome('ctaRow.communitiesEyebrow')}
-          title={tHome('ctaRow.communitiesTitle')}
-          sublabel={tHome('ctaRow.communitiesSublabel')}
-          cta={tHome('ctaRow.communitiesCta')}
-          image="/dummy/mh/cta-05.jpg"
+        <PanelCard
+          href={LINKS.blackoak}
+          external
+          eyebrow={tHome('panels.blackoakEyebrow')}
+          title={tHome('panels.blackoakTitle')}
+          body={tHome('panels.blackoakBody')}
+          cta={tHome('panels.blackoakCta')}
+          image="/images/uae/dubai-skyline.jpg"
+        />
+        <PanelCard
+          href="#atelier"
+          eyebrow={tHome('panels.atelierEyebrow')}
+          title={tHome('panels.atelierTitle')}
+          body={tHome('panels.atelierBody')}
+          cta={tHome('panels.atelierCta')}
+          image="/images/dayan/bw-floral-dress.jpg"
+          imagePosition="top"
         />
       </section>
 
-      {/* 5. ABOUT FOUNDER — tall portrait left + stacked content right */}
-      <Section className="py-24 md:py-32">
+      {/* 5. ABOUT — tall portrait left + stacked content right */}
+      <Section id="about" className="scroll-mt-16 py-24 md:py-32">
         <Container>
           <div className="grid gap-12 lg:grid-cols-[minmax(0,400px)_minmax(0,1fr)] lg:gap-16">
             <div className="hidden lg:block">
               <div className="relative h-full min-h-[520px] w-full overflow-hidden bg-[var(--bg-alt)]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/dummy/founder.jpg"
+                  src={PORTRAITS.about}
                   alt={tHome('about.imageAlt')}
                   className="absolute inset-0 h-full w-full object-cover object-top"
                 />
@@ -421,56 +287,50 @@ export default async function HomePage({params}: Props) {
                   {tHome('about.name')}
                 </span>
               </h2>
+              <p className="mt-3 font-display text-xl italic text-[var(--text-muted)] md:text-2xl">
+                {tHome('about.tagline')}
+              </p>
               <div className="mt-8 lg:hidden">
                 <div className="relative aspect-[4/5] w-full overflow-hidden bg-[var(--bg-alt)]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/dummy/founder.jpg"
+                    src={PORTRAITS.about}
                     alt={tHome('about.imageAlt')}
                     className="absolute inset-0 h-full w-full object-cover"
                   />
                 </div>
               </div>
+              <p className="mt-8 max-w-xl text-base leading-[1.7] text-[var(--text-body)]">
+                {tHome('about.intro')}
+              </p>
               <div className="mt-10 space-y-10">
-                <div>
-                  <h3 className="font-display text-xl text-[var(--text-title)] md:text-2xl">
-                    {tHome('about.h1')}
-                  </h3>
-                  <p className="mt-4 max-w-xl text-base leading-[1.7] text-[var(--text-body)]">
-                    {home?.founderBlurb ?? tHome('about.body1')}
-                  </p>
-                </div>
-                <div>
-                  <h3 className="font-display text-xl text-[var(--text-title)] md:text-2xl">
-                    {tHome('about.h2')}
-                  </h3>
-                  <p className="mt-4 max-w-xl text-base leading-[1.7] text-[var(--text-body)]">
-                    {tHome('about.body2')}
-                  </p>
-                </div>
-                <div>
-                  <h3 className="font-display text-xl text-[var(--text-title)] md:text-2xl">
-                    {tHome('about.h3')}
-                  </h3>
-                  <p className="mt-4 max-w-xl text-base leading-[1.7] text-[var(--text-body)]">
-                    {tHome('about.body3')}
-                  </p>
-                </div>
+                {(['1', '2', '3'] as const).map((n) => (
+                  <div key={n}>
+                    <h3 className="font-display text-xl text-[var(--text-title)] md:text-2xl">
+                      {tHome(`about.h${n}`)}
+                    </h3>
+                    <p className="mt-4 max-w-xl text-base leading-[1.7] text-[var(--text-body)]">
+                      {tHome(`about.body${n}`)}
+                    </p>
+                  </div>
+                ))}
               </div>
-              <Link
-                href="/founder"
+              <a
+                href={LINKS.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="mt-10 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-[var(--accent)] hover:underline"
                 data-ui-label
               >
-                {tHome('about.founderCta')} <span aria-hidden="true" className="rtl:scale-x-[-1]">→</span>
-              </Link>
+                {tHome('about.linkedinCta')} <span aria-hidden="true" className="rtl:scale-x-[-1]">→</span>
+              </a>
             </div>
           </div>
         </Container>
       </Section>
 
-      {/* 7. EXPLORE THE DESK — dark band, centered title, 6 image cards */}
-      <Section tone="dark" className="py-24 md:py-32">
+      {/* 6. EXPERTISE — dark band, centered title, 6 image tiles */}
+      <Section id="expertise" tone="dark" className="scroll-mt-16 py-24 md:py-32">
         <Container>
           <div className="text-center">
             <h2 className="font-display">
@@ -479,69 +339,60 @@ export default async function HomePage({params}: Props) {
                 style={{color: 'rgba(255,255,255,0.7)'}}
                 data-ui-label
               >
-                {tHome('explore.eyebrow')}
+                {tHome('expertise.eyebrow')}
               </span>
               <span
                 className="mt-4 block text-4xl leading-[1] !text-white md:text-6xl lg:text-7xl"
                 style={{color: '#ffffff'}}
               >
-                {tHome('explore.heading')}
+                {tHome('expertise.heading')}
               </span>
             </h2>
           </div>
-          {/* Mahsheed-style brick grid: cards alternate tall (493×421) and
-           * short (493×301). Greyscale at rest → full colour on hover. */}
+          {/* Brick grid: tiles alternate tall / short. Greyscale at rest → colour on hover. */}
           <ul className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 md:mt-20">
-            {CTA_CARDS.map((card, i) => {
+            {EXPERTISE.map((tile, i) => {
               const isTall = i % 2 === 0;
               return (
-                <li key={card.href}>
-                  <Link
-                    href={card.href}
-                    className={cn(
-                      'group relative block overflow-hidden text-white',
-                      isTall ? 'aspect-[493/421]' : 'aspect-[493/301]'
-                    )}
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={card.image}
-                      alt=""
-                      className="absolute inset-0 h-full w-full object-cover grayscale transition-[transform,filter] duration-[800ms] ease-out group-hover:scale-[1.06] group-hover:grayscale-0"
-                    />
-                    <div
-                      aria-hidden="true"
-                      className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-black/10 transition-opacity duration-500 group-hover:from-black/75"
-                    />
-                    <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-8">
-                      <p
-                        className="text-[10px] uppercase tracking-[0.32em] !text-white/70"
-                        style={{color: 'rgba(255,255,255,0.7)'}}
-                        data-ui-label
-                      >
-                        {card.sublabel}
-                      </p>
-                      <p
-                        className="mt-2 font-display text-2xl leading-[1.1] !text-white md:text-3xl"
-                        style={{color: '#ffffff'}}
-                      >
-                        {card.label}
-                      </p>
-                      <span
-                        className="mt-4 inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] !text-white"
-                        style={{color: '#ffffff'}}
-                        data-ui-label
-                      >
-                        {tHome('explore.browseLabel')}
-                        <span
-                          aria-hidden="true"
-                          className="transition-transform duration-300 group-hover:translate-x-1 rtl:scale-x-[-1]"
-                        >
-                          →
-                        </span>
-                      </span>
-                    </div>
-                  </Link>
+                <li
+                  key={tile.id}
+                  className={cn(
+                    'group relative block overflow-hidden text-white',
+                    isTall ? 'aspect-[493/421]' : 'aspect-[493/301]'
+                  )}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={tile.image}
+                    alt=""
+                    loading="lazy"
+                    className="absolute inset-0 h-full w-full object-cover grayscale transition-[transform,filter] duration-[800ms] ease-out group-hover:scale-[1.06] group-hover:grayscale-0"
+                  />
+                  <div
+                    aria-hidden="true"
+                    className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-black/10 transition-opacity duration-500 group-hover:from-black/75"
+                  />
+                  <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-8">
+                    <p
+                      className="text-[10px] uppercase tracking-[0.32em] !text-white/70"
+                      style={{color: 'rgba(255,255,255,0.7)'}}
+                      data-ui-label
+                    >
+                      {tHome(`expertise.items.${tile.id}.eyebrow`)}
+                    </p>
+                    <p
+                      className="mt-2 font-display text-2xl leading-[1.1] !text-white md:text-3xl"
+                      style={{color: '#ffffff'}}
+                    >
+                      {tHome(`expertise.items.${tile.id}.title`)}
+                    </p>
+                    <p
+                      className="mt-3 max-w-xs text-sm leading-[1.6] !text-white/80"
+                      style={{color: 'rgba(255,255,255,0.8)'}}
+                    >
+                      {tHome(`expertise.items.${tile.id}.body`)}
+                    </p>
+                  </div>
                 </li>
               );
             })}
@@ -549,7 +400,53 @@ export default async function HomePage({params}: Props) {
         </Container>
       </Section>
 
-      {/* 8. TESTIMONIALS — Pinterest-style card mockup, refined */}
+      {/* 7. CAREER TIMELINE */}
+      <Section id="experience" className="scroll-mt-16">
+        <Container>
+          <p
+            className="text-[11px] uppercase tracking-[0.32em] text-[var(--text-muted)]"
+            data-ui-label
+          >
+            {tHome('career.eyebrow')}
+          </p>
+          <h2 className="mt-4 max-w-3xl font-display text-3xl text-[var(--text-title)] md:text-5xl">
+            {tHome('career.heading')}
+          </h2>
+          <p className="mt-4 max-w-2xl text-base leading-[1.7] text-[var(--text-body)] md:text-lg">
+            {tHome('career.intro')}
+          </p>
+          <ol className="mt-12 space-y-10 md:space-y-12">
+            {CAREER_IDS.map((id) => (
+              <li
+                key={id}
+                className="grid gap-4 border-s-2 border-[var(--divider)] ps-6 md:grid-cols-12 md:gap-8 md:ps-8"
+              >
+                <div className="md:col-span-3">
+                  <p className="font-display text-xl text-[var(--text-title)]">
+                    <bdi>{tHome(`career.items.${id}.years`)}</bdi>
+                  </p>
+                </div>
+                <div className="md:col-span-9">
+                  <p className="font-display text-lg text-[var(--text-title)]">
+                    {tHome(`career.items.${id}.company`)}
+                  </p>
+                  <p
+                    className="mt-1 text-[11px] uppercase tracking-[0.12em] text-[var(--text-muted)]"
+                    data-ui-label
+                  >
+                    {tHome(`career.items.${id}.role`)}
+                  </p>
+                  <p className="mt-3 max-w-2xl text-base leading-[1.7] text-[var(--text-body)]">
+                    {tHome(`career.items.${id}.summary`)}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </Container>
+      </Section>
+
+      {/* 8. ENDORSEMENTS — light-grey, 3 quote cards */}
       <Section tone="alt" className="py-24 md:py-32">
         <Container>
           <div className="text-center">
@@ -558,61 +455,56 @@ export default async function HomePage({params}: Props) {
                 className="block text-sm uppercase tracking-[0.32em] text-[var(--text-muted)]"
                 data-ui-label
               >
-                {tHome('testimonials.eyebrow')}
+                {tHome('endorsements.eyebrow')}
               </span>
               <span className="mt-4 block text-4xl leading-[1] text-[var(--text-title)] md:text-6xl lg:text-7xl">
-                {tHome('testimonials.heading')}
+                {tHome('endorsements.heading')}
               </span>
             </h2>
           </div>
-          {showTestimonialsDummies ? (
-            <ul className="mt-16 grid gap-8 md:grid-cols-3 md:mt-20">
-              {TESTIMONIAL_PLACEHOLDERS.map((item, i) => (
-                <li
-                  key={item.id}
-                  className="relative flex flex-col gap-6 rounded-xl bg-[var(--bg)] p-8 shadow-[0_4px_20px_-8px_rgba(0,0,0,0.08)] md:p-10"
+          <ul className="mt-16 grid gap-8 md:grid-cols-3 md:mt-20">
+            {ENDORSEMENT_IDS.map((id) => (
+              <li
+                key={id}
+                className="relative flex flex-col gap-6 rounded-xl bg-[var(--bg)] p-8 shadow-[0_4px_20px_-8px_rgba(0,0,0,0.08)] md:p-10"
+              >
+                <span
+                  aria-hidden="true"
+                  className="absolute -top-1 start-6 font-display text-[88px] leading-[1] text-[var(--text-title)] opacity-15"
                 >
+                  &ldquo;
+                </span>
+                <p className="relative pt-6 font-display text-lg italic leading-[1.5] text-[var(--text-title)] md:text-xl">
+                  {tHome(`endorsements.items.${id}.quote`)}
+                </p>
+                <div className="mt-auto flex items-center gap-4 border-t border-[var(--divider)] pt-6">
                   <span
                     aria-hidden="true"
-                    className="absolute -top-1 left-6 font-display text-[88px] leading-[1] text-[var(--text-title)] opacity-15"
+                    className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[var(--bg-dark)] font-display text-lg text-[var(--text-on-dark)]"
                   >
-                    &ldquo;
+                    {tHome(`endorsements.items.${id}.initials`)}
                   </span>
-                  <p className="relative pt-6 font-display text-lg italic leading-[1.5] text-[var(--text-title)] md:text-xl">
-                    {item.quote}
-                  </p>
-                  <div className="mt-auto flex items-center gap-4 border-t border-[var(--divider)] pt-6">
-                    <PlaceholderImage
-                      seed={300 + i}
-                      src={item.portrait}
-                      aspect="aspect-square"
-                      className="!h-14 !w-14 shrink-0 rounded-full"
-                    />
-                    <div>
-                      <p className="font-display text-base text-[var(--text-title)]">
-                        {item.attribution}
-                      </p>
-                      <p
-                        className="mt-0.5 text-[11px] uppercase tracking-[0.18em] text-[var(--text-muted)]"
-                        data-ui-label
-                      >
-                        {item.role}
-                      </p>
-                    </div>
+                  <div>
+                    <p className="font-display text-base text-[var(--text-title)]">
+                      {tHome(`endorsements.items.${id}.name`)}
+                    </p>
+                    <p
+                      className="mt-0.5 text-[11px] uppercase tracking-[0.18em] text-[var(--text-muted)]"
+                      data-ui-label
+                    >
+                      {tHome(`endorsements.items.${id}.sub`)}
+                    </p>
                   </div>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <TestimonialsCarousel items={realTestimonials} />
-          )}
+                </div>
+              </li>
+            ))}
+          </ul>
         </Container>
       </Section>
 
       {/* 9. FEATURED VIDEOS — dark band: writeup + 1 highlighted + 3-then-expand stack */}
       <Section tone="dark" className="py-24 md:py-32">
         <Container>
-          {/* Writeup — title + description stacked, left-aligned */}
           <div className="max-w-2xl">
             <h2 className="font-display">
               <span
@@ -637,28 +529,18 @@ export default async function HomePage({params}: Props) {
             </p>
           </div>
 
-          {/* Highlighted + stacked */}
           <div className="mt-14 grid gap-10 lg:grid-cols-[3fr_2fr] lg:gap-12 md:mt-16">
-            {/* Highlighted video (large) */}
-            <FeaturedVideoHero video={FEATURED_VIDEOS[0]} locale={locale} onDark />
-
-            {/* 3 visible → expand to 5 secondaries */}
+            <FeaturedVideoHero video={FEATURED_VIDEOS[0]} locale={locale} />
             <ExpandableVideoList initialCount={3}>
               {FEATURED_VIDEOS.slice(1, 6).map((video) => (
-                <StackedVideoCard
-                  key={video.id}
-                  video={video}
-                  locale={locale}
-                  onDark
-                />
+                <StackedVideoCard key={video.id} video={video} locale={locale} />
               ))}
             </ExpandableVideoList>
           </div>
 
-          {/* View all CTA */}
           <div className="mt-14 text-center md:mt-16">
             <a
-              href="https://www.youtube.com/@Dayan.Candamil/videos"
+              href={LINKS.youtubeVideos}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex h-[50px] items-center justify-center border border-white px-10 text-[11px] uppercase tracking-[0.22em] !text-white transition-colors hover:bg-white hover:!text-[var(--text-title)]"
@@ -671,10 +553,77 @@ export default async function HomePage({params}: Props) {
         </Container>
       </Section>
 
-      {/* 10. IN THE MEDIA — light newsroom showcase, real press items */}
-      <Section tone="alt" className="py-24 md:py-32">
+      {/* 10. HOUSE OF CANDAMIL — copy left, image right */}
+      <Section id="atelier" className="scroll-mt-16 py-24 md:py-32">
         <Container>
-          {/* Writeup */}
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,400px)] lg:gap-16">
+            <div>
+              <h2 className="font-display text-[var(--text-title)]">
+                <span
+                  className="block text-sm uppercase tracking-[0.24em] text-[var(--text-muted)]"
+                  data-ui-label
+                >
+                  {tHome('atelier.eyebrow')}
+                </span>
+                <span className="mt-2 block text-4xl leading-[1.05] md:text-6xl">
+                  {tHome('atelier.heading')}
+                </span>
+              </h2>
+              <p className="mt-3 font-display text-xl italic text-[var(--text-muted)] md:text-2xl">
+                {tHome('atelier.tagline')}
+              </p>
+              <div className="mt-8 lg:hidden">
+                <div className="relative aspect-[4/5] w-full overflow-hidden bg-[var(--bg-alt)]">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={PORTRAITS.atelier}
+                    alt={tHome('atelier.imageAlt')}
+                    className="absolute inset-0 h-full w-full object-cover object-top"
+                  />
+                </div>
+              </div>
+              <p className="mt-8 max-w-xl text-base leading-[1.7] text-[var(--text-body)]">
+                {tHome('atelier.intro')}
+              </p>
+              <div className="mt-10 space-y-10">
+                {(['1', '2'] as const).map((n) => (
+                  <div key={n}>
+                    <h3 className="font-display text-xl text-[var(--text-title)] md:text-2xl">
+                      {tHome(`atelier.h${n}`)}
+                    </h3>
+                    <p className="mt-4 max-w-xl text-base leading-[1.7] text-[var(--text-body)]">
+                      {tHome(`atelier.body${n}`)}
+                    </p>
+                  </div>
+                ))}
+              </div>
+              <a
+                href={LINKS.houseOfCandamil}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-10 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-[var(--accent)] hover:underline"
+                data-ui-label
+              >
+                {tHome('atelier.cta')} <span aria-hidden="true" className="rtl:scale-x-[-1]">→</span>
+              </a>
+            </div>
+            <div className="hidden lg:block">
+              <div className="relative h-full min-h-[520px] w-full overflow-hidden bg-[var(--bg-alt)]">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={PORTRAITS.atelier}
+                  alt={tHome('atelier.imageAlt')}
+                  className="absolute inset-0 h-full w-full object-cover object-top"
+                />
+              </div>
+            </div>
+          </div>
+        </Container>
+      </Section>
+
+      {/* 11. MEDIA & HONOURS — light newsroom grid + 3-column credentials */}
+      <Section id="media" tone="alt" className="scroll-mt-16 py-24 md:py-32">
+        <Container>
           <div className="max-w-2xl">
             <h2 className="font-display">
               <span
@@ -692,135 +641,54 @@ export default async function HomePage({params}: Props) {
             </p>
           </div>
 
-          {/* Press cards — Bazaar on left, MFW + Certificate stacked on right */}
           <div className="mt-14 grid gap-10 md:grid-cols-2 md:gap-12 md:mt-16">
-            {/* Card 1: Harper's Bazaar Vietnam cover (left, tall) */}
-            <article className="flex flex-col">
-              <div className="relative aspect-[1000/1279] w-full overflow-hidden bg-[var(--bg)]">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/dummy/press-bazaar-vn.jpg"
-                  alt={tHome('media.bazaarAlt')}
-                  loading="lazy"
-                  className="absolute inset-0 h-full w-full object-cover"
-                />
-              </div>
-              <div className="mt-6">
-                <p
-                  className="text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)]"
-                  data-ui-label
-                >
-                  {tHome('media.bazaarSource')}
-                  <span className="mx-2">·</span>
-                  {tHome('media.bazaarDate')}
-                </p>
-                <p className="mt-3 max-w-md text-sm leading-[1.7] text-[var(--text-body)] md:text-base">
-                  {tHome('media.bazaarBody')}
-                </p>
-              </div>
-            </article>
+            {MEDIA.map((item) => (
+              <MediaCard
+                key={item.id}
+                item={item}
+                kicker={tHome(`media.items.${item.id}.kicker`)}
+                title={tHome(`media.items.${item.id}.title`)}
+                body={tHome(`media.items.${item.id}.body`)}
+                alt={tHome(`media.items.${item.id}.alt`)}
+                watchLabel={tHome('media.watchOnYouTube')}
+              />
+            ))}
+          </div>
 
-            {/* Right column: MFW above Certificate */}
-            <div className="flex flex-col gap-10 md:gap-12">
-              {/* Card 2: Marrakech Fashion Week 2022 */}
-              <a
-                href="https://www.youtube.com/watch?v=b0JG-50XToQ"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex flex-col"
-                aria-label={tHome('media.mfwAria')}
-              >
-                <div className="relative aspect-video w-full overflow-hidden bg-[var(--bg)]">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src="/dummy/press-mfw.jpg"
-                    alt={tHome('media.mfwAlt')}
-                    loading="lazy"
-                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span
-                      aria-hidden="true"
-                      className="flex h-14 w-14 items-center justify-center rounded-full border border-white/80 bg-black/45 backdrop-blur-sm transition-transform duration-300 group-hover:scale-110 md:h-16 md:w-16"
-                    >
-                      <svg
-                        viewBox="0 0 24 24"
-                        className="ms-1 h-5 w-5 fill-white md:h-6 md:w-6"
-                        aria-hidden="true"
-                      >
-                        <path d="M8 5v14l11-7z" />
-                      </svg>
-                    </span>
-                  </div>
-                </div>
-                <div className="mt-6">
-                  <p
-                    className="text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)]"
-                    data-ui-label
-                  >
-                    {tHome('media.mfwSource')}
-                    <span className="mx-2">·</span>
-                    {tHome('media.mfwDate')}
-                  </p>
-                  <p className="mt-3 font-display text-xl leading-snug text-[var(--text-title)] group-hover:underline md:text-2xl">
-                    {tHome('media.mfwTitle')}
-                  </p>
-                  <p className="mt-3 max-w-md text-sm leading-[1.7] text-[var(--text-body)]">
-                    {tHome('media.mfwBody')}
-                  </p>
-                </div>
-              </a>
-
-              {/* Card 3: Certificate of Achievement */}
-              <article className="flex flex-col">
-                <div className="relative aspect-[2816/1536] w-full overflow-hidden bg-[var(--bg)]">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src="/dummy/press-certificate.jpg"
-                    alt={tHome('media.certAlt')}
-                    loading="lazy"
-                    className="absolute inset-0 h-full w-full object-cover"
-                  />
-                </div>
-                <div className="mt-6">
-                  <p
-                    className="text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)]"
-                    data-ui-label
-                  >
-                    {tHome('media.certSource')}
-                    <span className="mx-2">·</span>
-                    {tHome('media.certDate')}
-                  </p>
-                  <p className="mt-3 font-display text-xl leading-snug text-[var(--text-title)] md:text-2xl">
-                    {tHome('media.certTitle')}
-                  </p>
-                  <p className="mt-3 max-w-md text-sm leading-[1.7] text-[var(--text-body)]">
-                    {tHome('media.certBody')}
-                  </p>
-                </div>
-              </article>
-            </div>
+          <div className="mt-20 grid gap-12 border-t border-[var(--divider)] pt-14 md:grid-cols-3 md:mt-24">
+            <CredentialList
+              heading={tHome('media.alsoHeading')}
+              items={[1, 2, 3, 4, 5].map((n) => tHome(`media.also${n}`))}
+            />
+            <CredentialList
+              heading={tHome('media.honoursHeading')}
+              items={[1, 2].map((n) => tHome(`media.honour${n}`))}
+            />
+            <CredentialList
+              heading={tHome('media.educationHeading')}
+              items={[1, 2, 3, 4].map((n) => tHome(`media.education${n}`))}
+            />
           </div>
         </Container>
       </Section>
 
-      {/* 11. LET'S CONNECT — image (left) + contact form (right) */}
+      {/* 12. CONTACT — same composition as the original Let's Connect band:
+       * full-bleed portrait left, dark form + details right. */}
       <section
+        id="contact"
         aria-label={tHome('contact.ariaLabel')}
-        className="grid bg-[var(--bg-dark)] md:grid-cols-2"
+        className="grid scroll-mt-16 bg-[var(--bg-dark)] md:grid-cols-2"
       >
-        {/* Image — Dayan, full bleed left */}
-        <div className="relative min-h-[420px] md:min-h-[640px]">
+        <div className="relative min-h-[420px] md:min-h-[720px]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/dummy/dayan-connect.jpg"
-            alt={tHome('about.name')}
+            src={PORTRAITS.contact}
+            alt={tHome('contact.imageAlt')}
             className="absolute inset-0 h-full w-full object-cover object-right"
           />
         </div>
 
-        {/* Form right */}
-        <div className="flex items-center px-6 py-16 md:px-12 md:py-20 lg:px-20">
+        <div className="flex items-center px-6 py-16 md:px-12 md:py-24 lg:px-20">
           <div className="w-full max-w-md">
             <h2 className="font-display">
               <span
@@ -845,532 +713,105 @@ export default async function HomePage({params}: Props) {
             </p>
 
             <div className="mt-10">
-              <ContactForm locale={locale} onDark />
+              <ContactForm locale={locale} labels={formLabels} onDark />
             </div>
 
             <dl className="mt-10 grid gap-y-3 text-sm sm:grid-cols-2 sm:gap-x-8">
-              <div>
-                <dt
-                  className="text-[10px] uppercase tracking-[0.22em] !text-white/55"
-                  style={{color: 'rgba(255,255,255,0.55)'}}
-                  data-ui-label
-                >
-                  {tHome('contact.email')}
-                </dt>
-                <dd className="mt-1">
-                  <a
-                    href="mailto:hello@puertadubai.com"
-                    className="!text-white hover:underline"
-                    style={{color: '#ffffff'}}
-                  >
-                    hello@puertadubai.com
-                  </a>
-                </dd>
-              </div>
-              <div>
-                <dt
-                  className="text-[10px] uppercase tracking-[0.22em] !text-white/55"
-                  style={{color: 'rgba(255,255,255,0.55)'}}
-                  data-ui-label
-                >
-                  {tHome('contact.whatsApp')}
-                </dt>
-                <dd className="mt-1">
-                  <a
-                    href="https://wa.me/971544402792"
-                    className="!text-white hover:underline"
-                    style={{color: '#ffffff'}}
-                  >
-                    <bdi>+971 54 440 2792</bdi>
-                  </a>
-                </dd>
-              </div>
+              <ContactDetail label={tHome('contact.email')}>
+                <a href={`mailto:${LINKS.email}`} className="!text-white hover:underline" style={{color: '#ffffff'}}>
+                  {LINKS.email}
+                </a>
+              </ContactDetail>
+              <ContactDetail label={tHome('contact.whatsApp')}>
+                <a href={LINKS.whatsapp} className="!text-white hover:underline" style={{color: '#ffffff'}}>
+                  <bdi>{LINKS.whatsappDisplay}</bdi>
+                </a>
+              </ContactDetail>
+              <ContactDetail label={tHome('contact.office')}>
+                <span className="!text-white" style={{color: '#ffffff'}}>
+                  {tHome('contact.officeValue')}
+                </span>
+              </ContactDetail>
             </dl>
           </div>
         </div>
       </section>
-
-      {/* PARTNERS — Sanity-driven, hidden if empty */}
-      {partners.length > 0 && (
-        <Section>
-          <Container>
-            <p
-              className="text-[11px] uppercase tracking-[0.12em] text-[var(--text-muted)]"
-              data-ui-label
-            >
-              {tHome('partners.eyebrow')}
-            </p>
-            <ul className="mt-8 grid gap-px bg-[var(--divider)] sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-              {partners.map((partner) => (
-                <li
-                  key={partner.slug}
-                  className="flex h-24 items-center justify-center bg-[var(--bg)] p-6 text-center"
-                >
-                  {partner.logo ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={urlFor(partner.logo).width(280).fit('max').url()}
-                      alt={partner.name}
-                      className="max-h-12 max-w-full object-contain"
-                    />
-                  ) : (
-                    <span className="font-display text-lg text-[var(--text-title)]">
-                      {partner.name}
-                    </span>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </Container>
-        </Section>
-      )}
-
-      {/* Legacy anchor IDs preserved for the HashHandler. */}
-      <span id="dayan" className="block" aria-hidden="true" />
-      <span id="about-puerta" className="block" aria-hidden="true" />
-      <span id="golden-visa" className="block" aria-hidden="true" />
-      <span id="partners-section" className="block" aria-hidden="true" />
-      <span id="contact" className="block" aria-hidden="true" />
     </>
   );
 }
 
-const PRESS_PLACEHOLDERS = [
-  {
-    label: 'Announcement',
-    title: 'Puerta Dubai launches a next-generation global platform for UAE investment.'
-  },
-  {
-    label: 'Announcement',
-    title: 'A new generation of global entrepreneurs is choosing Dubai.'
-  },
-  {
-    label: 'Announcement',
-    title: 'A fully integrated investment and relocation experience in the UAE.'
-  }
-];
+/* ───────────────────────── helpers ───────────────────────── */
 
-type VideoData = {
-  id: string;
-  title: string;
-  published: string;
-  blurb?: string;
-};
-
-function formatVideoDate(iso: string, locale: string) {
-  return new Date(iso).toLocaleDateString(locale, {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  });
-}
-
-function FeaturedVideoHero({
-  video,
-  locale,
-  onDark = false
-}: {
-  video: VideoData;
-  locale: string;
-  onDark?: boolean;
-}) {
-  const dateColor = onDark ? 'text-white/65' : 'text-[var(--text-muted)]';
-  const titleColor = onDark ? 'text-white' : 'text-[var(--text-title)]';
-  const bodyColor = onDark ? 'text-white/80' : 'text-[var(--text-body)]';
-  const imgBg = onDark ? 'bg-white/5' : 'bg-[var(--bg-alt)]';
+function Stat({value, label, last = false}: {value: string; label: string; last?: boolean}) {
   return (
-    <a
-      href={`https://www.youtube.com/watch?v=${video.id}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group block"
-      aria-label={`Watch on YouTube: ${video.title}`}
+    <li
+      className={cn(
+        'flex items-baseline justify-between gap-6',
+        !last && 'border-b border-[var(--divider)] pb-5'
+      )}
     >
-      <div className={cn('relative aspect-video w-full overflow-hidden', imgBg)}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={`https://i.ytimg.com/vi/${video.id}/maxresdefault.jpg`}
-          alt=""
-          loading="lazy"
-          className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
-        />
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-black/15 transition-colors duration-300 group-hover:bg-black/5"
-        />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span
-            aria-hidden="true"
-            className="flex h-16 w-16 items-center justify-center rounded-full border border-white/80 bg-black/45 backdrop-blur-sm transition-transform duration-300 group-hover:scale-110 md:h-20 md:w-20"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              className="ms-1 h-6 w-6 fill-white md:h-8 md:w-8"
-              aria-hidden="true"
-            >
-              <path d="M8 5v14l11-7z" />
-            </svg>
-          </span>
-        </div>
-      </div>
-      <div className="mt-6">
-        <p
-          className={cn('text-[11px] uppercase tracking-[0.22em]', dateColor)}
-          data-ui-label
-        >
-          <time dateTime={video.published}>
-            {formatVideoDate(video.published, locale)}
-          </time>
-        </p>
-        <p
-          className={cn(
-            'mt-3 font-display text-2xl leading-snug group-hover:underline md:text-3xl',
-            titleColor
-          )}
-        >
-          {video.title}
-        </p>
-        {video.blurb && (
-          <p
-            className={cn(
-              'mt-4 max-w-lg text-sm leading-[1.7] md:text-base',
-              bodyColor
-            )}
-          >
-            {video.blurb}
-          </p>
-        )}
-      </div>
-    </a>
-  );
-}
-
-function StackedVideoCard({
-  video,
-  locale,
-  onDark = false
-}: {
-  video: VideoData;
-  locale: string;
-  onDark?: boolean;
-}) {
-  const titleColor = onDark ? 'text-white' : 'text-[var(--text-title)]';
-  const dateColor = onDark ? 'text-white/65' : 'text-[var(--text-muted)]';
-  const imgBg = onDark ? 'bg-white/5' : 'bg-[var(--bg-alt)]';
-  return (
-    <a
-      href={`https://www.youtube.com/watch?v=${video.id}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group flex items-start gap-4"
-      aria-label={`Watch on YouTube: ${video.title}`}
-    >
-      <div
-        className={cn(
-          'relative aspect-video w-32 shrink-0 overflow-hidden md:w-40',
-          imgBg
-        )}
-      >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={`https://i.ytimg.com/vi/${video.id}/maxresdefault.jpg`}
-          alt=""
-          loading="lazy"
-          className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
-        />
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-black/15 transition-colors duration-300 group-hover:bg-black/0"
-        />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span
-            aria-hidden="true"
-            className="flex h-8 w-8 items-center justify-center rounded-full border border-white/80 bg-black/40 backdrop-blur-sm transition-transform duration-300 group-hover:scale-110"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              className="ms-0.5 h-3 w-3 fill-white"
-              aria-hidden="true"
-            >
-              <path d="M8 5v14l11-7z" />
-            </svg>
-          </span>
-        </div>
-      </div>
-      <div className="min-w-0 flex-1">
-        <p
-          className={cn(
-            'font-display text-base leading-snug group-hover:underline md:text-lg',
-            titleColor
-          )}
-        >
-          {video.title}
-        </p>
-        <p
-          className={cn(
-            'mt-2 text-[10px] uppercase tracking-[0.22em]',
-            dateColor
-          )}
-          data-ui-label
-        >
-          <time dateTime={video.published}>
-            {formatVideoDate(video.published, locale)}
-          </time>
-        </p>
-      </div>
-    </a>
-  );
-}
-
-function CtaImageCard({
-  href,
-  eyebrow,
-  title,
-  sublabel,
-  cta,
-  image
-}: {
-  href: string;
-  eyebrow: string;
-  title: string;
-  sublabel: string;
-  cta: string;
-  image: string;
-}) {
-  return (
-    <Link
-      href={href}
-      className="group relative isolate block w-[85vw] shrink-0 snap-start overflow-hidden text-white aspect-[5/4] md:w-auto md:aspect-[4/3] lg:aspect-[5/4]"
-    >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={image}
-        alt=""
-        className="absolute inset-0 -z-20 h-full w-full object-cover transition-transform duration-[800ms] ease-out group-hover:scale-[1.06]"
-      />
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-gradient-to-t from-black/85 via-black/45 to-black/15 transition-opacity duration-500 group-hover:opacity-90"
-      />
-      <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-10">
-        <p
-          className="text-[10px] uppercase tracking-[0.32em] !text-white/70"
-          style={{color: 'rgba(255,255,255,0.7)'}}
-          data-ui-label
-        >
-          {eyebrow}
-        </p>
-        <p
-          className="mt-3 font-display text-2xl leading-[1.1] !text-white md:text-3xl"
-          style={{color: '#ffffff'}}
-        >
-          {title}
-        </p>
-        <p
-          className="mt-2 max-w-xs text-sm !text-white/80"
-          style={{color: 'rgba(255,255,255,0.8)'}}
-        >
-          {sublabel}
-        </p>
-        <span
-          className="mt-6 inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.22em] !text-white"
-          style={{color: '#ffffff'}}
-          data-ui-label
-        >
-          {cta}
-          <span
-            aria-hidden="true"
-            className="transition-transform duration-300 group-hover:translate-x-2"
-          >
-            →
-          </span>
-        </span>
-      </div>
-    </Link>
-  );
-}
-
-function TestimonialsCarousel({items}: {items: TestimonialCard[]}) {
-  return (
-    <ul className="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-      {items.slice(0, 6).map((item) => (
-        <li
-          key={item._id}
-          className="flex flex-col gap-4 border border-[var(--divider)] bg-[var(--bg)] p-8"
-        >
-          <p className="font-display text-lg italic text-[var(--text-title)]">
-            “{item.quote}”
-          </p>
-          <div className="mt-auto flex items-center gap-3">
-            {item.portrait && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={urlFor(item.portrait).width(96).height(96).fit('crop').url()}
-                alt=""
-                className="h-12 w-12 rounded-full object-cover"
-              />
-            )}
-            <div>
-              <p className="text-sm font-medium text-[var(--text-title)]">
-                {renderAttribution(item)}
-              </p>
-              {item.attributionRole && (
-                <p className="text-xs text-[var(--text-muted)]">
-                  {item.attributionRole}
-                </p>
-              )}
-            </div>
-          </div>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-function renderAttribution(t: TestimonialCard): string {
-  const name = t.attributionName?.trim() ?? '';
-  if (!name) return '';
-  if (t.attributionConsentScope === 'full-name') return name;
-  if (t.attributionConsentScope === 'first-name-last-initial') {
-    const parts = name.split(/\s+/);
-    if (parts.length === 1) return parts[0];
-    return `${parts[0]} ${parts[parts.length - 1][0]}.`;
-  }
-  return name
-    .split(/\s+/)
-    .map((p) => `${p[0]}.`)
-    .join(' ');
-}
-
-/**
- * Reusable title cell that lives inside the featured-listings grid as its
- * own first card — matches Mahsheed's pattern where the section title sits
- * flush with the listing cards rather than floating above them.
- */
-type TitleCellLabels = {eyebrow: string; heading: string; viewAll: string};
-type ListingLabels = {beds: string; baths: string; sqft: string; viewDetails: string; fromPrefix: string};
-
-function FeaturedListingsTitleCell({labels}: {labels: TitleCellLabels}) {
-  return (
-    <div className="flex flex-col items-start justify-center gap-8 py-8">
-      <h2 className="font-display">
-        <span
-          className="block text-sm uppercase tracking-[0.24em] !text-white/75"
-          style={{color: 'rgba(255,255,255,0.75)'}}
-          data-ui-label
-        >
-          {labels.eyebrow}
-        </span>
-        <span
-          className="mt-3 block text-5xl leading-[1] !text-white md:text-6xl lg:text-7xl"
-          style={{color: '#ffffff'}}
-        >
-          {labels.heading}
-        </span>
-      </h2>
-      <span aria-hidden="true" className="block h-px w-12 bg-white/40" />
-      <Link
-        href="/projects"
-        className="inline-flex h-[45px] items-center justify-center border border-white px-8 text-[11px] uppercase tracking-[0.22em] !text-white transition-colors hover:bg-white hover:!text-[var(--text-title)]"
-        style={{color: '#ffffff'}}
+      <span className="font-display text-5xl leading-none text-[var(--text-title)] md:text-6xl">
+        <bdi>{value}</bdi>
+      </span>
+      <span
+        className="max-w-[14rem] text-end text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)]"
         data-ui-label
       >
-        {labels.viewAll}
-      </Link>
-    </div>
+        {label}
+      </span>
+    </li>
   );
 }
 
-function StudioListingsGridWithTitleCell({
-  listings,
-  titleLabels,
-  listingLabels
+async function FeaturedListingCards({
+  locale,
+  labels,
+  emptyLabel
 }: {
-  listings: StudioListingCard[];
-  titleLabels: TitleCellLabels;
-  listingLabels: ListingLabels;
-}) {
-  // Title cell + up to 5 listing cards in a 3-col grid (1 + 5 = 6 cells).
-  // Landscape image aspect (~7:5) matches the Mahsheed listings rhythm.
-  // Each Studio card links to its own /projects/[id] detail view.
-  const cards = listings.slice(0, 5);
-  return (
-    <div className="grid gap-x-8 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
-      <FeaturedListingsTitleCell labels={titleLabels} />
-      {cards.map((listing) => (
-        <Link
-          key={listing.id}
-          href={`/projects/${listing.id}`}
-          aria-label={listing.title}
-          className="block"
-        >
-          <StudioListingCardView
-            listing={listing}
-            aspect="aspect-[7/5]"
-            size="small"
-            onDark
-            labels={listingLabels}
-          />
-        </Link>
-      ))}
-    </div>
-  );
-}
-
-function PlaceholderListingsGridWithTitleCell({
-  titleLabels,
-  listingLabels
-}: {
-  titleLabels: TitleCellLabels;
-  listingLabels: ListingLabels;
-}) {
-  const cards = FEATURED_LISTING_PLACEHOLDERS.slice(0, 5);
-  return (
-    <div className="grid gap-x-8 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
-      <FeaturedListingsTitleCell labels={titleLabels} />
-      {cards.map((listing, i) => (
-        <Link
-          key={listing.id}
-          href="/projects"
-          aria-label={listing.title}
-          className="block"
-        >
-          <PlaceholderListingCard
-            listing={listing}
-            seed={100 + i}
-            aspect="aspect-[7/5]"
-            size="small"
-            onDark
-            labels={listingLabels}
-          />
-        </Link>
-      ))}
-    </div>
-  );
-}
-
-function StudioListingCardView({
-  listing,
-  aspect,
-  onDark = false,
-  labels
-}: {
-  listing: StudioListingCard;
-  aspect: string;
-  size?: 'large' | 'small';
-  onDark?: boolean;
+  locale: Locale;
   labels: ListingLabels;
+  emptyLabel: string;
 }) {
-  // Mahsheed-style caption: clean photo on top, structured caption below.
-  // Left column = address + city + specs; right column = price + CTA.
-  const titleColor = onDark ? 'text-white' : 'text-[var(--text-title)]';
-  const subColor = onDark ? 'text-white/65' : 'text-[var(--text-muted)]';
-  const specColor = onDark ? 'text-white/85' : 'text-[var(--text-body)]';
-  const ctaColor = onDark ? 'text-white/65 group-hover:text-white' : 'text-[var(--text-muted)] group-hover:text-[var(--accent)]';
+  // Dayan's own inventory from the Studio CRM; first five on the home page.
+  const listings: StudioListingCard[] = await fetchAgentListings(DAYAN_AGENT, locale)
+    .then((all) => all.slice(0, 5))
+    .catch(() => []);
+  if (listings.length === 0) {
+    return (
+      <p
+        className="self-center text-sm leading-[1.7] !text-white/60 md:col-span-1 lg:col-span-2"
+        style={{color: 'rgba(255,255,255,0.6)'}}
+      >
+        {emptyLabel}
+      </p>
+    );
+  }
+  return listings.map((listing) => (
+    <Link key={listing.id} href={`/projects/${listing.id}`} aria-label={listing.title} className="block">
+      <StudioListingCardView listing={listing} labels={labels} />
+    </Link>
+  ));
+}
 
+function ListingCardSkeletons({count}: {count: number}) {
+  return Array.from({length: count}, (_, i) => (
+    <div key={i} className="flex animate-pulse flex-col gap-5" aria-hidden="true">
+      <div className="aspect-[7/5] w-full bg-white/5" />
+      <div className="space-y-2">
+        <div className="h-4 w-3/4 bg-white/10" />
+        <div className="h-3 w-1/2 bg-white/5" />
+      </div>
+    </div>
+  ));
+}
+
+type ListingLabels = {beds: string; baths: string; sqft: string; viewDetails: string};
+
+/** Listing card: clean photo on top, structured caption below (address + specs | price + CTA). */
+function StudioListingCardView({listing, labels}: {listing: StudioListingCard; labels: ListingLabels}) {
   return (
     <article className="group flex flex-col gap-5">
-      <div className={cn('relative w-full overflow-hidden bg-[var(--bg-alt)]', aspect)}>
+      <div className="relative aspect-[7/5] w-full overflow-hidden bg-white/5">
         {listing.image ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -1380,9 +821,8 @@ function StudioListingCardView({
             className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
           />
         ) : (
-          <div className="absolute inset-0 bg-[var(--bg-alt)]" aria-hidden="true" />
+          <div className="absolute inset-0 bg-white/5" aria-hidden="true" />
         )}
-        {/* Subtle dark veil that intensifies on hover */}
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 bg-black/0 transition-colors duration-500 group-hover:bg-black/20"
@@ -1390,21 +830,19 @@ function StudioListingCardView({
       </div>
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0 flex-1">
-          <p className={cn('font-display text-lg leading-snug md:text-xl', titleColor)}>
+          <p className="font-display text-lg leading-snug !text-white md:text-xl" style={{color: '#ffffff'}}>
             {listing.title}
           </p>
           <p
-            className={cn(
-              'mt-1 text-[11px] uppercase tracking-[0.18em]',
-              subColor
-            )}
+            className="mt-1 text-[11px] uppercase tracking-[0.18em] !text-white/65"
+            style={{color: 'rgba(255,255,255,0.65)'}}
             data-ui-label
           >
             {listing.area}
             <span className="mx-1">·</span>
             {listing.emirate}
           </p>
-          <p className={cn('mt-3 flex flex-wrap gap-x-4 gap-y-1 text-[12px]', specColor)}>
+          <p className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-[12px] !text-white/85" style={{color: 'rgba(255,255,255,0.85)'}}>
             {listing.bedrooms > 0 && (
               <span>
                 <bdi>{listing.bedrooms}</bdi> {labels.beds}
@@ -1423,14 +861,12 @@ function StudioListingCardView({
           </p>
         </div>
         <div className="shrink-0 text-end">
-          <p className={cn('font-display text-lg leading-snug md:text-xl', titleColor)}>
+          <p className="font-display text-lg leading-snug !text-white md:text-xl" style={{color: '#ffffff'}}>
             <bdi>{listing.priceFrom}</bdi>
           </p>
           <p
-            className={cn(
-              'mt-1 text-[10px] uppercase tracking-[0.22em] transition-colors duration-200',
-              ctaColor
-            )}
+            className="mt-1 text-[10px] uppercase tracking-[0.22em] !text-white/65 transition-colors duration-200 group-hover:!text-white"
+            style={{color: 'rgba(255,255,255,0.65)'}}
             data-ui-label
           >
             {labels.viewDetails}
@@ -1441,69 +877,304 @@ function StudioListingCardView({
   );
 }
 
-type ListingPlaceholder = (typeof FEATURED_LISTING_PLACEHOLDERS)[number];
-
-function PlaceholderListingCard({
-  listing,
-  seed,
-  aspect,
-  onDark = false,
-  labels
-}: {
-  listing: ListingPlaceholder;
-  seed: number;
-  aspect: string;
-  size?: 'large' | 'small';
-  onDark?: boolean;
-  labels: ListingLabels;
-}) {
-  const titleColor = onDark ? 'text-white' : 'text-[var(--text-title)]';
-  const subColor = onDark ? 'text-white/65' : 'text-[var(--text-muted)]';
-  const ctaColor = onDark
-    ? 'text-white/65 group-hover:text-white'
-    : 'text-[var(--text-muted)] group-hover:text-[var(--accent)]';
-
+function ContactDetail({label, children}: {label: string; children: React.ReactNode}) {
   return (
-    <article className="group flex flex-col gap-5">
-      <div className={cn('relative w-full overflow-hidden', aspect)}>
-        <PlaceholderImage seed={seed} src={listing.image} aspect={aspect} />
+    <div>
+      <dt
+        className="text-[10px] uppercase tracking-[0.22em] !text-white/55"
+        style={{color: 'rgba(255,255,255,0.55)'}}
+        data-ui-label
+      >
+        {label}
+      </dt>
+      <dd className="mt-1">{children}</dd>
+    </div>
+  );
+}
+
+function CredentialList({heading, items}: {heading: string; items: string[]}) {
+  return (
+    <div>
+      <h3
+        className="font-sans text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)]"
+        data-ui-label
+      >
+        {heading}
+      </h3>
+      <ul className="mt-4 divide-y divide-[var(--divider)] border-t border-[var(--divider)]">
+        {items.map((item) => (
+          <li key={item} className="py-3 text-sm leading-[1.7] text-[var(--text-body)]">
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function PanelCard({
+  href,
+  external = false,
+  eyebrow,
+  title,
+  body,
+  cta,
+  image,
+  imagePosition = 'center'
+}: {
+  href: string;
+  external?: boolean;
+  eyebrow: string;
+  title: string;
+  body: string;
+  cta: string;
+  image: string;
+  imagePosition?: 'top' | 'center';
+}) {
+  return (
+    <a
+      href={href}
+      {...(external ? {target: '_blank', rel: 'noopener noreferrer'} : {})}
+      className="group relative isolate block w-[85vw] shrink-0 snap-start overflow-hidden text-white aspect-[5/4] md:w-auto md:aspect-[4/3] lg:aspect-[5/4]"
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={image}
+        alt=""
+        loading="lazy"
+        className={cn(
+          'absolute inset-0 -z-20 h-full w-full object-cover transition-transform duration-[800ms] ease-out group-hover:scale-[1.06]',
+          imagePosition === 'top' && 'object-top'
+        )}
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10 bg-gradient-to-t from-black/85 via-black/45 to-black/15 transition-opacity duration-500 group-hover:opacity-90"
+      />
+      <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-10">
+        <p
+          className="text-[10px] uppercase tracking-[0.32em] !text-white/70"
+          style={{color: 'rgba(255,255,255,0.7)'}}
+          data-ui-label
+        >
+          {eyebrow}
+        </p>
+        <p className="mt-3 font-display text-2xl leading-[1.1] !text-white md:text-3xl" style={{color: '#ffffff'}}>
+          {title}
+        </p>
+        <p className="mt-2 max-w-xs text-sm !text-white/80" style={{color: 'rgba(255,255,255,0.8)'}}>
+          {body}
+        </p>
+        <span
+          className="mt-6 inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.22em] !text-white"
+          style={{color: '#ffffff'}}
+          data-ui-label
+        >
+          {cta}
+          <span
+            aria-hidden="true"
+            className="transition-transform duration-300 group-hover:translate-x-2 rtl:scale-x-[-1]"
+          >
+            →
+          </span>
+        </span>
+      </div>
+    </a>
+  );
+}
+
+function PlayGlyph({size = 'md'}: {size?: 'sm' | 'md' | 'lg'}) {
+  const ring = {
+    sm: 'h-8 w-8',
+    md: 'h-14 w-14 md:h-16 md:w-16',
+    lg: 'h-16 w-16 md:h-20 md:w-20'
+  }[size];
+  const glyph = {sm: 'ms-0.5 h-3 w-3', md: 'ms-1 h-5 w-5 md:h-6 md:w-6', lg: 'ms-1 h-6 w-6 md:h-8 md:w-8'}[size];
+  return (
+    <div className="absolute inset-0 flex items-center justify-center">
+      <span
+        aria-hidden="true"
+        className={cn(
+          'flex items-center justify-center rounded-full border border-white/80 bg-black/45 backdrop-blur-sm transition-transform duration-300 group-hover:scale-110',
+          ring
+        )}
+      >
+        <svg viewBox="0 0 24 24" className={cn('fill-white', glyph)} aria-hidden="true">
+          <path d="M8 5v14l11-7z" />
+        </svg>
+      </span>
+    </div>
+  );
+}
+
+function MediaCard({
+  item,
+  kicker,
+  title,
+  body,
+  alt,
+  watchLabel
+}: {
+  item: MediaItem;
+  kicker: string;
+  title: string;
+  body: string;
+  alt: string;
+  watchLabel: string;
+}) {
+  const media = item.image ? (
+    <div className={cn('relative w-full overflow-hidden bg-[var(--bg)]', item.aspect)}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={item.image}
+        alt={alt}
+        loading="lazy"
+        className="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+      />
+      {item.video && <PlayGlyph />}
+    </div>
+  ) : (
+    // No visual asset yet — render a quiet typographic panel instead of a
+    // placeholder graphic so nothing fabricated is shown.
+    <div
+      className={cn(
+        'relative flex w-full items-end overflow-hidden bg-[var(--bg-dark)] p-8 md:p-10',
+        item.aspect
+      )}
+      aria-hidden="true"
+    >
+      <p
+        className="font-display text-3xl leading-[1.1] !text-white md:text-4xl"
+        style={{color: '#ffffff'}}
+      >
+        {title}
+      </p>
+    </div>
+  );
+
+  const caption = (
+    <div className="mt-6">
+      <p className="text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)]" data-ui-label>
+        {kicker}
+      </p>
+      <p
+        className={cn(
+          'mt-3 font-display text-xl leading-snug text-[var(--text-title)] md:text-2xl',
+          item.href && 'group-hover:underline'
+        )}
+      >
+        {title}
+      </p>
+      <p className="mt-3 max-w-md text-sm leading-[1.7] text-[var(--text-body)] md:text-base">{body}</p>
+    </div>
+  );
+
+  if (item.href) {
+    return (
+      <a
+        href={item.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group flex flex-col"
+        aria-label={`${watchLabel}: ${title}`}
+      >
+        {media}
+        {caption}
+      </a>
+    );
+  }
+  return (
+    <article className="group flex flex-col">
+      {media}
+      {caption}
+    </article>
+  );
+}
+
+type VideoData = {
+  id: string;
+  title: string;
+  published: string;
+  blurb?: string;
+};
+
+function formatVideoDate(iso: string, locale: string) {
+  return new Date(iso).toLocaleDateString(locale, {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+}
+
+function FeaturedVideoHero({video, locale}: {video: VideoData; locale: string}) {
+  return (
+    <a
+      href={`https://www.youtube.com/watch?v=${video.id}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group block"
+      aria-label={`Watch on YouTube: ${video.title}`}
+    >
+      <div className="relative aspect-video w-full overflow-hidden bg-white/5">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={`https://i.ytimg.com/vi/${video.id}/maxresdefault.jpg`}
+          alt=""
+          loading="lazy"
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+        />
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-black/0 transition-colors duration-500 group-hover:bg-black/20"
+          className="absolute inset-0 bg-black/15 transition-colors duration-300 group-hover:bg-black/5"
         />
+        <PlayGlyph size="lg" />
       </div>
-      <div className="flex items-start justify-between gap-4">
-        <div className="min-w-0 flex-1">
-          <p className={cn('font-display text-lg leading-snug md:text-xl', titleColor)}>
-            {listing.title}
-          </p>
-          <p
-            className={cn(
-              'mt-1 text-[11px] uppercase tracking-[0.18em]',
-              subColor
-            )}
-            data-ui-label
-          >
-            {listing.area}
-            <span className="mx-1">·</span>
-            {listing.emirate}
-          </p>
-        </div>
-        <div className="shrink-0 text-end">
-          <p className={cn('font-display text-lg leading-snug md:text-xl', titleColor)}>
-            {labels.fromPrefix} <bdi>{listing.priceFrom}</bdi>
-          </p>
-          <p
-            className={cn(
-              'mt-1 text-[10px] uppercase tracking-[0.22em] transition-colors duration-200',
-              ctaColor
-            )}
-            data-ui-label
-          >
-            {labels.viewDetails}
-          </p>
-        </div>
+      <div className="mt-6">
+        <p className="text-[11px] uppercase tracking-[0.22em] text-white/65" data-ui-label>
+          <time dateTime={video.published}>{formatVideoDate(video.published, locale)}</time>
+        </p>
+        <p className="mt-3 font-display text-2xl leading-snug text-white group-hover:underline md:text-3xl">
+          {video.title}
+        </p>
+        {video.blurb && (
+          <p className="mt-4 max-w-lg text-sm leading-[1.7] text-white/80 md:text-base">{video.blurb}</p>
+        )}
       </div>
-    </article>
+    </a>
+  );
+}
+
+function StackedVideoCard({video, locale}: {video: VideoData; locale: string}) {
+  return (
+    <a
+      href={`https://www.youtube.com/watch?v=${video.id}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group flex items-start gap-4"
+      aria-label={`Watch on YouTube: ${video.title}`}
+    >
+      <div className="relative aspect-video w-32 shrink-0 overflow-hidden bg-white/5 md:w-40">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={`https://i.ytimg.com/vi/${video.id}/maxresdefault.jpg`}
+          alt=""
+          loading="lazy"
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-black/15 transition-colors duration-300 group-hover:bg-black/0"
+        />
+        <PlayGlyph size="sm" />
+      </div>
+      <div className="min-w-0 flex-1">
+        <p className="font-display text-base leading-snug text-white group-hover:underline md:text-lg">
+          {video.title}
+        </p>
+        <p className="mt-2 text-[10px] uppercase tracking-[0.22em] text-white/65" data-ui-label>
+          <time dateTime={video.published}>{formatVideoDate(video.published, locale)}</time>
+        </p>
+      </div>
+    </a>
   );
 }

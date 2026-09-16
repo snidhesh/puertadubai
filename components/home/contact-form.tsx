@@ -8,23 +8,36 @@ import {cn} from '@/lib/utils';
 
 type Stage = 'idle' | 'submitting' | 'success' | 'error';
 
+export type ContactFormLabels = {
+  name: string;
+  phone: string;
+  email: string;
+  message: string;
+  consent: string;
+  submit: string;
+  successTitle: string;
+  successBody: string;
+  error: string;
+};
+
 /**
- * Inline contact form on the home page. Posts through the same
- * `submitLead` Server Action with `source: 'contact'` so it goes through
- * Turnstile + the Postgres throttle + Resend + Postgres insert, same as
- * every other surface.
+ * Inline contact form on the home page. Posts through the `submitLead`
+ * Server Action with `source: 'contact'` so it goes through Turnstile +
+ * the Postgres throttle + Resend + Postgres insert.
  *
- * Honeypot field (`company_pref`) is hidden from users; bots that fill
- * it get rejected at the Zod layer.
+ * Honeypot field (`website`) is hidden from users; bots that fill it
+ * get rejected at the Zod layer.
  *
  * Pass `onDark` when rendering over a dark band — flips field colours,
  * borders, button, success/error states, and consent copy to white-friendly.
  */
 export function ContactForm({
   locale,
+  labels,
   onDark = false
 }: {
   locale: Locale;
+  labels: ContactFormLabels;
   onDark?: boolean;
 }) {
   const [stage, setStage] = useState<Stage>('idle');
@@ -44,7 +57,7 @@ export function ContactForm({
       consent: fd.get('consent') === 'on',
       consentVersion: CURRENT_CONSENT_VERSION,
       marketingOptIn: false,
-      honeypot: String(fd.get('company_pref') ?? ''),
+      honeypot: String(fd.get('website') ?? ''),
       turnstileToken: String(fd.get('cf-turnstile-response') ?? ''),
       locale
     });
@@ -56,26 +69,14 @@ export function ContactForm({
       <div
         className={cn(
           'border p-8',
-          onDark
-            ? 'border-white/20 bg-white/5 text-white'
-            : 'border-[var(--divider)] bg-[var(--bg)]'
+          onDark ? 'border-white/20 bg-white/5 text-white' : 'border-[var(--divider)] bg-[var(--bg)]'
         )}
       >
-        <p
-          className={cn(
-            'font-display text-xl',
-            onDark ? 'text-white' : 'text-[var(--text-title)]'
-          )}
-        >
-          Message received.
+        <p className={cn('font-display text-xl', onDark ? 'text-white' : 'text-[var(--text-title)]')}>
+          {labels.successTitle}
         </p>
-        <p
-          className={cn(
-            'mt-2 text-sm',
-            onDark ? 'text-white/75' : 'text-[var(--text-body)]'
-          )}
-        >
-          We&apos;ll be in touch within 48 hours.
+        <p className={cn('mt-2 text-sm', onDark ? 'text-white/75' : 'text-[var(--text-body)]')}>
+          {labels.successBody}
         </p>
       </div>
     );
@@ -95,62 +96,42 @@ export function ContactForm({
     <form onSubmit={onSubmit} className="space-y-5">
       {/* Honeypot — sr-only for real users, irresistible for naive bots. */}
       <label className="sr-only" aria-hidden="true">
-        Preferred company
-        <input type="text" name="company_pref" tabIndex={-1} autoComplete="off" />
+        Website
+        <input type="text" name="website" tabIndex={-1} autoComplete="off" />
       </label>
 
-      <Field label="Name" onDark={onDark}>
+      <Field label={labels.name} onDark={onDark}>
         <input
           type="text"
           name="name"
           required
           autoComplete="name"
-          placeholder="Name"
+          placeholder={labels.name}
           className={inputCls}
         />
       </Field>
       <div className="grid gap-5 sm:grid-cols-2">
-        <Field label="Phone" onDark={onDark}>
-          <input
-            type="tel"
-            name="phone"
-            autoComplete="tel"
-            placeholder="Phone"
-            className={inputCls}
-          />
+        <Field label={labels.phone} onDark={onDark}>
+          <input type="tel" name="phone" autoComplete="tel" placeholder={labels.phone} className={inputCls} />
         </Field>
-        <Field label="Email" onDark={onDark}>
+        <Field label={labels.email} onDark={onDark}>
           <input
             type="email"
             name="email"
             required
             autoComplete="email"
-            placeholder="Email"
+            placeholder={labels.email}
             className={inputCls}
           />
         </Field>
       </div>
-      <Field label="Message" onDark={onDark}>
-        <textarea
-          name="message"
-          rows={4}
-          required
-          placeholder="Message"
-          className={textareaCls}
-        />
+      <Field label={labels.message} onDark={onDark}>
+        <textarea name="message" rows={4} required placeholder={labels.message} className={textareaCls} />
       </Field>
 
-      <label
-        className={cn(
-          'flex gap-2 text-xs',
-          onDark ? 'text-white/70' : 'text-[var(--text-body)]'
-        )}
-      >
+      <label className={cn('flex gap-2 text-xs', onDark ? 'text-white/70' : 'text-[var(--text-body)]')}>
         <input type="checkbox" name="consent" required />
-        <span>
-          I agree to Puerta Dubai contacting me about UAE investment
-          opportunities and have read the Privacy Policy.
-        </span>
+        <span>{labels.consent}</span>
       </label>
 
       {turnstileSiteKey ? (
@@ -163,14 +144,8 @@ export function ContactForm({
       ) : null}
 
       {stage === 'error' && (
-        <p
-          className={cn(
-            'text-sm',
-            onDark ? 'text-white/80' : 'text-[var(--text-body)]'
-          )}
-          role="alert"
-        >
-          Something went wrong. Please try again or use the WhatsApp link.
+        <p className={cn('text-sm', onDark ? 'text-white/80' : 'text-[var(--text-body)]')} role="alert">
+          {labels.error}
         </p>
       )}
 
@@ -185,7 +160,7 @@ export function ContactForm({
         )}
         data-ui-label
       >
-        {stage === 'submitting' ? '…' : 'Send message'}
+        {stage === 'submitting' ? '…' : labels.submit}
       </button>
     </form>
   );
@@ -203,10 +178,7 @@ function Field({
   return (
     <label className="block">
       <span
-        className={cn(
-          'text-[10px] uppercase tracking-[0.22em]',
-          onDark ? 'text-white/55' : 'text-[var(--text-muted)]'
-        )}
+        className={cn('text-[10px] uppercase tracking-[0.22em]', onDark ? 'text-white/55' : 'text-[var(--text-muted)]')}
         data-ui-label
       >
         {label}

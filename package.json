@@ -1,5 +1,5 @@
 {
-  "name": "puertadubai",
+  "name": "dayancandamil",
   "version": "0.1.0",
   "private": true,
   "packageManager": "pnpm@10.34.1",
@@ -14,8 +14,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "e2e": "playwright test",
-    "build:areas": "tsx scripts/build-area-data.ts"
+    "e2e": "playwright test"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",

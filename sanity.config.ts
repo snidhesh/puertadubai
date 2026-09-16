@@ -17,8 +17,8 @@ import {SANITY_LANGUAGES} from './lib/sanity/i18n';
  * field is automatically generated for these locale codes.
  */
 export default defineConfig({
-  name: 'puerta-dubai',
-  title: 'Puerta Dubai',
+  name: 'dayan-candamil',
+  title: 'Dayan Candamil',
   projectId,
   dataset,
   basePath: '/studio',

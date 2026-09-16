@@ -4,12 +4,9 @@ import {notFound} from 'next/navigation';
 import {NextIntlClientProvider} from 'next-intl';
 import {getMessages, getTranslations, setRequestLocale} from 'next-intl/server';
 import {Arsenal, Roboto_Flex, El_Messiri, IBM_Plex_Sans_Arabic} from 'next/font/google';
-import {NuqsAdapter} from 'nuqs/adapters/next/app';
 import {SiteNav} from '@/components/site/nav';
 import {SiteFooter} from '@/components/site/footer';
 import {SplashScreen} from '@/components/site/splash-screen';
-import {HashHandler} from '@/components/site/hash-handler';
-import {PrivateCircleModal} from '@/components/private-circle/private-circle-modal';
 import {getDirection, routing, type Locale} from '@/lib/i18n/routing';
 import '../globals.css';
 
@@ -58,14 +55,14 @@ export async function generateMetadata({params}: Props): Promise<Metadata> {
   const safeLocale = routing.locales.includes(locale as Locale)
     ? (locale as Locale)
     : routing.defaultLocale;
-  const t = await getTranslations({locale: safeLocale, namespace: 'Footer'});
+  const t = await getTranslations({locale: safeLocale, namespace: 'Meta'});
 
   return {
     title: {
-      default: 'Puerta Dubai',
-      template: '%s · Puerta Dubai'
+      default: t('title'),
+      template: `%s · ${t('title')}`
     },
-    description: t('brandLine'),
+    description: t('description'),
     metadataBase: process.env.NEXT_PUBLIC_SITE_URL
       ? new URL(process.env.NEXT_PUBLIC_SITE_URL)
       : undefined
@@ -85,23 +82,21 @@ export default async function LocaleLayout({children, params}: Props) {
     <html
       lang={locale}
       dir={getDirection(locale as Locale)}
-      className={`${arsenal.variable} ${robotoFlex.variable} ${elMessiri.variable} ${ibmPlexArabic.variable} antialiased`}
+      data-scroll-behavior="smooth"
+      className={`${arsenal.variable} ${robotoFlex.variable} ${elMessiri.variable} ${ibmPlexArabic.variable} scroll-smooth antialiased`}
     >
       <body className="min-h-screen flex flex-col bg-[var(--bg)] text-[var(--text-body)]">
         <NextIntlClientProvider messages={messages} locale={locale}>
-          <NuqsAdapter>
-            {/* Suspense around everything that may transitively call
-             * useSearchParams (via nuqs). Lets the surrounding shell
-             * statically prerender while client URL state hydrates. */}
-            <Suspense>
-              <SplashScreen />
-              <HashHandler />
-              <SiteNav />
-              <main className="flex-1 pt-16 [&>section:first-child#hero]:-mt-16 [&>section:first-child#hero]:pt-16">{children}</main>
-              <SiteFooter />
-              <PrivateCircleModal />
-            </Suspense>
-          </NuqsAdapter>
+          {/* Suspense so the shell can statically prerender while the
+           * client-only splash / nav scroll state hydrate. */}
+          <Suspense>
+            <SplashScreen />
+            <SiteNav />
+            <main className="flex-1 pt-16 [&>section:first-child#hero]:-mt-16 [&>section:first-child#hero]:pt-16">
+              {children}
+            </main>
+            <SiteFooter />
+          </Suspense>
         </NextIntlClientProvider>
       </body>
     </html>

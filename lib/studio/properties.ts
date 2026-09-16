@@ -1,4 +1,5 @@
 import 'server-only';
+import {unstable_cache} from 'next/cache';
 import {z} from 'zod';
 
 /**
@@ -49,7 +50,10 @@ const StudioListingSchema = z.object({
   images: z.array(z.string()).optional().default([]),
   amenities: z.array(z.string()).optional().default([]),
   agent: z
-    .object({name: z.string().optional().nullable()})
+    .object({
+      name: z.string().optional().nullable(),
+      email: z.string().optional().nullable()
+    })
     .optional()
     .nullable()
 });
@@ -271,46 +275,93 @@ function toDetail(item: StudioListingDetailRaw, locale: string): StudioListingDe
   };
 }
 
+/** Dayan's identity in the Studio CRM. Email is the primary match; the
+ * name is a fallback for records that carry only a display name. */
+export const DAYAN_AGENT = {
+  email: 'dayan@blackoak-re.com',
+  name: 'Dayan Candamil'
+} as const;
+
 /**
- * Fetch every listing for a single agent (by exact name match on
- * `agent.name`). Studio doesn't expose an agent query parameter, so we
- * paginate through all pages and filter server-side. Pages are fetched
- * in parallel after the first request reveals `total`. Cached behind
- * ISR + a longer `revalidate` than the featured-listings call because
- * the agent's catalogue churns less than the curated home-page set.
+ * The public feed has no agent filter, so an agent's listings can only be
+ * found by walking the whole feed — ~460 rows, ~37 MB, ~14 s. That body is
+ * far over Next's 2 MB per-entry data-cache limit, so the *response* is
+ * never cached (`cache: 'no-store'` below keeps Next from trying and
+ * logging a failure on every walk). What we cache instead, via
+ * `unstable_cache`, is the tiny locale-independent projection of the
+ * agent's own rows — a few KB — for 15 min. Price formatting is applied
+ * per locale after the cache read.
+ *
+ * Studio accepts large page sizes and returns the whole feed in one
+ * response; oddly a *partial* last page costs as much as the full feed,
+ * so paging in 100s only multiplies the wait. We still loop in case the
+ * feed outgrows the page size.
  */
-export async function fetchListingsByAgent(
-  agentName: string,
-  locale: string
-): Promise<StudioListingCard[]> {
-  const apiKey = process.env.STUDIO_API_KEY;
-  if (!apiKey) {
-    if (process.env.NODE_ENV !== 'production') {
-      console.warn('[studio] STUDIO_API_KEY not set — agent feed returns []');
-    }
-    return [];
-  }
+const FEED_PAGE_SIZE = 500;
+const FEED_TIMEOUT_MS = 60_000;
+const AGENT_CACHE_SECONDS = 900;
 
-  const target = agentName.trim().toLowerCase();
-  const apiKeyStr: string = apiKey;
+/** Locale-independent card data, small enough to live in the data cache. */
+type SlimListing = {
+  id: string;
+  title: string;
+  area: string;
+  emirate: string;
+  price: number;
+  offering: string | null;
+  bedrooms: number;
+  bathrooms: number;
+  sqft: number;
+  image: string | null;
+  reference: string | null;
+};
 
-  // Single-attempt fetch with timeout. Returns parsed JSON, `null` on
-  // HTTP error, or throws a tagged error on abort/network failure so
-  // the caller can decide whether to retry.
-  const fetchPageOnce = async (page: number) => {
+function toSlim(item: StudioListing): SlimListing {
+  return {
+    id: item.id,
+    title: item.titleEn?.trim() || item.projectName?.trim() || item.address || 'Listing',
+    area: item.locationCommunity?.trim() || item.locationBuilding?.trim() || item.address || '',
+    emirate: item.locationCity?.trim() || 'Dubai',
+    price: item.price,
+    offering: item.offering ?? null,
+    bedrooms: item.bedrooms,
+    bathrooms: item.bathrooms,
+    sqft: item.area,
+    image: pickFirstAllowedImage(item.images),
+    reference: item.reference ?? null
+  };
+}
+
+function slimToCard(item: SlimListing, locale: string): StudioListingCard {
+  return {
+    id: item.id,
+    title: item.title,
+    area: item.area,
+    emirate: item.emirate,
+    priceFrom: formatPrice(item.price, item.offering, locale),
+    bedrooms: item.bedrooms,
+    bathrooms: item.bathrooms,
+    sqft: item.sqft,
+    image: item.image,
+    reference: item.reference
+  };
+}
+
+async function fetchWholeFeed(apiKey: string): Promise<StudioListing[]> {
+  const fetchPageOnce = async (page: number): Promise<unknown> => {
     const url = new URL(STUDIO_API_URL);
     url.searchParams.set('page', String(page));
-    url.searchParams.set('limit', '25');
+    url.searchParams.set('limit', String(FEED_PAGE_SIZE));
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+    const timer = setTimeout(() => controller.abort(), FEED_TIMEOUT_MS);
     try {
       const res = await fetch(url.toString(), {
-        headers: {'X-API-Key': apiKeyStr},
+        headers: {'X-API-Key': apiKey},
         signal: controller.signal,
-        next: {revalidate: 900, tags: ['studio-properties', 'agent-feed']}
+        cache: 'no-store'
       });
       if (!res.ok) {
-        console.warn(`[studio] page ${page} returned ${res.status}`);
+        console.warn(`[studio] feed page ${page} returned ${res.status}`);
         return null;
       }
       return await res.json();
@@ -319,22 +370,20 @@ export async function fetchListingsByAgent(
     }
   };
 
-  // Fetch with one retry on transient errors (abort, network). Studio
-  // cold-starts sometimes drop specific pages — a single retry catches
-  // those without cascading to multiple attempts.
-  const fetchPage = async (page: number) => {
+  // One retry on transient errors (abort / network).
+  const fetchPage = async (page: number): Promise<unknown> => {
     try {
       return await fetchPageOnce(page);
     } catch (err) {
       console.warn(
-        `[studio] page ${page} attempt 1 failed, retrying:`,
+        `[studio] feed page ${page} attempt 1 failed, retrying:`,
         err instanceof Error ? err.message : err
       );
       try {
         return await fetchPageOnce(page);
       } catch (err2) {
         console.warn(
-          `[studio] page ${page} retry also failed:`,
+          `[studio] feed page ${page} retry also failed:`,
           err2 instanceof Error ? err2.message : err2
         );
         return null;
@@ -342,37 +391,77 @@ export async function fetchListingsByAgent(
     }
   };
 
+  const extractItems = (payload: unknown): unknown[] => {
+    if (Array.isArray(payload)) return payload;
+    const obj = (payload ?? {}) as Record<string, unknown>;
+    const items = obj.data ?? obj.properties ?? obj.listings;
+    return Array.isArray(items) ? items : [];
+  };
+
   const first = await fetchPage(1);
   if (!first) return [];
-  const total = Number(first?.total ?? 0);
-  const limit = Number(first?.limit ?? 25);
-  const totalPages = Math.max(1, Math.ceil(total / limit));
-
-  const rest =
-    totalPages > 1
-      ? await Promise.all(
-          Array.from({length: totalPages - 1}, (_, i) => fetchPage(i + 2))
-        )
-      : [];
-
-  const all: unknown[] = [];
-  for (const payload of [first, ...rest]) {
-    const items = Array.isArray(payload)
-      ? payload
-      : (payload?.data ?? payload?.properties ?? payload?.listings ?? []);
-    if (Array.isArray(items)) all.push(...items);
+  const total = Number((first as Record<string, unknown>).total ?? 0);
+  const all: unknown[] = extractItems(first);
+  let page = 1;
+  while (all.length < total && page < 20) {
+    page += 1;
+    const payload = await fetchPage(page);
+    if (!payload) break;
+    const items = extractItems(payload);
+    if (items.length === 0) break;
+    all.push(...items);
   }
 
-  const cards: StudioListingCard[] = [];
+  const parsed: StudioListing[] = [];
   for (const item of all) {
-    const parsed = StudioListingSchema.safeParse(item);
-    if (!parsed.success) continue;
-    const name = (parsed.data.agent?.name ?? '').trim().toLowerCase();
-    if (name === target) {
-      cards.push(toCard(parsed.data, locale));
-    }
+    const result = StudioListingSchema.safeParse(item);
+    if (result.success) parsed.push(result.data);
   }
-  return cards;
+  return parsed;
+}
+
+/**
+ * Walk the feed and keep only one agent's rows, slimmed. Cached in Next's
+ * data cache for 15 min under `agent-feed` — `revalidateTag('agent-feed')`
+ * (or `studio-properties`) forces a fresh walk. Serves stale while
+ * revalidating, so a slow CRM never blocks a request once warm.
+ */
+const getAgentSlimListings = unstable_cache(
+  async (email: string, name: string): Promise<SlimListing[]> => {
+    const apiKey = process.env.STUDIO_API_KEY;
+    if (!apiKey) return [];
+    const targetEmail = email.trim().toLowerCase();
+    const targetName = name.trim().toLowerCase();
+    const feed = await fetchWholeFeed(apiKey);
+    const mine: SlimListing[] = [];
+    for (const item of feed) {
+      const agentEmail = (item.agent?.email ?? '').trim().toLowerCase();
+      const agentName = (item.agent?.name ?? '').trim().toLowerCase();
+      const matches = agentEmail ? agentEmail === targetEmail : agentName === targetName;
+      if (matches) mine.push(toSlim(item));
+    }
+    return mine;
+  },
+  ['studio-agent-listings'],
+  {revalidate: AGENT_CACHE_SECONDS, tags: ['studio-properties', 'agent-feed']}
+);
+
+/**
+ * Every listing for a single agent, matched on `agent.email` with
+ * `agent.name` as a fallback for records that carry no email.
+ */
+export async function fetchAgentListings(
+  agent: {email: string; name: string},
+  locale: string
+): Promise<StudioListingCard[]> {
+  if (!process.env.STUDIO_API_KEY) {
+    if (process.env.NODE_ENV !== 'production') {
+      console.warn('[studio] STUDIO_API_KEY not set — agent feed returns []');
+    }
+    return [];
+  }
+  const slim = await getAgentSlimListings(agent.email, agent.name);
+  return slim.map((item) => slimToCard(item, locale));
 }
 
 /**

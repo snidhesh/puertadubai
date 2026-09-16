@@ -24,7 +24,7 @@ const robotoFlex = Roboto_Flex({
  * matcher — defence in depth with the `<meta>` here.
  */
 export const metadata = {
-  title: 'Puerta Dubai · Internal',
+  title: 'Dayan Candamil · Internal',
   robots: {index: false, follow: false}
 };
 

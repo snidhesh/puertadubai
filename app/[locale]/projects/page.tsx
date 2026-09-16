@@ -1,8 +1,9 @@
 import type {Metadata} from 'next';
+import {Suspense} from 'react';
 import {setRequestLocale, getTranslations} from 'next-intl/server';
 import {Link} from '@/lib/i18n/navigation';
 import {Container, Section} from '@/components/ui/container';
-import {fetchListingsByAgent, type StudioListingCard} from '@/lib/studio/properties';
+import {DAYAN_AGENT, fetchAgentListings, type StudioListingCard} from '@/lib/studio/properties';
 import {cn} from '@/lib/utils';
 import {routing, type Locale} from '@/lib/i18n/routing';
 
@@ -27,10 +28,7 @@ export default async function ProjectsIndexPage({params}: Props) {
   const {locale} = await params;
   setRequestLocale(locale);
 
-  const [t, listings] = await Promise.all([
-    getTranslations({locale, namespace: 'Projects'}),
-    fetchListingsByAgent('Dayan Candamil', locale)
-  ]);
+  const t = await getTranslations({locale, namespace: 'Projects'});
 
   return (
     <Section className="py-20 md:py-28">
@@ -50,35 +48,61 @@ export default async function ProjectsIndexPage({params}: Props) {
           <p className="mt-6 max-w-xl text-sm leading-[1.7] text-[var(--text-body)] md:text-base">
             {t('body')}
           </p>
-          <p
-            className="mt-4 text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)]"
-            data-ui-label
-          >
-            <bdi>{t('activeListings', {count: listings.length})}</bdi>
-          </p>
         </div>
 
-        {listings.length === 0 ? (
-          <p className="mt-16 max-w-xl text-sm text-[var(--text-body)]">
-            {t('empty')}
-          </p>
-        ) : (
-          <ul className="mt-14 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
-            {listings.map((listing) => (
-              <li key={listing.id}>
-                <Link href={`/projects/${listing.id}`} className="block">
-                  <ProjectListingCard listing={listing} t={t} />
-                </Link>
-              </li>
-            ))}
-          </ul>
-        )}
+        {/* Streams in behind a skeleton; warm reads come from the data cache. */}
+        <Suspense fallback={<ListingsSkeleton />}>
+          <ListingsGrid locale={locale} t={t} />
+        </Suspense>
       </Container>
     </Section>
   );
 }
 
 type ProjectsT = Awaited<ReturnType<typeof getTranslations<'Projects'>>>;
+
+async function ListingsGrid({locale, t}: {locale: Locale; t: ProjectsT}) {
+  const listings: StudioListingCard[] = await fetchAgentListings(DAYAN_AGENT, locale).catch(() => []);
+  return (
+    <>
+      <p
+        className="mt-4 text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)]"
+        data-ui-label
+      >
+        <bdi>{t('activeListings', {count: listings.length})}</bdi>
+      </p>
+      {listings.length === 0 ? (
+        <p className="mt-16 max-w-xl text-sm text-[var(--text-body)]">{t('empty')}</p>
+      ) : (
+        <ul className="mt-14 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+          {listings.map((listing) => (
+            <li key={listing.id}>
+              <Link href={`/projects/${listing.id}`} className="block">
+                <ProjectListingCard listing={listing} t={t} />
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
+    </>
+  );
+}
+
+function ListingsSkeleton() {
+  return (
+    <ul className="mt-14 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3" aria-hidden="true">
+      {Array.from({length: 6}, (_, i) => (
+        <li key={i} className="flex animate-pulse flex-col gap-5">
+          <div className="aspect-[7/5] w-full bg-[var(--bg-alt)]" />
+          <div className="space-y-2">
+            <div className="h-4 w-3/4 bg-[var(--bg-alt)]" />
+            <div className="h-3 w-1/2 bg-[var(--bg-alt)]" />
+          </div>
+        </li>
+      ))}
+    </ul>
+  );
+}
 
 function ProjectListingCard({listing, t}: {listing: StudioListingCard; t: ProjectsT}) {
   return (
@@ -132,7 +156,7 @@ function ProjectListingCard({listing, t}: {listing: StudioListingCard; t: Projec
           </p>
           {listing.reference && (
             <p
-              className="mt-2 text-[10px] uppercase tracking-[0.22em] text-[var(--text-muted)]"
+              className="mt-2 break-all text-[10px] uppercase tracking-[0.22em] text-[var(--text-muted)]"
               data-ui-label
             >
               {t('refPrefix')} {listing.reference}

@@ -5,7 +5,8 @@ import Image from 'next/image';
 import {usePathname} from 'next/navigation';
 import {useTranslations} from 'next-intl';
 import {cn} from '@/lib/utils';
-import logoBlack from '../../public/brand/logo-black.png';
+import {PORTRAITS} from '@/lib/home/content';
+import logoLockup from '../../public/brand/logo-lockup.png';
 
 /**
  * Initial-load splash overlay — fixed full-viewport, fades out after
@@ -22,7 +23,7 @@ import logoBlack from '../../public/brand/logo-black.png';
 const DISPLAY_MS = 5000;
 const FADE_MS = 600;
 const ONE_DAY_MS = 24 * 60 * 60 * 1000;
-const STORAGE_KEY = 'puerta:splash-last-shown';
+const STORAGE_KEY = 'dc:splash-last-shown';
 
 function isHomePath(path: string) {
   if (path === '/') return true;
@@ -31,6 +32,7 @@ function isHomePath(path: string) {
 
 export function SplashScreen() {
   const t = useTranslations('Nav');
+  const tSplash = useTranslations('Splash');
   const pathname = usePathname();
   const onHome = isHomePath(pathname);
   // Conservative SSR / first-paint default: 'mounting' on home so the
@@ -116,10 +118,10 @@ export function SplashScreen() {
     >
       {/* Logo (inverted to white via filter) */}
       <Image
-        src={logoBlack}
-        alt="Puerta Dubai"
+        src={logoLockup}
+        alt={t('wordmark')}
         height={96}
-        width={Math.round((96 * 2842) / 3781)}
+        width={Math.round((96 * 616) / 168)}
         priority
         className="h-16 w-auto [filter:invert(1)] md:h-24"
       />
@@ -128,7 +130,7 @@ export function SplashScreen() {
       <div className="relative mt-8 h-32 w-32 overflow-hidden rounded-full border border-white/20 shadow-[0_8px_40px_-12px_rgba(0,0,0,0.6)] md:mt-10 md:h-40 md:w-40">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/dummy/founder.jpg"
+          src={PORTRAITS.splash}
           alt=""
           className="absolute inset-0 h-full w-full object-cover object-top"
         />
@@ -139,7 +141,7 @@ export function SplashScreen() {
         className="mt-8 max-w-md px-6 text-center font-display text-lg leading-[1.5] !text-white md:mt-10 md:text-2xl"
         style={{color: '#ffffff'}}
       >
-        A private gateway for global investors entering the UAE market.
+        {tSplash('tagline')}
       </p>
 
       {/* Indeterminate loading bar */}

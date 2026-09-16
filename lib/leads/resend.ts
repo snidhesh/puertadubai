@@ -61,11 +61,11 @@ export async function sendApplicantConfirmation(opts: {
 }): Promise<void> {
   const resend = new Resend(opts.apiKey);
   const greetings: Record<LeadInput['locale'], string> = {
-    en: 'Thank you for reaching out to Puerta Dubai.',
-    fr: 'Merci de votre intérêt pour Puerta Dubai.',
-    es: 'Gracias por escribir a Puerta Dubai.',
-    pt: 'Obrigado pelo seu contacto com a Puerta Dubai.',
-    ar: 'شكراً لتواصلك مع بويرتا دبي.'
+    en: 'Thank you for reaching out to Dayan Candamil.',
+    fr: 'Merci d’avoir contacté Dayan Candamil.',
+    es: 'Gracias por escribir a Dayan Candamil.',
+    pt: 'Obrigado pelo seu contacto com Dayan Candamil.',
+    ar: 'شكراً لتواصلك مع دايان كاندميل.'
   };
   await resend.emails.send({
     from: opts.from,
@@ -76,7 +76,7 @@ export async function sendApplicantConfirmation(opts: {
       '',
       opts.locale === 'ar'
         ? 'سنعود إليك خلال 48 ساعة.'
-        : "We will be in touch within 48 hours."
+        : "Dayan will be in touch within 48 hours."
     ].join('\n')
   });
 }

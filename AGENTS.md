@@ -4,11 +4,13 @@
 This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
 <!-- END:nextjs-agent-rules -->
 
-# Puerta Dubai — project conventions
+# Dayan Candamil — project conventions
 
 ## Source of truth
-Implementation plan: `~/.claude/plans/analyse-the-old-website-idempotent-lemon.md`.
-When making non-trivial decisions, re-read the relevant section.
+Content spec: `DAYAN_CANDAMIL_SITE_UPDATE.md` + `Dayan_Candamil_Portfolio_Content.md` (single-page
+portfolio for Dayan Candamil — she/her). Static data in `lib/home/content.ts`, copy in `messages/*.json`.
+The language switcher is hidden until ES/PT translations are confirmed; non-EN message files currently
+mirror `en.json`.
 
 ## Stack
 - Next.js 16 (App Router, TypeScript strict, RSC). `proxy.ts` replaces `middleware.ts` and uses a *named* export `proxy`.
@@ -37,9 +39,9 @@ When making non-trivial decisions, re-read the relevant section.
 
 ## Anti-fabrication
 - No fabricated numbers, transaction amounts, ROI claims, client names, testimonials, awards, or media mentions.
-- Golden Visa copy is **gated on legal review**; tied to the AED 2M canonical threshold (UAE federal portal + GDRFA Dubai), not the old site's USD 550,000 figure.
-- Founder Credentials & Recognition (CNN/Vogue/Harper's) needs verifiable links/screenshots or removal — no placeholder logos.
-- Anonymised content is acceptable where the underlying facts are real.
+- Every Selected Work / Media / Endorsement item must trace to Dayan's public profile or a verifiable source.
+  Items marked `placeholder: true` in `lib/home/content.ts` use stand-in photography until the real asset lands.
+- No press logos without rights clearance; endorsement avatars stay neutral until logos are supplied.
 
 ## Audit chain (when you reach phase 9)
 - One **global** chain across all event classes. `seq = prevSeq + 1` assigned **under a Redis lock** (NOT `INCR`). Lock release is a compare-and-delete Lua script (TTL-expiry safety).

@@ -7,7 +7,7 @@
  * parent of /studio.
  */
 export const metadata = {
-  title: 'Puerta Dubai · Studio',
+  title: 'Dayan Candamil · Studio',
   robots: {index: false, follow: false}
 };
 

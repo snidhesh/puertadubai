@@ -1,434 +1,369 @@
 {
+  "Meta": {
+    "title": "Dayan Candamil",
+    "description": "Dayan Candamil — cross-border real estate & investment adviser, Associate Partner at BlackOak Real Estate Dubai, and founder of House of Candamil."
+  },
   "Nav": {
-    "home": "الرئيسية",
-    "about": "ما هي بويرتا دبي؟",
-    "founder": "المؤسس",
-    "projects": "المشاريع",
-    "areas": "أدلة المناطق",
-    "services": "الخدمات",
-    "investmentReadiness": "الاستعداد للاستثمار",
-    "partners": "الشركاء",
-    "press": "تحريريات",
-    "goldenVisa": "الإقامة الذهبية",
-    "contact": "تواصل",
-    "openMenu": "فتح القائمة",
-    "closeMenu": "إغلاق القائمة",
-    "changeLanguage": "تغيير اللغة",
-    "languageList": "اللغة",
-    "loading": "جارٍ تحميل بويرتا دبي",
-    "socialChannels": "قنوات التواصل",
-    "logoAria": "بويرتا دبي — الرئيسية",
-    "siteNavAria": "تصفّح الموقع",
-    "follow": "تابعونا"
+    "about": "About",
+    "expertise": "Expertise",
+    "experience": "Experience",
+    "listings": "Listings",
+    "atelier": "House of Candamil",
+    "media": "Media",
+    "contact": "Contact",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "loading": "Loading Dayan Candamil",
+    "socialChannels": "Social channels",
+    "logoAria": "Dayan Candamil — home",
+    "wordmark": "Dayan Candamil",
+    "wordmarkLine": "Dubai · Miami · Bogotá",
+    "siteNavAria": "Site navigation",
+    "follow": "Follow"
   },
   "Hero": {
-    "headline": "استثمر في رؤية الإمارات",
-    "subhead": "بوابة خاصة للمستثمرين الدوليين الراغبين في دخول سوق الإمارات.",
-    "primaryCta": "انضم إلى الدائرة الخاصة",
-    "secondaryCta": "استعراض المشاريع"
+    "kicker": "Dubai · GCC · Americas",
+    "headline": "Representing the 1% since 2012.",
+    "subhead": "Cross-border real estate and investment adviser to UHNW families, family offices and developers — and founder of the luxury atelier House of Candamil.",
+    "primaryCta": "Book a private consultation",
+    "secondaryCta": "View experience"
   },
-  "PrivateCircle": {
-    "title": "الدائرة الخاصة — وصول مميّز",
-    "subtitle": "سجّل مسبقاً لتلقّي فرص استثمارية مختارة وأدلة مناطق وإرشاد حول الإقامة الذهبية.",
-    "country": "بلد الإقامة",
-    "interest": "الاهتمام الرئيسي",
-    "interestRealEstate": "العقارات",
-    "interestBusiness": "تأسيس الشركات",
-    "interestBoth": "العقارات وتأسيس الشركات",
-    "interestGoldenVisa": "الإقامة الذهبية",
-    "name": "الاسم الكامل",
-    "email": "البريد الإلكتروني",
-    "phone": "الهاتف (اختياري)",
-    "consent": "أوافق على أن تتواصل بويرتا دبي معي بشأن فرص الاستثمار في الإمارات وقد قرأت سياسة الخصوصية.",
-    "marketingOptIn": "أرغب أيضاً في استلام نشرات السوق (اختياري).",
-    "submit": "متابعة",
-    "successTitle": "تم تسجيلك",
-    "successBody": "سنتواصل معك خلال 48 ساعة بملخص مخصّص.",
-    "successCta": "إجراء تقييم الاستعداد للاستثمار",
-    "modalChip": "الدائرة الخاصة",
-    "preferredCompany": "الشركة المفضلة",
-    "close": "إغلاق",
-    "errorMessage": "حدث خطأ ما. يُرجى المحاولة مجدداً أو استخدام رابط واتساب.",
-    "retry": "إعادة المحاولة",
-    "back": "رجوع"
+  "Splash": {
+    "tagline": "Cross-border real estate & investment adviser. Founder, House of Candamil."
   },
   "Footer": {
-    "ariaLabel": "تذييل الصفحة",
-    "brandLine": "بوابة خاصة للمستثمرين الدوليين الراغبين في دخول سوق الإمارات.",
-    "exploreHeading": "استكشف",
-    "legalHeading": "قانوني",
-    "rights": "جميع الحقوق محفوظة.",
-    "legalNotice": "إشعار قانوني",
-    "privacy": "سياسة الخصوصية"
-  },
-  "Areas": {
-    "index": {
-      "metaTitle": "أدلة المناطق — مناطق الاستثمار في الإمارات | بويرتا دبي",
-      "metaDescription": "ملخصات للمستثمرين عن أهم مناطق الإمارات — المواصلات، نظام التملك، نمط الحياة والمشاريع ذات الصلة.",
-      "eyebrow": "أدلة المناطق",
-      "heading": "أين تستثمر يهم أكثر مما تستثمر فيه.",
-      "subtitle": "ملخصات بحسب المنطقة — المواصلات، نظام التملك، نمط الحياة، والمشاريع ذات الصلة."
-    },
-    "detail": {
-      "backToIndex": "أدلة المناطق",
-      "headings": {
-        "lifestyle": "نمط الحياة",
-        "attractions": "معالم المنطقة",
-        "investmentHighlights": "أبرز نقاط الاستثمار"
-      }
-    }
-  },
-  "Projects": {
-    "metaTitle": "المشاريع",
-    "metaDescription": "قوائم عقارية نشطة في الإمارات يمثّلها داين كانداميل شخصياً.",
-    "eyebrow": "المشاريع",
-    "heading": "القوائم النشطة",
-    "body": "قوائم عقارية في الإمارات يمثّلها داين شخصياً، تُجلب مباشرة من نظام BlackOak Studio. يُحدَّث المخزون تلقائياً؛ اضغط على أي قائمة لإرسال استفسار مباشر.",
-    "activeListings": "{count, plural, =0 {لا توجد قوائم نشطة} one {قائمة نشطة واحدة} two {قائمتان نشطتان} few {# قوائم نشطة} many {# قائمة نشطة} other {# قائمة نشطة}}",
-    "empty": "لا توجد قوائم نشطة حالياً. تُضاف عقارات جديدة بانتظام — تفقّد الصفحة لاحقاً أو أرسل استفساراً من صفحة التواصل.",
-    "beds": "غرف نوم",
-    "baths": "حمّامات",
-    "sqft": "قدم²",
-    "refPrefix": "مرجع",
-    "viewDetails": "عرض التفاصيل",
-    "fromPrefix": "ابتداءً من",
-    "imagePending": "الصورة قيد الإضافة",
-    "emptySanity": "لم تُنشر أي مشاريع بعد. أضفها في Sanity Studio وستظهر هنا تلقائياً.",
-    "noFilterMatches": "لا توجد مشاريع تطابق الفلاتر الحالية. أعد الضبط لعرض الكل.",
-    "filters": {
-      "emirate": "الإمارة",
-      "status": "الحالة",
-      "bedrooms": "غرف النوم",
-      "allEmirates": "كل الإمارات",
-      "anyStatus": "أي حالة",
-      "offPlan": "على الخارطة",
-      "ready": "جاهز",
-      "secondary": "ثانوي",
-      "anyBedrooms": "أي عدد غرف",
-      "reset": "إعادة الضبط"
-    }
-  },
-  "Contact": {
-    "metaTitle": "تواصل",
-    "metaDescription": "تواصل مع بويرتا دبي عبر البريد الإلكتروني أو الهاتف أو واتساب.",
-    "ariaLabel": "التواصل مع المكتب",
-    "eyebrow": "لنتواصل",
-    "heading": "التواصل مع المكتب",
-    "body": "حديث قصير دون التزام حول انتقالك إلى الإمارات. نردّ خلال 48 ساعة بلغتك المفضّلة.",
-    "email": "البريد الإلكتروني",
-    "whatsApp": "واتساب"
+    "ariaLabel": "Footer",
+    "brandLine": "Cross-border real estate & investment adviser. Founder, House of Candamil. Dubai · GCC · Americas.",
+    "exploreHeading": "Explore",
+    "elsewhereHeading": "Elsewhere",
+    "legalHeading": "Legal",
+    "rights": "All rights reserved.",
+    "legalNotice": "Legal Notice",
+    "privacy": "Privacy Policy",
+    "linkedin": "LinkedIn",
+    "instagram": "Instagram",
+    "youtube": "YouTube",
+    "houseOfCandamil": "House of Candamil",
+    "blackoak": "BlackOak Real Estate"
   },
   "Home": {
     "overview": {
-      "ariaLabel": "بويرتا دبي في لمحة",
-      "eyebrow": "مكتب استثمار خاص",
-      "headingPart1": "عقارات، إقامة، خدمات مصرفية، انتقال.",
-      "headingItalic": "مكتب واحد.",
-      "headingPart2": "خمس إمارات.",
-      "body": "خدمة استشارية مخصّصة للعائلات الدولية القادمة إلى الإمارات — يديرها المؤسس بنفسه، صغيرة الحجم بقصد، ومحدودة المهام عمداً.",
-      "skylineAlt": "برج العرب ونخلة جميرا، دبي",
-      "statEmirates": "إمارات",
-      "statDevelopers": "مطوّرون شركاء",
-      "statLanguages": "لغات"
-    },
-    "ctaRow": {
-      "ariaLabel": "وصول سريع",
-      "pcEyebrow": "الدائرة الخاصة",
-      "pcTitle": "الوصول المميّز",
-      "pcBody": "بالدعوة. يقبل المكتب عدداً محدوداً من المهام كل عام.",
-      "pcCta": "طلب الوصول",
-      "highRisesEyebrow": "حسب نوع العقار",
-      "highRisesTitle": "أبراج فاخرة",
-      "highRisesSublabel": "مارينا · داون تاون · الخور",
-      "highRisesCta": "تصفّح الأبراج",
-      "communitiesEyebrow": "حسب المجتمع",
-      "communitiesTitle": "مجتمعات فاخرة",
-      "communitiesSublabel": "السعديات · الهيلز · النخلة",
-      "communitiesCta": "تصفّح المجتمعات"
-    },
-    "about": {
-      "eyebrow": "عن",
-      "name": "داين كانداميل",
-      "h1": "بوابة خاصة إلى الإمارات.",
-      "body1": "بويرتا دبي خدمة استثمارية مخصّصة للعائلات الدولية ذات الثروة العالية القادمة إلى الإمارات — عقارات، تأسيس شركات، خدمات مصرفية، ضرائب، الإقامة الذهبية والانتقال، كلّها من مكتب واحد. يديرها المؤسس بنفسه، صغيرة الحجم بقصد، ويقبل المكتب عدداً محدوداً من المهام كل عام لتُدار كل علاقة شخصياً.",
-      "h2": "خلفية تتنقّل عبر القارات.",
-      "body2": "تشمل خلفية داين القانون وبناء العلامات والمشاريع الثقافية الفاخرة في أوروبا وأمريكا اللاتينية والخليج. يعمل المكتب بخمس لغات وينسّق بانتظام مع مكاتب العائلة والمستشارين الدوليين والمطوّرين نيابةً عن عملاء لا يقيمون في المنطقة بشكل دائم.",
-      "h3": "محادثة واحدة، من البداية إلى النهاية.",
-      "body3": "البحث عن العقارات قيد الإنشاء والثانوية، العناية الواجبة، خطط الدفع، الضمان، مقدّمات الرهن العقاري، تأسيس الشركة، الإقامة، البنوك — جهة الاتصال نفسها ترافق كل خطوة. لا تسليم بين أيدٍ، ولا مديرو حسابات مبتدئون.",
-      "founderCta": "ملف المؤسس",
-      "imageAlt": "داين كانداميل، مؤسس بويرتا دبي"
-    },
-    "explore": {
-      "eyebrow": "استكشف المكتب",
-      "heading": "تصفّح حسب ما يهمّك",
-      "browseLabel": "تصفّح"
+      "ariaLabel": "Dayan Candamil at a glance",
+      "eyebrow": "A private advisory practice",
+      "headingPart1": "Capital, culture, cross-border.",
+      "headingItalic": "One adviser.",
+      "headingPart2": "Three continents.",
+      "body": "Dayan connects Latin American, North American and Gulf private capital with prime real estate in the UAE and beyond — personally, discreetly, and end-to-end. Founder-led and deliberately selective, she takes on a limited number of mandates each year.",
+      "imageAlt": "Dubai International Financial Centre",
+      "statYears": "Years representing private clients",
+      "statMarkets": "Markets: GCC · LatAm · USA · Morocco · West Africa",
+      "statLanguages": "Languages, all native: EN · ES · PT"
     },
     "featuredListings": {
-      "eyebrow": "مميّزة",
-      "heading": "القوائم",
-      "viewAll": "عرض الكل"
+      "eyebrow": "Featured",
+      "heading": "Listings",
+      "intro": "Active UAE listings, sourced live from the BlackOak Studio CRM and personally represented by Dayan. Click any listing for the full brief, or view the complete inventory.",
+      "viewAll": "View all listings",
+      "empty": "Listings are syncing from the CRM. Check back shortly, or view all listings."
     },
-    "testimonials": {
-      "eyebrow": "آراء العملاء",
-      "heading": "ما يقوله المستثمرون"
+    "panels": {
+      "ariaLabel": "Ways to work with Dayan",
+      "mandatesEyebrow": "Private mandates",
+      "mandatesTitle": "Work with Dayan",
+      "mandatesBody": "By introduction. A limited number of buy-side and developer mandates each year, run in person.",
+      "mandatesCta": "Request an introduction",
+      "blackoakEyebrow": "Real estate",
+      "blackoakTitle": "BlackOak Real Estate",
+      "blackoakBody": "Associate Partner at Dubai's boutique brokerage for prime, off-market and special-situations transactions.",
+      "blackoakCta": "Visit BlackOak",
+      "atelierEyebrow": "Atelier",
+      "atelierTitle": "House of Candamil",
+      "atelierBody": "One-of-a-kind accessories, fine jewellery and ready-to-wear, worn from Gulf royalty to European red carpets.",
+      "atelierCta": "Explore the House"
+    },
+    "about": {
+      "eyebrow": "About",
+      "name": "Dayan Candamil",
+      "tagline": "Senior investment strategist · Cultural entrepreneur",
+      "intro": "Dayan Candamil sits at the intersection of capital and culture. As Associate Partner at BlackOak Real Estate, she leads international markets and structures cross-border investment flows between Latin America, the United States, the GCC, Morocco and West Africa — originating complex transactions across prime land, luxury residential and branded developments.",
+      "h1": "Background that travels.",
+      "body1": "Born in Colombia, Dayan trained in law in São Paulo, art history in San Francisco and luxury brand management at the London College of Fashion. Her career runs through Key Biscayne, Panama City, Miami, Marrakech and Dubai — and she routinely coordinates with international counsel, family offices and developer principals on behalf of clients who do not live in the region full-time.",
+      "h2": "A trusted bridge between Latin America and the Gulf.",
+      "body2": "Over recent years she has played a pivotal role in introducing prominent Latin American families and investors to the UAE — supporting relocation, investment and long-term engagement of private capital in the Middle East. Fluent in English, Spanish and Portuguese, she advises developers on market entry, investor positioning, pricing frameworks and distribution across Latin American and African markets.",
+      "h3": "One conversation, end-to-end.",
+      "body3": "Sourcing prime and off-market inventory, due diligence, structuring, developer negotiations, relocation — the same point of contact walks each step. No handoffs, no junior account managers.",
+      "linkedinCta": "LinkedIn profile",
+      "imageAlt": "Dayan Candamil, editorial portrait"
+    },
+    "expertise": {
+      "eyebrow": "Expertise",
+      "heading": "What Dayan does",
+      "items": {
+        "advisory": {
+          "eyebrow": "Advisory",
+          "title": "Cross-border investment",
+          "body": "Structured investment pipelines from Latin America and the US into Dubai and Abu Dhabi."
+        },
+        "privateClients": {
+          "eyebrow": "Private clients",
+          "title": "UHNW & family offices",
+          "body": "Discreet buy-side representation, relocation support and long-term Gulf portfolio building."
+        },
+        "transactions": {
+          "eyebrow": "Transactions",
+          "title": "Prime & off-market",
+          "body": "Prime land, luxury residential, branded residences and special situations across the Emirates."
+        },
+        "developers": {
+          "eyebrow": "Developers",
+          "title": "Market-entry strategy",
+          "body": "Investor positioning, pricing frameworks and distribution for developers entering LatAm and Africa."
+        },
+        "corridors": {
+          "eyebrow": "New corridors",
+          "title": "Morocco & West Africa",
+          "body": "Inbound and outbound investment channels across Casablanca and key West African markets."
+        },
+        "creative": {
+          "eyebrow": "Creative",
+          "title": "Luxury brand direction",
+          "body": "Brand identity, product development and go-to-market for luxury, hospitality and gourmet retail."
+        }
+      }
+    },
+    "career": {
+      "eyebrow": "Career",
+      "heading": "A career arc across capital and culture.",
+      "intro": "Fourteen years of building and advising at the intersection of luxury, hospitality and real estate — across Bogotá, San Francisco, Key Biscayne, Panama City, Miami, Marrakech and Dubai.",
+      "items": {
+        "blackoak": {
+          "years": "2025 — Present",
+          "company": "BlackOak Real Estate",
+          "role": "Associate Partner · Dubai, UAE",
+          "summary": "Senior Investment Strategist & International Markets Lead. Cross-border flows between Latin America, the US, the GCC, Morocco and West Africa; origination across prime land, luxury residential and branded developments."
+        },
+        "houseOfCandamil": {
+          "years": "2020 — Present",
+          "company": "House of Candamil",
+          "role": "Founder & Creative Director · Dubai, UAE",
+          "summary": "Creative direction of the atelier across accessories, jewellery and ready-to-wear; artisan partnerships, campaigns, e-commerce and international presentation."
+        },
+        "pulse": {
+          "years": "2024 — 2025",
+          "company": "Pulse Real Estate",
+          "role": "Private Client Advisor · Dubai, UAE",
+          "summary": "UAE and GCC market entry for large Latin American investors in prime and ultra-prime real estate; large-ticket transactions and long-term portfolio building."
+        },
+        "europeEmirates": {
+          "years": "2023 — 2024",
+          "company": "Europe Emirates Group",
+          "role": "Senior Corporate Advisor, UAE · Dubai",
+          "summary": "Corporate structuring and inbound advisory for international clients establishing a presence in the UAE."
+        },
+        "fortune": {
+          "years": "2021 — 2024",
+          "company": "Fortune International Group",
+          "role": "Real Estate Advisor, Prada Bridger · Miami, FL",
+          "summary": "Advising Latin American investors on US market entry, large-ticket real estate and strategic portfolio building."
+        },
+        "chevre": {
+          "years": "2019 — 2022",
+          "company": "Chevre S.A.",
+          "role": "Senior Consultant · Panama City",
+          "summary": "Integrated PR and marketing strategy for a multi-brand restaurant group and gourmet retail chain; seven-figure budget; premium sourcing from Italy and Spain."
+        },
+        "accessories": {
+          "years": "2011 — 2022",
+          "company": "Dayan Candamil Accessories",
+          "role": "Founder & Creative Director · Key Biscayne, FL",
+          "summary": "Built the luxury accessories, jewellery and lifestyle label across the US, Latin America and select international markets — creative direction, sourcing, manufacturing and distribution."
+        },
+        "retail": {
+          "years": "2009 — 2011",
+          "company": "Mango · Guess",
+          "role": "Visual Merchandising & Stock Management · San Francisco",
+          "summary": "Retail merchandising foundations: collection distribution, visual standards and team training."
+        }
+      }
+    },
+    "endorsements": {
+      "eyebrow": "Endorsements",
+      "heading": "What partners say",
+      "items": {
+        "blackoakAppointment": {
+          "quote": "Her international relationships, market insight, and proven ability to connect global families with the region bring significant value to our platform as we continue to expand internationally.",
+          "name": "BlackOak Real Estate",
+          "sub": "Appointment announcement · 2026",
+          "initials": "B"
+        },
+        "caviarSpoon": {
+          "quote": "One-of-a-kind bags, accessories and fine jewellery, with a client base ranging from the most prominent royalties in the Middle East to celebrities in Europe and the US.",
+          "name": "The Caviar Spoon",
+          "sub": "Dubai lifestyle media",
+          "initials": "CS"
+        },
+        "blackoakBridge": {
+          "quote": "Widely regarded as a trusted bridge between Latin America and the region — supporting relocation, investment and long-term engagement of private capital into the Middle East.",
+          "name": "BlackOak Real Estate",
+          "sub": "On Dayan's client work",
+          "initials": "B"
+        }
+      }
     },
     "videos": {
-      "eyebrow": "مميّزة",
-      "heading": "فيديوهات",
-      "body": "جولات عقارية في أنحاء الإمارات يقدّمها داين شخصياً. كل زيارة تمنح فهماً أوضح للعقار — المبنى، المطوّر، والسياق — أكثر مما تستطيع أي بروشور تقديمه.",
-      "viewAll": "عرض كل الفيديوهات على يوتيوب"
+      "eyebrow": "Featured",
+      "heading": "Videos",
+      "body": "Property tours and walkthroughs from across the UAE, presented in person by Dayan. Each visit gives a clearer sense of the listing — the building, the developer, the context — than a brochure ever could.",
+      "viewAll": "View all videos on YouTube"
+    },
+    "atelier": {
+      "eyebrow": "The atelier",
+      "heading": "House of Candamil",
+      "tagline": "Couture-quality accessories, fine jewellery and ready-to-wear.",
+      "intro": "What began as a child making jewellery in a Colombian home became a label with a following from Gulf royalty to European and American celebrities. Founded in Dubai in 2020, House of Candamil brings together one-of-a-kind bags, accessories and fine jewellery with a curated edit of home, clothing and lifestyle pieces.",
+      "h1": "Craft, preserved.",
+      "body1": "The house works directly with artisans — from Uzbek embroiderers to Moroccan makers — and has spoken on redesigning fashion to make it more sustainable at the Hult Prize on-campus programme in Morocco. Kuwait's Alanba newspaper profiled the house for its role in preserving heritage crafts.",
+      "h2": "Seen at.",
+      "body2": "Marrakech Fashion Week · Dubai Fashion Week · Globe Soccer Awards, Atlantis The Palm · Mandarin Oriental Dubai 10-year celebration · ELLE Arabia · Harper's Bazaar.",
+      "cta": "Visit houseofcandamil.com",
+      "imageAlt": "Dayan Candamil in House of Candamil"
     },
     "media": {
-      "eyebrowLine1": "في",
-      "eyebrowLine2": "الإعلام",
-      "body": "ظهورات وتغطيات مختارة في العقارات والتصميم. داين هو أيضاً المدير الإبداعي في House of Candamil — دار تصميم مقرّها بوغوتا، معروفة بإكسسواراتها الراقية وملابسها الجاهزة.",
-      "bazaarSource": "Harper's Bazaar Vietnam",
-      "bazaarDate": "أغسطس 2021",
-      "bazaarBody": "غلاف ومقال شخصي عن داين كانداميل في عدد أغسطس 2021، حول الرؤية الإبداعية لـ House of Candamil.",
-      "bazaarAlt": "غلاف Harper's Bazaar Vietnam، أغسطس 2021، مع داين كانداميل",
-      "mfwSource": "Marrakech Fashion Week",
-      "mfwDate": "2022",
-      "mfwTitle": "House of Candamil — عرض الأزياء",
-      "mfwBody": "العرض الكامل لمجموعة House of Candamil في Marrakech Fashion Week 2022.",
-      "mfwAria": "شاهد House of Candamil في Marrakech Fashion Week 2022 على يوتيوب",
-      "mfwAlt": "عرض House of Candamil في Marrakech Fashion Week 2022",
-      "certSource": "تقدير مهني",
-      "certDate": "2024",
-      "certTitle": "أعلى 1٪ من المهنيين العقاريين في دبي",
-      "certBody": "شهادة تقدير ممنوحة لداين كانداميل عن أدائه المتميز في سوق دبي العقاري.",
-      "certAlt": "شهادة تقدير: أعلى 1٪ من المهنيين العقاريين في دبي 2024 ممنوحة لداين كانداميل"
+      "eyebrowLine1": "In the",
+      "eyebrowLine2": "Media",
+      "body": "Selected appearances, coverage and recognition spanning real estate and design.",
+      "watchOnYouTube": "Watch on YouTube",
+      "items": {
+        "bazaar": {
+          "kicker": "Harper's Bazaar Vietnam · August 2021",
+          "title": "Cover and feature profile",
+          "body": "Cover story on Dayan Candamil and the design ethos behind House of Candamil.",
+          "alt": "Harper's Bazaar Vietnam cover, August 2021, featuring Dayan Candamil"
+        },
+        "mfw": {
+          "kicker": "Marrakech Fashion Week · 2022",
+          "title": "House of Candamil — Runway show",
+          "body": "Full runway presentation of the House of Candamil collection, under Dayan's direction.",
+          "alt": "House of Candamil runway at Marrakech Fashion Week 2022"
+        },
+        "elle": {
+          "kicker": "ELLE Arabia · 2021",
+          "title": "Introducing Dayan Candamil",
+          "body": "Video feature marking Dayan's move to the UAE and the launch of House of Candamil, in collaboration with The Caviar Spoon.",
+          "alt": "Dayan Candamil, editorial portrait"
+        },
+        "alanba": {
+          "kicker": "Alanba · Kuwait · 2024",
+          "title": "Feature on House of Candamil",
+          "body": "Profile in one of the Arab world's most established newspapers on handcraft, national identity and heritage preservation.",
+          "alt": ""
+        },
+        "hultPrize": {
+          "kicker": "Hult Prize × FST Settat University · Morocco · 2023",
+          "title": "Guest speaker — \"Redesigning Fashion to Make It More Sustainable\"",
+          "body": "Invited speaker at the International Hult Prize on-campus programme.",
+          "alt": "Dayan Candamil, black-and-white portrait"
+        },
+        "top1": {
+          "kicker": "Industry recognition · 2024",
+          "title": "Top 1% Dubai Real Estate Professional",
+          "body": "Certificate of Achievement awarded to Dayan Candamil for outstanding achievement in the Dubai real estate market.",
+          "alt": "Certificate of Achievement: Top 1% Dubai Real Estate Professional 2024 awarded to Dayan Candamil"
+        }
+      },
+      "alsoHeading": "Also featured in",
+      "also1": "ELLE Magazine",
+      "also2": "CNN US",
+      "also3": "The Emerald Book",
+      "also4": "Dubai Fashion Week / Arab Fashion Council",
+      "also5": "Globe Soccer Awards, Dubai 2024",
+      "honoursHeading": "Honours",
+      "honour1": "Keys to the Cundinamarca State — awarded by Mayor Miguel Barbosa R.",
+      "honour2": "Recognition for \"Redesigning Fashion to Make It More Sustainable\"",
+      "educationHeading": "Education & languages",
+      "education1": "London College of Fashion, UAL — Fashion Entrepreneurship & Luxury Brand Management (2011); Fashion Buying & Merchandising (2009)",
+      "education2": "City College of San Francisco — Art History, Fashion Illustration (2009–10)",
+      "education3": "Centro Universitário FMU, São Paulo — Bachelor of Laws, LLB (2006)",
+      "education4": "English · Spanish · Portuguese — native/bilingual"
     },
     "contact": {
-      "ariaLabel": "لنتواصل",
-      "eyebrow": "لنتواصل",
-      "heading": "التواصل مع المكتب",
-      "body": "حديث قصير دون التزام حول انتقالك إلى الإمارات. نردّ خلال 48 ساعة بلغتك المفضّلة.",
-      "email": "البريد الإلكتروني",
-      "whatsApp": "واتساب"
-    },
-    "partners": {
-      "eyebrow": "مطوّرون شركاء"
+      "ariaLabel": "Let's connect",
+      "eyebrow": "Let's connect",
+      "heading": "Contact Dayan",
+      "body": "A short, no-commitment conversation about your investment, relocation or collaboration. Replies within 48 hours, in English, Spanish or Portuguese.",
+      "email": "Email",
+      "whatsApp": "WhatsApp",
+      "office": "Office",
+      "officeValue": "Rolex Tower, DIFC, Dubai",
+      "imageAlt": "Dayan Candamil"
     }
   },
-  "About": {
-    "metaTitle": "ما هي بويرتا دبي؟",
-    "metaDescription": "بوابة خاصة للمستثمرين الدوليين الراغبين في دخول سوق الإمارات.",
-    "eyebrow": "عن",
-    "heading": "منصة واحدة. وصول متكامل إلى الإمارات.",
-    "body1": "بويرتا دبي بوابة خاصة لخدمات الاستثمار المخصّصة للمستثمرين الأجانب من أصحاب الثروات العالية القادمين إلى الإمارات — تجمع بين تملك العقار، تأسيس الشركات، الهيكلة الضريبية والقانونية، التنسيق المصرفي، الإقامة الذهبية والانتقال ضمن منظومة واحدة.",
-    "body2": "يقود المكتب مؤسسه مباشرة ويعمل بانتقائية مقصودة، مع نقطة اتصال موثوقة تنسّق كل تفويض بين العقار والإقامة والخدمات المصرفية والانتقال."
+  "ContactForm": {
+    "name": "Name",
+    "phone": "Phone",
+    "email": "Email",
+    "message": "Message",
+    "consent": "I agree to Dayan Candamil contacting me about this enquiry and have read the Privacy Policy.",
+    "submit": "Send message",
+    "successTitle": "Message received.",
+    "successBody": "Dayan will be in touch within 48 hours.",
+    "error": "Something went wrong. Please try again or use the WhatsApp link."
   },
-  "Founder": {
-    "metaTitle": "المؤسس · داين كانداميل",
-    "metaDescription": "استراتيجي استثمار أول ورائد أعمال ثقافي. استشارات عابرة للحدود بين أمريكا اللاتينية ودول الخليج والمغرب وغرب أفريقيا.",
-    "eyebrow": "المؤسس",
-    "role": "استراتيجي استثمار · رائد أعمال ثقافي",
-    "bio1": "يقف داين كانداميل عند تقاطع رأس المال والثقافة. بصفته شريكًا مشاركًا في BlackOak Real Estate، يقود الأسواق الدولية ويصمم تدفقات الاستثمار العابرة للحدود بين أمريكا اللاتينية والولايات المتحدة ودول الخليج والمغرب وغرب أفريقيا — مُنشئًا صفقات معقدة في الأراضي النادرة والعقارات السكنية الفاخرة والمشاريع ذات العلامات التجارية.",
-    "bio2": "يجيد الإنجليزية والبرتغالية والإسبانية بطلاقة، ويُقدّم المشورة للمطورين في استراتيجيات دخول السوق وتموضع المستثمرين وأطر التسعير، إلى جانب إدارته الإبداعية لـ House of Candamil — دار الأزياء ذات الجذور البوغوتية وراء إكسسوارات الكوتور والأزياء الجاهزة المعروضة دوليًا.",
-    "positioningQuote": "تمثيل الـ <n>1%</n> منذ 2012.",
-    "positioningBody": "جسر بين رأس المال الخاص الدولي والمطورين والرعاة والمشغّلين الذين يبنون العقد القادم من العقارات النادرة في دبي وأبوظبي والدار البيضاء وعلى ساحل غرب أفريقيا.",
-    "strategistHeading": "أسواق دولية، مُهيكَلة من البداية إلى النهاية.",
-    "strategistBody": "من تأسيس الصفقات على الأراضي النادرة إلى تقديم المشورة بشأن تموضع المستثمرين والتوزيع في الأسواق اللاتينية والأفريقية، يدير داين خطوط صفقات عالية القيمة وشراكات استراتيجية — متصرفًا كنسيج رابط بين المطورين ورأس المال الدولي للعملاء الخاصين والمكاتب العائلية الذي يدعمهم.",
-    "journeyEyebrow": "المسيرة",
-    "journeyHeading": "مسار مهني بين رأس المال والثقافة.",
-    "journeyIntro": "أربعة عشر عامًا من البناء والاستشارة عند تقاطع الفخامة والضيافة والعقارات — بين بوغوتا وميامي ومدينة بنما والدار البيضاء ودبي.",
-    "journey1Years": "2025 — الآن",
-    "journey1Company": "BlackOak Real Estate",
-    "journey1Title": "شريك مشارك",
-    "journey1Location": "دبي، الإمارات",
-    "journey1Summary": "استراتيجي استثمار أول ومسؤول الأسواق الدولية. تدفقات عابرة للحدود بين أمريكا اللاتينية والولايات المتحدة ودول الخليج والمغرب وغرب أفريقيا.",
-    "journey2Years": "2024 — 2025",
-    "journey2Company": "Pulse Real Estate",
-    "journey2Title": "مستشار العملاء الخاصين",
-    "journey2Location": "دبي، الإمارات",
-    "journey2Summary": "دخول أسواق الإمارات ودول الخليج لكبار المستثمرين اللاتينيين في العقارات النادرة وفائقة الندرة.",
-    "journey3Years": "2023 — 2024",
-    "journey3Company": "Europe Emirates Group",
-    "journey3Title": "مستشار مؤسسي",
-    "journey3Location": "دبي، الإمارات",
-    "journey3Summary": "الهيكلة المؤسسية والاستشارات الوافدة للعملاء الدوليين الذين يؤسسون حضورهم في الإمارات.",
-    "journey4Years": "2021 — 2024",
-    "journey4Company": "Fortune International Group · PRADABRIDGER فلوريدا",
-    "journey4Title": "مستشار عقاري",
-    "journey4Location": "ميامي، فلوريدا",
-    "journey4Summary": "تقديم المشورة للمستثمرين اللاتينيين في دخول السوق الأمريكي والصفقات الكبيرة وبناء المحافظ.",
-    "journey5Years": "2020 — الآن",
-    "journey5Company": "House of Candamil",
-    "journey5Title": "المدير الإبداعي",
-    "journey5Location": "دبي، الإمارات",
-    "journey5Summary": "الإدارة الإبداعية للدار عبر الإكسسوارات والمجوهرات ومجموعات الأزياء الجاهزة.",
-    "journey6Years": "2019 — 2022",
-    "journey6Company": "Chevre S.A.",
-    "journey6Title": "مستشار أول",
-    "journey6Location": "مدينة بنما",
-    "journey6Summary": "تموضع العلامة التجارية لمجموعة مطاعم متعددة العلامات وسلسلة تجزئة فاخرة؛ توريد متميز من إيطاليا وإسبانيا.",
-    "journey7Years": "2011 — 2022",
-    "journey7Company": "Dayan Candamil Accessories",
-    "journey7Title": "المدير الإبداعي والمؤسس",
-    "journey7Location": "كي بيسكاين",
-    "journey7Summary": "تأسيس وإدارة علامة إكسسوارات الفخامة والمجوهرات وأسلوب الحياة في الولايات المتحدة وأمريكا اللاتينية.",
-    "pressEyebrow": "أبرز التغطيات",
-    "pressHeading": "ظهور إعلامي مختار.",
-    "press1Source": "Harper's Bazaar Vietnam",
-    "press1Date": "أغسطس 2021",
-    "press1Title": "غلاف ومقال عن الفلسفة التصميمية لـ House of Candamil.",
-    "press1Alt": "غلاف Harper's Bazaar Vietnam، أغسطس 2021، يضم داين كانداميل",
-    "press2Source": "أسبوع الموضة في مراكش",
-    "press2Date": "2022",
-    "press2Title": "House of Candamil — عرض على المنصة.",
-    "press2Alt": "عرض House of Candamil على منصة أسبوع الموضة في مراكش 2022",
-    "press3Source": "تقدير مهني",
-    "press3Date": "2024",
-    "press3Title": "ضمن أعلى 1% من المحترفين العقاريين في دبي — شهادة تميّز.",
-    "press3Alt": "شهادة تميّز: ضمن أعلى 1% من المحترفين العقاريين في دبي 2024 ممنوحة لـ داين كانداميل",
-    "alsoFeaturedIn": "ظهور إضافي في Elle Magazine و CNN US و THE EMERALD BOOK.",
-    "languagesHeading": "اللغات",
-    "language1": "الإنجليزية — أم / ثنائية اللغة",
-    "language2": "البرتغالية — أم / ثنائية اللغة",
-    "language3": "الإسبانية — أم / ثنائية اللغة",
-    "honorsHeading": "التكريمات",
-    "honor1": "مفاتيح ولاية كونديناماركا، ممنوحة من قبل العمدة ميغيل باربوسا ر.",
-    "honor2": "تقدير عن مبادرة Redesigning Fashion to Make it More Sustainable.",
-    "educationHeading": "التعليم",
-    "education1": "London College of Fashion — ريادة الأعمال في الأزياء وإدارة العلامات الفاخرة (2011)",
-    "education2": "London College of Fashion — شراء الأزياء والتسويق (2009)",
-    "education3": "City College of San Francisco — رسم الأزياء، التاريخ الأمريكي، تاريخ الفن (2009–2010)",
-    "ctaHeading": "تواصل مباشر.",
-    "ctaBody": "تُدار التعريفات الخاصة بالعملاء والمهام العابرة للحدود والوصول قبل الإطلاق عبر الدائرة الخاصة.",
-    "ctaButton": "ادخل إلى الدائرة الخاصة",
-    "body": "يقود داين كانداميل بويرتا دبي عبر العقارات والإقامة والاستشارات العابرة للحدود، بخلفية تمتد بين القانون وبناء العلامات والمشاريع الثقافية الفاخرة في أوروبا وأمريكا اللاتينية والخليج.",
-    "credentialsEyebrow": "الخبرات والتقدير",
-    "credentialsBody": "المحتوى مشروط بالمراجعة. بانتظار مصادر قابلة للتحقق قبل النشر.",
-    "responsibleEyebrow": "استشارات مسؤولة",
-    "responsibleBody": "المحتوى مشروط بالمراجعة. يقتصر الطرح على بناء الثقة العابرة للحدود وتثقيف المستثمرين — من دون أي ادعاءات تبرع أو أثر اجتماعي قبل التحقق."
+  "Projects": {
+    "metaTitle": "Listings",
+    "metaDescription": "Active UAE real-estate listings personally represented by Dayan Candamil.",
+    "eyebrow": "Listings",
+    "heading": "Active listings",
+    "body": "UAE real-estate listings personally represented by Dayan, sourced live from the BlackOak Studio CRM. Inventory updates automatically; click any listing to enquire directly.",
+    "activeListings": "{count, plural, =0 {No active listings} one {# active listing} other {# active listings}}",
+    "empty": "No active listings at the moment. New inventory is added regularly — check back soon, or send an enquiry via the contact section.",
+    "beds": "Beds",
+    "baths": "Baths",
+    "sqft": "Sq.Ft.",
+    "refPrefix": "Ref",
+    "viewDetails": "View details",
+    "fromPrefix": "From"
   },
-  "Services": {
-    "metaTitle": "الخدمات",
-    "metaDescription": "العقارات على الخارطة، السوق الثانوية، تأسيس الشركات، الضرائب، الخدمات المصرفية، القانونية، الإقامة الذهبية والاستثمارات المختارة.",
-    "eyebrow": "الخدمات",
-    "heading": "ثماني خدمات. مكتب استشاري واحد.",
-    "backToIndex": "← الخدمات",
-    "goldenVisaLegalNote": "تخضع حدود ومتطلبات الإقامة الذهبية لإرشادات الجهات الاتحادية في الإمارات وGDRFA Dubai. المحتوى العام هنا مشروط بالمراجعة القانونية ومربوط بالحد العقاري المعتمد البالغ 2,000,000 درهم.",
-    "detailPlaceholder": "يُحرّر محتوى تفاصيل الخدمة في Sanity Studio لكل لغة.",
-    "bookCall": "حجز مكالمة",
-    "investmentReadiness": "الاستعداد للاستثمار",
-    "items": {
-      "off-plan": {
-        "title": "كيفية شراء عقار على الخارطة",
-        "summary": "عقارات ما قبل الإطلاق مع أسعار أولوية، وعناية واجبة بالمطوّر، ومتابعة مستمرة لحساب الضمان."
-      },
-      "secondary-market": {
-        "title": "كيفية الشراء في السوق الثانوية",
-        "summary": "أصول ناضجة ذات عوائد إيجارية مثبتة — من التقييم إلى نقل الملكية عبر دائرة الأراضي."
-      },
-      "company-formation": {
-        "title": "افتح شركتك في الإمارات",
-        "summary": "رخص البر الرئيسي والمناطق الحرة، اتفاقيات الشركاء، معالجة التأشيرات والتنسيق المصرفي."
-      },
-      "tax": {
-        "title": "الضرائب في الإمارات",
-        "summary": "تسجيل الشركات، تخطيط ضريبة القيمة المضافة، تحليل الاتفاقيات واستراتيجية ضريبية للمقيمين الدوليين."
-      },
-      "banking": {
-        "title": "الحسابات المصرفية",
-        "summary": "حسابات شخصية وشركات، تسهيلات متعددة العملات، وفحص امتثال مسبق."
-      },
-      "legal-accounting": {
-        "title": "المحاسبة والقانون",
-        "summary": "مسك الدفاتر، التدقيق، مراجعة العقود، اتفاقيات الشركاء وتسوية النزاعات."
-      },
-      "golden-visa": {
-        "title": "الإقامة الذهبية",
-        "summary": "التحقق من الأهلية حتى الإصدار — محتوى مشروط بالمراجعة القانونية (الحد المعتمد 2 مليون درهم)."
-      },
-      "investments": {
-        "title": "استثمارات — الخليج والدولية",
-        "summary": "وصول مختار إلى العقارات والضيافة والاستثمار الخاص مع عناية واجبة عابرة للحدود."
-      }
-    }
-  },
-  "GoldenVisa": {
-    "metaTitle": "الإقامة الذهبية",
-    "metaDescription": "نظرة عامة على الإقامة الذهبية في الإمارات — الأهلية، الحدود العقارية ومزايا الإقامة. المحتوى مشروط بالمراجعة القانونية.",
-    "eyebrow": "الإقامة الذهبية",
-    "heading": "إقامة طويلة الأمد في الإمارات، بهيكلة صحيحة.",
-    "body": "تمنح الإقامة الذهبية في الإمارات إقامة قابلة للتجديد لمدة 5 أو 10 سنوات للمستثمرين ورواد الأعمال وأصحاب التخصصات المؤهلين. يتأهل المستثمرون العقاريون عند امتلاك عقار بقيمة 2,000,000 درهم وفق بوابة الإمارات الاتحادية وإرشادات GDRFA Dubai.",
-    "legalNote": "المحتوى العام في هذه الصفحة مشروط بمراجعة قانونية قبل الإنتاج. الأرقام المعروضة هي المراجع الإماراتية المعتمدة — وأي عرض استشاري يجب مراجعته بشكل مستقل.",
-    "cta": "طلب إرشاد خاص",
-    "eligibilityHeading": "مسارات الأهلية",
-    "eligibilityBody": "مستثمر عقاري (≥ 2 مليون درهم)، رائد أعمال، موهبة متخصصة، تنفيذي، عالم، طالب متميز. لكل مسار مستندات وفروقات إجرائية. نؤكد الملاءمة قبل أي نقاش تجاري.",
-    "renewalHeading": "التجديد، السفر، الضرائب",
-    "renewalBody": "مدد الخمس والعشر سنوات، الاستقلال عن الكفيل، شمول الأسرة، تخطيط الإقامة الضريبية والاعتبارات العابرة للحدود تُغطّى في الملخص الخاص — ويُحرّر المحتوى في Sanity لكل لغة ويخضع لاعتماد قانوني."
-  },
-  "InvestmentReadiness": {
-    "metaTitle": "الاستعداد للاستثمار",
-    "metaDescription": "تأهيل خلال 3 دقائق — أخبرنا بميزانيتك، الإمارة المستهدفة، هدف الإقامة والجدول الزمني.",
-    "eyebrow": "الاستعداد للاستثمار",
-    "heading": "ثلاث دقائق. خطة مختارة.",
-    "body": "أخبرنا بنطاق ميزانيتك، الإمارة المستهدفة، الجدول الزمني وهدف الإقامة. نصنّف طلبك بطريقة واضحة ونحوّله إلى المكتب المناسب خلال 48 ساعة.",
-    "note": "نموذج التأهيل الكامل، حماية مكافحة الروبوتات، بوابة الموافقة وإشعارات المتابعة ستصل في مرحلة التنفيذ التالية.",
-    "button": "النموذج قريباً"
-  },
-  "Partners": {
-    "metaTitle": "الشركاء",
-    "metaDescription": "Aldar وBinghatti وDubai Properties وEllington وEmaar وMeraas وSobha — ومطوّرون شركاء آخرون.",
-    "eyebrow": "الشركاء",
-    "heading": "مطوّرون شركاء.",
-    "body": "وصول مباشر إلى أبرز مطوّري الإمارات. تُعتمد الشعارات في Sanity قبل عرضها؛ وإلى حين ذلك تظهر الأسماء كنص."
-  },
-  "Press": {
-    "metaTitle": "تحريريات",
-    "metaDescription": "بيانات وتغطيات تحريرية من بويرتا دبي.",
-    "eyebrow": "تحريريات",
-    "heading": "الصحافة والرؤى.",
-    "empty": "لم تُنشر أي مقالات صحفية بعد. قاعدة منع التلفيق: إعلانات داخلية فقط إلى أن توجد تغطية حقيقية من طرف ثالث.",
-    "backToIndex": "← تحريريات",
-    "readExternal": "القراءة من المصدر الخارجي ↗",
-    "source": {
-      "inHouse": "إعلان",
-      "external": "تغطية خارجية"
+  "ProjectDetail": {
+    "metaFallback": "Listing",
+    "forRent": "For rent",
+    "forSale": "For sale",
+    "listed": "Listed",
+    "backToProjects": "Back to listings",
+    "refPrefix": "Ref",
+    "aboutHeading": "About this property",
+    "amenitiesHeading": "Amenities",
+    "agent": "Agent",
+    "reference": "Reference",
+    "inquire": "Enquire about this listing",
+    "whatsapp": "WhatsApp Dayan",
+    "gallery": "Gallery",
+    "imageAlt": "{title} — image {number}",
+    "facts": {
+      "beds": "Beds",
+      "baths": "Baths",
+      "sqft": "Sq.Ft.",
+      "type": "Type",
+      "furnishing": "Furnishing",
+      "parking": "Parking"
     }
   },
   "LegalNotice": {
-    "metaTitle": "إشعار قانوني",
-    "metaDescription": "الإشعار القانوني لبويرتا دبي.",
-    "heading": "إشعار قانوني",
-    "body": "يُحرّر محتوى الإشعار القانوني في Sanity لكل لغة. المراجعة التحريرية والقانونية مطلوبة قبل النشر."
+    "metaTitle": "Legal notice",
+    "metaDescription": "Legal notice for dayancandamil.com.",
+    "heading": "Legal notice",
+    "body": "This website is published by Dayan Candamil, Rolex Tower, DIFC, Dubai, United Arab Emirates. Contact: dayan@dayancandamil.com. Full legal notice pending counsel review."
   },
   "Privacy": {
-    "metaTitle": "سياسة الخصوصية",
-    "metaDescription": "كيفية تعامل بويرتا دبي مع البيانات الشخصية.",
-    "heading": "سياسة الخصوصية",
-    "body": "يُحرّر محتوى الخصوصية في Sanity لكل لغة.",
-    "required": "المحتوى المطلوب قبل أي نموذج تواصل: البيانات المجمعة، الأساس القانوني، منطقة التخزين، مدة الاحتفاظ، حقوق أصحاب البيانات، جهة طلبات الخصوصية، جرد ملفات تعريف الارتباط، ومخاطر المورّد المقبولة للبيانات الشخصية غير المشفّرة."
-  },
-  "ProjectDetail": {
-    "metaFallback": "قائمة عقارية",
-    "forRent": "للإيجار",
-    "forSale": "للبيع",
-    "listed": "مدرج",
-    "backToProjects": "العودة إلى المشاريع",
-    "refPrefix": "مرجع",
-    "aboutHeading": "عن هذا العقار",
-    "amenitiesHeading": "المرافق",
-    "agent": "الوسيط",
-    "reference": "المرجع",
-    "inquire": "استفسر عن هذه القائمة",
-    "whatsapp": "تواصل مع المكتب عبر واتساب",
-    "gallery": "المعرض",
-    "imageAlt": "{title} — صورة {number}",
-    "facts": {
-      "beds": "غرف نوم",
-      "baths": "حمّامات",
-      "sqft": "قدم²",
-      "type": "النوع",
-      "furnishing": "التأثيث",
-      "parking": "مواقف"
-    }
+    "metaTitle": "Privacy policy",
+    "metaDescription": "How Dayan Candamil handles personal data.",
+    "heading": "Privacy policy",
+    "body": "Details submitted through the contact form (name, email, phone, message) are used solely to reply to your enquiry and are retained for no longer than 24 months from last contact. To request access to or deletion of your data, write to dayan@dayancandamil.com.",
+    "required": "Full policy pending counsel review: data collected, lawful basis, storage region, retention, data-subject rights, request contact and cookie inventory."
   },
   "NotFound": {
-    "heading": "الصفحة غير موجودة",
-    "body": "تعذر العثور على الصفحة التي تبحث عنها.",
-    "returnHome": "العودة إلى الرئيسية"
+    "heading": "Not found",
+    "body": "The page you were looking for could not be found.",
+    "returnHome": "Return home"
   }
 }

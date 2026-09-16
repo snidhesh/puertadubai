@@ -6,10 +6,10 @@ import {useTranslations} from 'next-intl';
 import {usePathname} from 'next/navigation';
 import {Link} from '@/lib/i18n/navigation';
 import {Container} from '@/components/ui/container';
-import {LanguageSwitcher} from './language-switcher';
 import {SOCIAL_ICONS} from '@/lib/site/social';
+import {LINKS} from '@/lib/home/content';
 import {cn} from '@/lib/utils';
-import logoBlack from '../../public/brand/logo-black.png';
+import logoMark from '../../public/brand/logo-mark.png';
 
 const SCROLL_THRESHOLD = 80;
 
@@ -29,15 +29,18 @@ function getServerSnapshotScrolled() {
   return false;
 }
 
+/**
+ * Single-page anchors. `/#about` (not `#about`) so the links also work
+ * from /privacy and /legal-notice; next-intl's Link prefixes the locale.
+ */
 const NAV_ITEMS = [
-  {key: 'home', href: '/'},
-  {key: 'about', href: '/about'},
-  {key: 'projects', href: '/projects'},
-  {key: 'areas', href: '/areas'},
-  {key: 'services', href: '/services'},
-  {key: 'founder', href: '/founder'},
-  {key: 'goldenVisa', href: '/golden-visa'},
-  {key: 'contact', href: '/contact'}
+  {key: 'about', href: '/#about'},
+  {key: 'expertise', href: '/#expertise'},
+  {key: 'experience', href: '/#experience'},
+  {key: 'listings', href: '/#listings'},
+  {key: 'atelier', href: '/#atelier'},
+  {key: 'media', href: '/#media'},
+  {key: 'contact', href: '/#contact'}
 ] as const;
 
 export function SiteNav() {
@@ -88,26 +91,48 @@ export function SiteNav() {
         )}
       >
         <Container className="flex h-16 items-center justify-between gap-4 md:gap-8">
+          {/* Wordmark lockup: DC monogram + DAYAN CANDAMIL (Arsenal, 0.28em)
+           * over DUBAI · MIAMI · BOGOTÁ (Roboto Flex, 0.32em). */}
           <Link
             href="/"
             aria-label={t('logoAria')}
-            className="flex items-center"
+            className={cn(
+              'flex items-center gap-3 transition-colors duration-300',
+              transparent ? 'text-white' : 'text-[var(--text-title)]'
+            )}
           >
             <Image
-              src={logoBlack}
-              alt="Puerta Dubai"
-              height={40}
-              width={Math.round((40 * 2842) / 3781)}
+              src={logoMark}
+              alt=""
+              height={22}
+              width={Math.round((22 * 616) / 100)}
               priority
               className={cn(
-                'h-10 w-auto transition-[filter] duration-300',
-                transparent && 'invert brightness-0 [filter:invert(1)]'
+                'hidden h-[18px] w-auto transition-[filter] duration-300 min-[360px]:block sm:h-[22px]',
+                transparent && '[filter:invert(1)]'
               )}
             />
+            <span className="flex flex-col leading-none">
+              <span
+                className="whitespace-nowrap font-display text-[12px] uppercase tracking-[0.2em] sm:text-[15px] sm:tracking-[0.28em]"
+                data-ui-label
+              >
+                {t('wordmark')}
+              </span>
+              <span
+                className={cn(
+                  'mt-1 whitespace-nowrap text-[7px] uppercase tracking-[0.24em] sm:text-[8px] sm:tracking-[0.32em]',
+                  transparent ? 'text-white/70' : 'text-[var(--text-muted)]'
+                )}
+                data-ui-label
+              >
+                {t('wordmarkLine')}
+              </span>
+            </span>
           </Link>
           <nav
             aria-label={t('siteNavAria')}
-            className="hidden items-center gap-6 text-[11px] uppercase tracking-[0.12em] lg:flex"
+            className="hidden items-center gap-6 text-[11px] uppercase tracking-[0.14em] lg:flex"
             data-ui-label
           >
             {NAV_ITEMS.map((item) => (
@@ -125,8 +150,7 @@ export function SiteNav() {
               </Link>
             ))}
           </nav>
-          <div className="ms-auto flex items-center gap-3 lg:ms-0 lg:gap-4">
-            <LanguageSwitcher transparent={transparent} />
+          <div className="ms-auto flex items-center gap-3 lg:hidden">
             <button
               type="button"
               aria-label={mobileOpen ? t('closeMenu') : t('openMenu')}
@@ -134,7 +158,7 @@ export function SiteNav() {
               aria-controls="mobile-nav-drawer"
               onClick={() => setMobileOpen((v) => !v)}
               className={cn(
-                'inline-flex h-10 w-10 items-center justify-center transition-colors lg:hidden',
+                'inline-flex h-10 w-10 items-center justify-center transition-colors',
                 transparent
                   ? 'text-white hover:text-white/85'
                   : 'text-[var(--text-title)] hover:text-[var(--accent)]'
@@ -176,9 +200,7 @@ export function SiteNav() {
         aria-label={t('siteNavAria')}
         className={cn(
           'fixed inset-0 z-30 flex flex-col bg-[var(--bg-dark)] text-white transition-opacity duration-300 lg:hidden',
-          mobileOpen
-            ? 'pointer-events-auto opacity-100'
-            : 'pointer-events-none opacity-0'
+          mobileOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
         )}
       >
         {/* Spacer so content sits below the fixed header (h-16) */}
@@ -222,12 +244,7 @@ export function SiteNav() {
                     className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/10 !text-white transition-colors hover:bg-white/20"
                     style={{color: '#ffffff'}}
                   >
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      className="h-[18px] w-[18px]"
-                      aria-hidden="true"
-                    >
+                    <svg viewBox="0 0 24 24" fill="currentColor" className="h-[18px] w-[18px]" aria-hidden="true">
                       <path d={icon.path} />
                     </svg>
                   </a>
@@ -236,19 +253,11 @@ export function SiteNav() {
             </ul>
 
             <div className="mt-8 grid gap-3 text-sm">
-              <a
-                href="mailto:hello@puertadubai.com"
-                className="!text-white hover:underline"
-                style={{color: '#ffffff'}}
-              >
-                hello@puertadubai.com
+              <a href={`mailto:${LINKS.email}`} className="!text-white hover:underline" style={{color: '#ffffff'}}>
+                {LINKS.email}
               </a>
-              <a
-                href="https://wa.me/971544402792"
-                className="!text-white hover:underline"
-                style={{color: '#ffffff'}}
-              >
-                <bdi>+971 54 440 2792</bdi>
+              <a href={LINKS.whatsapp} className="!text-white hover:underline" style={{color: '#ffffff'}}>
+                <bdi>{LINKS.whatsappDisplay}</bdi>
               </a>
             </div>
           </div>

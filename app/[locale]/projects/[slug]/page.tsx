@@ -5,6 +5,7 @@ import {Link} from '@/lib/i18n/navigation';
 import {Container, Section} from '@/components/ui/container';
 import {fetchListingById, type StudioListingDetail} from '@/lib/studio/properties';
 import {routing, type Locale} from '@/lib/i18n/routing';
+import {LINKS} from '@/lib/home/content';
 
 export const revalidate = 300;
 
@@ -78,7 +79,7 @@ export default async function ListingDetailPage({params}: Props) {
             <span aria-hidden="true">←</span> {t('backToProjects')}
           </Link>
           <p
-            className="mt-6 text-[11px] uppercase tracking-[0.32em] !text-white/75"
+            className="mt-6 break-all text-[11px] uppercase tracking-[0.32em] !text-white/75"
             style={{color: 'rgba(255,255,255,0.75)'}}
             data-ui-label
           >
@@ -188,7 +189,7 @@ export default async function ListingDetailPage({params}: Props) {
                       >
                         {t('agent')}
                       </dt>
-                      <dd className="text-[var(--text-title)]">
+                      <dd className="min-w-0 text-end text-[var(--text-title)]">
                         {listing.agentName}
                       </dd>
                     </div>
@@ -201,21 +202,21 @@ export default async function ListingDetailPage({params}: Props) {
                       >
                         {t('reference')}
                       </dt>
-                      <dd className="text-[var(--text-title)]">
+                      <dd className="min-w-0 break-all text-end text-[var(--text-title)]">
                         {listing.reference}
                       </dd>
                     </div>
                   )}
                 </dl>
                 <Link
-                  href="/contact"
+                  href="/#contact"
                   className="mt-8 inline-flex h-[50px] w-full items-center justify-center bg-[var(--text-title)] px-8 text-[11px] uppercase tracking-[0.22em] text-white transition-colors hover:bg-[var(--accent)]"
                   data-ui-label
                 >
                   {t('inquire')}
                 </Link>
                 <a
-                  href="https://wa.me/971544402792"
+                  href={LINKS.whatsapp}
                   className="mt-3 inline-flex h-[50px] w-full items-center justify-center border border-[var(--text-title)] px-8 text-[11px] uppercase tracking-[0.22em] text-[var(--text-title)] transition-colors hover:bg-[var(--text-title)] hover:text-white"
                   data-ui-label
                 >

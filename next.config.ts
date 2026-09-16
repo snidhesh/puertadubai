@@ -18,7 +18,7 @@ const marketingCsp = `
   script-src-attr 'none';
   style-src 'self' 'unsafe-inline';
   connect-src 'self' https://challenges.cloudflare.com https://va.vercel-scripts.com https://vitals.vercel-insights.com;
-  img-src 'self' data: https://cdn.sanity.io https://studio.blackoak-re.com https://static.shared.propertyfinder.ae https://i.ytimg.com;
+  img-src 'self' data: https://cdn.sanity.io https://studio.blackoak-re.com https://static.shared.propertyfinder.ae https://images.unsplash.com https://i.ytimg.com;
   font-src 'self' https://fonts.gstatic.com;
   frame-src https://challenges.cloudflare.com;
   frame-ancestors 'none';
@@ -88,7 +88,40 @@ const commonSecurityHeaders = [
   {key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()'}
 ];
 
+/**
+ * Legacy multi-page routes → single-page anchors. Redirects run before
+ * proxy.ts, so locale-prefixed variants need their own entries.
+ */
+const LEGACY_ROUTES: ReadonlyArray<{from: string; hash: string}> = [
+  {from: '/about', hash: '#about'},
+  {from: '/founder', hash: '#about'},
+  {from: '/areas', hash: ''},
+  {from: '/areas/:path*', hash: ''},
+  {from: '/services', hash: '#expertise'},
+  {from: '/services/:path*', hash: '#expertise'},
+  {from: '/golden-visa', hash: ''},
+  {from: '/contact', hash: '#contact'},
+  {from: '/investment-readiness', hash: '#contact'},
+  {from: '/partners', hash: ''},
+  {from: '/press', hash: '#media'},
+  {from: '/press/:path*', hash: '#media'},
+  {from: '/dev/showcase', hash: ''}
+];
+
 const nextConfig: NextConfig = {
+  // Listing pages walk the Studio feed at build time; give cold CRM
+  // responses headroom beyond the 60s default.
+  staticPageGenerationTimeout: 180,
+  async redirects() {
+    return LEGACY_ROUTES.flatMap(({from, hash}) => [
+      {source: from, destination: `/${hash}`, permanent: true},
+      {
+        source: `/:locale(fr|es|pt|ar)${from}`,
+        destination: `/:locale/${hash}`,
+        permanent: true
+      }
+    ]);
+  },
   experimental: {
     // Lead forms are tiny — cap the request body to cut abuse surface.
     // `allowedOrigins` is deliberately omitted: Next 16 enforces same-origin
@@ -104,6 +137,7 @@ const nextConfig: NextConfig = {
       {protocol: 'https', hostname: 'cdn.sanity.io'},
       {protocol: 'https', hostname: 'studio.blackoak-re.com'},
       {protocol: 'https', hostname: 'static.shared.propertyfinder.ae'},
+      {protocol: 'https', hostname: 'images.unsplash.com'},
       {protocol: 'https', hostname: 'i.ytimg.com'}
     ]
   },

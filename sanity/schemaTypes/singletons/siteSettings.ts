@@ -8,7 +8,7 @@ export const siteSettingsType = defineType({
     defineField({
       name: 'contactEmail',
       type: 'string',
-      description: 'Use a branded inbox (e.g. hello@puertadubai.com). Personal Gmail is a trust risk for a luxury concierge brand.'
+      description: 'Use a branded inbox (e.g. dayan@dayancandamil.com). Personal Gmail is a trust risk for a luxury personal brand.'
     }),
     defineField({name: 'phone', type: 'string'}),
     defineField({name: 'whatsapp', type: 'string'}),

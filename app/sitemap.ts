@@ -1,41 +1,15 @@
 import type {MetadataRoute} from 'next';
-import {client} from '@/lib/sanity/client';
 import {routing, type Locale} from '@/lib/i18n/routing';
 
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.puertadubai.com').replace(/\/$/, '');
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.dayancandamil.com').replace(/\/$/, '');
 
 /**
- * Public marketing routes (locale-prefixed except EN which uses the bare
- * path under `as-needed`). Every entry emits `alternates.languages` so
- * search engines discover the localised variants.
- *
- * Sanity-driven slugs (areas, projects, press) are appended dynamically;
- * missing Sanity data degrades to the static set.
+ * Public routes (locale-prefixed except EN which uses the bare path under
+ * `as-needed`). Every entry emits `alternates.languages` so search engines
+ * discover the localised variants. The portfolio is a single page plus the
+ * two legal pages; legacy routes 301 to anchors via next.config.ts.
  */
-
-const STATIC_PATHS = [
-  '/',
-  '/about',
-  '/founder',
-  '/services',
-  '/services/off-plan',
-  '/services/secondary-market',
-  '/services/company-formation',
-  '/services/tax',
-  '/services/banking',
-  '/services/legal-accounting',
-  '/services/golden-visa',
-  '/services/investments',
-  '/projects',
-  '/areas',
-  '/investment-readiness',
-  '/partners',
-  '/press',
-  '/golden-visa',
-  '/contact',
-  '/legal-notice',
-  '/privacy'
-];
+const STATIC_PATHS = ['/', '/projects', '/legal-notice', '/privacy'];
 
 function localePath(locale: Locale, path: string): string {
   if (locale === routing.defaultLocale) return path;
@@ -55,24 +29,6 @@ function buildEntry(path: string): MetadataRoute.Sitemap[number] {
   };
 }
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const dynamicSlugs = await client
-    .fetch<{
-      projects: string[];
-      areas: string[];
-      press: string[];
-    }>(`{
-      "projects": *[_type == "project" && defined(slug.current)].slug.current,
-      "areas": *[_type == "areaGuide" && defined(slug.current)].slug.current,
-      "press": *[_type == "pressArticle" && defined(slug.current)].slug.current
-    }`)
-    .catch(() => ({projects: [] as string[], areas: [] as string[], press: [] as string[]}));
-
-  const dynamicPaths: string[] = [
-    ...dynamicSlugs.projects.map((s) => `/projects/${s}`),
-    ...dynamicSlugs.areas.map((s) => `/areas/${s}`),
-    ...dynamicSlugs.press.map((s) => `/press/${s}`)
-  ];
-
-  return [...STATIC_PATHS, ...dynamicPaths].map(buildEntry);
+export default function sitemap(): MetadataRoute.Sitemap {
+  return STATIC_PATHS.map(buildEntry);
 }
