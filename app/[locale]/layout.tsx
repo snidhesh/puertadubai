@@ -79,10 +79,13 @@ export default async function LocaleLayout({children, params}: Props) {
   const messages = await getMessages();
 
   return (
+    // suppressHydrationWarning: the splash gate script toggles a class on
+    // <html> before hydration (components/site/splash-screen.tsx).
     <html
       lang={locale}
       dir={getDirection(locale as Locale)}
       data-scroll-behavior="smooth"
+      suppressHydrationWarning
       className={`${arsenal.variable} ${robotoFlex.variable} ${elMessiri.variable} ${ibmPlexArabic.variable} scroll-smooth antialiased`}
     >
       <body className="min-h-screen flex flex-col bg-[var(--bg)] text-[var(--text-body)]">

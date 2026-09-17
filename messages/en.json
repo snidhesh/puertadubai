@@ -233,6 +233,11 @@
       "eyebrowLine2": "Media",
       "body": "Selected appearances, coverage and recognition spanning real estate and design.",
       "watchOnYouTube": "Watch on YouTube",
+      "carouselLabel": "Media highlights",
+      "previous": "Previous",
+      "next": "Next",
+      "slideOf": "{index} of {total}",
+      "swipeHint": "Swipe",
       "items": {
         "bazaar": {
           "kicker": "Harper's Bazaar Vietnam · August 2021",

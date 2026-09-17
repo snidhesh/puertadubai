@@ -13,14 +13,18 @@ import {
   FEATURED_VIDEOS,
   LINKS,
   MEDIA,
-  PORTRAITS,
-  type MediaItem
+  PORTRAITS
 } from '@/lib/home/content';
 import {DAYAN_AGENT, fetchAgentListings, type StudioListingCard} from '@/lib/studio/properties';
-import {routing, type Locale} from '@/lib/i18n/routing';
+import {MediaCarousel} from '@/components/home/media-carousel';
+import {PlayGlyph} from '@/components/home/play-glyph';
+import {getDirection, routing, type Locale} from '@/lib/i18n/routing';
 
 // Featured listings come from the BlackOak Studio CRM feed; ISR every 5 min.
 export const revalidate = 300;
+// The agent feed walk downloads the whole CRM feed (~37 MB). Give ISR
+// regeneration room beyond the platform default so it is not cut off.
+export const maxDuration = 60;
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({locale}));
@@ -622,9 +626,13 @@ export default async function HomePage({params}: Props) {
       </Section>
 
       {/* 11. MEDIA & HONOURS — light newsroom grid + 3-column credentials */}
-      <Section id="media" tone="alt" className="scroll-mt-16 py-24 md:py-32">
+      {/* overflow-x-clip: the fanned cards may extend past the viewport on
+       * small screens; clip them there without creating a horizontal scroll. */}
+      <Section id="media" tone="alt" className="scroll-mt-16 overflow-x-clip py-24 md:py-32">
         <Container>
-          <div className="max-w-2xl">
+          {/* Editorial header: title left, standfirst right, sharing a baseline
+           * with a hairline underneath — the same rule the tiles use. */}
+          <div className="border-b border-[var(--divider)] pb-10 lg:flex lg:items-end lg:justify-between lg:gap-16 lg:pb-12">
             <h2 className="font-display">
               <span
                 className="block text-sm uppercase tracking-[0.32em] text-[var(--text-muted)]"
@@ -636,23 +644,28 @@ export default async function HomePage({params}: Props) {
                 {tHome('media.eyebrowLine2')}
               </span>
             </h2>
-            <p className="mt-6 max-w-xl text-sm leading-[1.7] text-[var(--text-body)] md:mt-7 md:text-base">
+            <p className="mt-6 max-w-md text-sm leading-[1.7] text-[var(--text-body)] md:text-base lg:mt-0 lg:pb-1 lg:text-end">
               {tHome('media.body')}
             </p>
           </div>
 
-          <div className="mt-14 grid gap-10 md:grid-cols-2 md:gap-12 md:mt-16">
-            {MEDIA.map((item) => (
-              <MediaCard
-                key={item.id}
-                item={item}
-                kicker={tHome(`media.items.${item.id}.kicker`)}
-                title={tHome(`media.items.${item.id}.title`)}
-                body={tHome(`media.items.${item.id}.body`)}
-                alt={tHome(`media.items.${item.id}.alt`)}
-                watchLabel={tHome('media.watchOnYouTube')}
-              />
-            ))}
+          {/* Fanned card deck — the centre story upright, the rest rotated
+           * away on either side; click, drag or use the arrows. */}
+          <div className="mt-6 md:mt-14 lg:mt-20">
+            <MediaCarousel
+              dir={getDirection(locale)}
+              slides={MEDIA.map((item) => ({
+                id: item.id,
+                image: item.image,
+                fit: item.fit,
+                href: item.href,
+                video: item.video,
+                kicker: tHome(`media.items.${item.id}.kicker`),
+                title: tHome(`media.items.${item.id}.title`),
+                body: tHome(`media.items.${item.id}.body`),
+                alt: tHome(`media.items.${item.id}.alt`)
+              }))}
+            />
           </div>
 
           <div className="mt-20 grid gap-12 border-t border-[var(--divider)] pt-14 md:grid-cols-3 md:mt-24">
@@ -980,114 +993,6 @@ function PanelCard({
         </span>
       </div>
     </a>
-  );
-}
-
-function PlayGlyph({size = 'md'}: {size?: 'sm' | 'md' | 'lg'}) {
-  const ring = {
-    sm: 'h-8 w-8',
-    md: 'h-14 w-14 md:h-16 md:w-16',
-    lg: 'h-16 w-16 md:h-20 md:w-20'
-  }[size];
-  const glyph = {sm: 'ms-0.5 h-3 w-3', md: 'ms-1 h-5 w-5 md:h-6 md:w-6', lg: 'ms-1 h-6 w-6 md:h-8 md:w-8'}[size];
-  return (
-    <div className="absolute inset-0 flex items-center justify-center">
-      <span
-        aria-hidden="true"
-        className={cn(
-          'flex items-center justify-center rounded-full border border-white/80 bg-black/45 backdrop-blur-sm transition-transform duration-300 group-hover:scale-110',
-          ring
-        )}
-      >
-        <svg viewBox="0 0 24 24" className={cn('fill-white', glyph)} aria-hidden="true">
-          <path d="M8 5v14l11-7z" />
-        </svg>
-      </span>
-    </div>
-  );
-}
-
-function MediaCard({
-  item,
-  kicker,
-  title,
-  body,
-  alt,
-  watchLabel
-}: {
-  item: MediaItem;
-  kicker: string;
-  title: string;
-  body: string;
-  alt: string;
-  watchLabel: string;
-}) {
-  const media = item.image ? (
-    <div className={cn('relative w-full overflow-hidden bg-[var(--bg)]', item.aspect)}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={item.image}
-        alt={alt}
-        loading="lazy"
-        className="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-      />
-      {item.video && <PlayGlyph />}
-    </div>
-  ) : (
-    // No visual asset yet — render a quiet typographic panel instead of a
-    // placeholder graphic so nothing fabricated is shown.
-    <div
-      className={cn(
-        'relative flex w-full items-end overflow-hidden bg-[var(--bg-dark)] p-8 md:p-10',
-        item.aspect
-      )}
-      aria-hidden="true"
-    >
-      <p
-        className="font-display text-3xl leading-[1.1] !text-white md:text-4xl"
-        style={{color: '#ffffff'}}
-      >
-        {title}
-      </p>
-    </div>
-  );
-
-  const caption = (
-    <div className="mt-6">
-      <p className="text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)]" data-ui-label>
-        {kicker}
-      </p>
-      <p
-        className={cn(
-          'mt-3 font-display text-xl leading-snug text-[var(--text-title)] md:text-2xl',
-          item.href && 'group-hover:underline'
-        )}
-      >
-        {title}
-      </p>
-      <p className="mt-3 max-w-md text-sm leading-[1.7] text-[var(--text-body)] md:text-base">{body}</p>
-    </div>
-  );
-
-  if (item.href) {
-    return (
-      <a
-        href={item.href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="group flex flex-col"
-        aria-label={`${watchLabel}: ${title}`}
-      >
-        {media}
-        {caption}
-      </a>
-    );
-  }
-  return (
-    <article className="group flex flex-col">
-      {media}
-      {caption}
-    </article>
   );
 }
 

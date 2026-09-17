@@ -8,6 +8,8 @@ import {cn} from '@/lib/utils';
 import {routing, type Locale} from '@/lib/i18n/routing';
 
 export const revalidate = 300;
+// The agent feed walk downloads the whole CRM feed (~37 MB); see lib/studio/properties.ts.
+export const maxDuration = 60;
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({locale}));

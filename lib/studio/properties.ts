@@ -188,9 +188,7 @@ export async function fetchListingById(
 ): Promise<StudioListingDetail | null> {
   const apiKey = process.env.STUDIO_API_KEY;
   if (!apiKey) {
-    if (process.env.NODE_ENV !== 'production') {
-      console.warn('[studio] STUDIO_API_KEY not set — detail fetch returns null');
-    }
+    console.warn('[studio] STUDIO_API_KEY not set — detail fetch returns null');
     return null;
   }
 
@@ -399,7 +397,9 @@ async function fetchWholeFeed(apiKey: string): Promise<StudioListing[]> {
   };
 
   const first = await fetchPage(1);
-  if (!first) return [];
+  // Throw rather than return [] so `unstable_cache` keeps the last good
+  // projection instead of caching an empty list for 15 min.
+  if (!first) throw new Error('[studio] feed page 1 unavailable');
   const total = Number((first as Record<string, unknown>).total ?? 0);
   const all: unknown[] = extractItems(first);
   let page = 1;
@@ -416,6 +416,9 @@ async function fetchWholeFeed(apiKey: string): Promise<StudioListing[]> {
   for (const item of all) {
     const result = StudioListingSchema.safeParse(item);
     if (result.success) parsed.push(result.data);
+  }
+  if (parsed.length === 0 && total > 0) {
+    throw new Error(`[studio] feed returned ${all.length} rows but none parsed (total=${total})`);
   }
   return parsed;
 }
@@ -455,12 +458,16 @@ export async function fetchAgentListings(
   locale: string
 ): Promise<StudioListingCard[]> {
   if (!process.env.STUDIO_API_KEY) {
-    if (process.env.NODE_ENV !== 'production') {
-      console.warn('[studio] STUDIO_API_KEY not set — agent feed returns []');
-    }
+    console.warn('[studio] STUDIO_API_KEY not set — agent feed returns []');
     return [];
   }
-  const slim = await getAgentSlimListings(agent.email, agent.name);
+  let slim: SlimListing[];
+  try {
+    slim = await getAgentSlimListings(agent.email, agent.name);
+  } catch (err) {
+    console.warn('[studio] agent feed walk failed:', err instanceof Error ? err.message : err);
+    return [];
+  }
   return slim.map((item) => slimToCard(item, locale));
 }
 
@@ -475,9 +482,7 @@ export async function fetchStudioListings(
 ): Promise<StudioListingCard[]> {
   const apiKey = process.env.STUDIO_API_KEY;
   if (!apiKey) {
-    if (process.env.NODE_ENV !== 'production') {
-      console.warn('[studio] STUDIO_API_KEY not set — falling back to placeholders');
-    }
+    console.warn('[studio] STUDIO_API_KEY not set — falling back to placeholders');
     return [];
   }
 

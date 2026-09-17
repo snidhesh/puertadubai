@@ -61,28 +61,36 @@ export const CAREER_IDS = [
 
 export const ENDORSEMENT_IDS = ['blackoakAppointment', 'caviarSpoon', 'blackoakBridge'] as const;
 
+/**
+ * Media tiles share one 4:5 frame so the grid reads as a gallery wall.
+ * Portrait assets fill the frame (`cover`); landscape assets — a video
+ * still, a certificate — are matted on the dark tone (`contain`) like a
+ * framed print rather than cropped. An item without an image renders a
+ * typographic placard in the same frame.
+ */
 export type MediaItem = {
   id: 'bazaar' | 'mfw' | 'elle' | 'alanba' | 'hultPrize' | 'top1';
   image?: string;
-  aspect: string;
+  /** How the asset sits in the 4:5 frame. Defaults to `cover`. */
+  fit?: 'cover' | 'contain';
   href?: string;
   video?: boolean;
   placeholder?: boolean;
 };
 
 export const MEDIA: ReadonlyArray<MediaItem> = [
-  {id: 'bazaar', image: '/images/press/bazaar-vn-2021.jpg', aspect: 'aspect-[1000/1279]'},
+  {id: 'bazaar', image: '/images/press/bazaar-vn-2021.jpg'},
   {
     id: 'mfw',
     image: '/images/press/marrakech-fashion-week-2022.jpg',
-    aspect: 'aspect-video',
+    fit: 'contain',
     href: 'https://www.youtube.com/watch?v=b0JG-50XToQ',
     video: true
   },
-  {id: 'elle', image: PORTRAITS.elleArabia, aspect: 'aspect-[4/5]', placeholder: true},
-  {id: 'alanba', aspect: 'aspect-[4/5]'},
-  {id: 'hultPrize', image: PORTRAITS.hultPrize, aspect: 'aspect-[4/5]'},
-  {id: 'top1', image: '/images/press/top-1-percent-2024.jpg', aspect: 'aspect-[2816/1536]'}
+  {id: 'elle', image: '/images/press/elle-arabia-2021.jpg'},
+  {id: 'alanba'},
+  {id: 'hultPrize', image: PORTRAITS.hultPrize},
+  {id: 'top1', image: '/images/press/top-1-percent-2024.jpg', fit: 'contain'}
 ];
 
 /**
