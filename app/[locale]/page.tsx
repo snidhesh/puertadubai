@@ -268,14 +268,20 @@ export default async function HomePage({params}: Props) {
       {/* 5. ABOUT — tall portrait left + stacked content right */}
       <Section id="about" className="scroll-mt-16 py-24 md:py-32">
         <Container>
-          <div className="grid gap-12 lg:grid-cols-[minmax(0,400px)_minmax(0,1fr)] lg:gap-16">
-            <div className="hidden lg:block">
-              <div className="relative h-full min-h-[520px] w-full overflow-hidden bg-[var(--bg-alt)]">
+          {/* Portrait column hugs the copy measure (36rem) so the two read as
+           * one composition rather than sitting at opposite edges. */}
+          <div className="grid gap-12 lg:grid-cols-[auto_minmax(0,36rem)] lg:gap-8">
+            {/* Sized to the portrait and sticky, so it stays level with the
+             * copy as the long biography scrolls instead of sinking below it. */}
+            <div className="hidden lg:block lg:self-start lg:justify-self-end lg:sticky lg:top-24">
+              {/* Capped to the viewport so the whole figure stays in view while
+               * stuck; flush to the copy side. */}
+              <div className="flex w-[440px] justify-end">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={PORTRAITS.about}
                   alt={tHome('about.imageAlt')}
-                  className="absolute inset-0 h-full w-full object-cover object-top"
+                  className="block h-auto max-h-[calc(100vh-5.5rem)] w-auto max-w-full"
                 />
               </div>
             </div>
@@ -295,12 +301,12 @@ export default async function HomePage({params}: Props) {
                 {tHome('about.tagline')}
               </p>
               <div className="mt-8 lg:hidden">
-                <div className="relative aspect-[4/5] w-full overflow-hidden bg-[var(--bg-alt)]">
+                <div className="relative aspect-[4/5] w-full overflow-hidden">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={PORTRAITS.about}
                     alt={tHome('about.imageAlt')}
-                    className="absolute inset-0 h-full w-full object-cover"
+                    className="absolute inset-0 h-full w-full object-contain object-bottom"
                   />
                 </div>
               </div>
@@ -419,31 +425,26 @@ export default async function HomePage({params}: Props) {
           <p className="mt-4 max-w-2xl text-base leading-[1.7] text-[var(--text-body)] md:text-lg">
             {tHome('career.intro')}
           </p>
-          <ol className="mt-12 space-y-10 md:space-y-12">
+          {/* One timeline rail; every entry stacks years → company → role →
+           * summary in a single column, with a marker on the rail. */}
+          <ol className="mt-12 border-s border-[var(--divider)] md:mt-16">
             {CAREER_IDS.map((id) => (
               <li
                 key={id}
-                className="grid gap-4 border-s-2 border-[var(--divider)] ps-6 md:grid-cols-12 md:gap-8 md:ps-8"
+                className="relative ps-7 pb-12 last:pb-0 before:absolute before:start-[-4.5px] before:top-[0.55rem] before:h-2 before:w-2 before:rounded-full before:bg-[var(--text-title)] md:ps-10 md:pb-14"
               >
-                <div className="md:col-span-3">
-                  <p className="font-display text-xl text-[var(--text-title)]">
-                    <bdi>{tHome(`career.items.${id}.years`)}</bdi>
-                  </p>
-                </div>
-                <div className="md:col-span-9">
-                  <p className="font-display text-lg text-[var(--text-title)]">
-                    {tHome(`career.items.${id}.company`)}
-                  </p>
-                  <p
-                    className="mt-1 text-[11px] uppercase tracking-[0.12em] text-[var(--text-muted)]"
-                    data-ui-label
-                  >
-                    {tHome(`career.items.${id}.role`)}
-                  </p>
-                  <p className="mt-3 max-w-2xl text-base leading-[1.7] text-[var(--text-body)]">
-                    {tHome(`career.items.${id}.summary`)}
-                  </p>
-                </div>
+                <p className="text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)]" data-ui-label>
+                  <bdi>{tHome(`career.items.${id}.years`)}</bdi>
+                </p>
+                <p className="mt-3 font-display text-2xl leading-[1.15] text-[var(--text-title)] md:text-3xl">
+                  {tHome(`career.items.${id}.company`)}
+                </p>
+                <p className="mt-2 font-display text-base italic text-[var(--text-muted)] md:text-lg">
+                  {tHome(`career.items.${id}.role`)}
+                </p>
+                <p className="mt-4 max-w-2xl text-base leading-[1.7] text-[var(--text-body)]">
+                  {tHome(`career.items.${id}.summary`)}
+                </p>
               </li>
             ))}
           </ol>
@@ -560,7 +561,9 @@ export default async function HomePage({params}: Props) {
       {/* 10. HOUSE OF CANDAMIL — copy left, image right */}
       <Section id="atelier" className="scroll-mt-16 py-24 md:py-32">
         <Container>
-          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,400px)] lg:gap-16">
+          {/* Text column matches the copy measure (36rem); the portrait column
+           * hugs it rather than the far edge so the two read as one composition. */}
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,36rem)_auto] lg:gap-12">
             <div>
               <h2 className="font-display text-[var(--text-title)]">
                 <span
@@ -577,12 +580,12 @@ export default async function HomePage({params}: Props) {
                 {tHome('atelier.tagline')}
               </p>
               <div className="mt-8 lg:hidden">
-                <div className="relative aspect-[4/5] w-full overflow-hidden bg-[var(--bg-alt)]">
+                <div className="relative aspect-[4/5] w-full overflow-hidden">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={PORTRAITS.atelier}
                     alt={tHome('atelier.imageAlt')}
-                    className="absolute inset-0 h-full w-full object-cover object-top"
+                    className="absolute inset-0 h-full w-full object-contain object-bottom"
                   />
                 </div>
               </div>
@@ -612,12 +615,12 @@ export default async function HomePage({params}: Props) {
               </a>
             </div>
             <div className="hidden lg:block">
-              <div className="relative h-full min-h-[520px] w-full overflow-hidden bg-[var(--bg-alt)]">
+              <div className="relative h-full min-h-[520px] w-[400px] overflow-hidden">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={PORTRAITS.atelier}
                   alt={tHome('atelier.imageAlt')}
-                  className="absolute inset-0 h-full w-full object-cover object-top"
+                  className="absolute inset-0 h-full w-full object-contain [object-position:0%_100%] rtl:[object-position:100%_100%]"
                 />
               </div>
             </div>

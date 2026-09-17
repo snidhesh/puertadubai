@@ -22,12 +22,13 @@ export const LINKS = {
 } as const;
 
 export const PORTRAITS = {
-  /** Existing black-and-white editorial portrait (white trousers / satin blouse). */
-  about: '/images/dayan/bw-portrait.jpg',
+  /** Black-and-white editorial portrait, cut out on transparent ground — frames use object-contain. */
+  about: '/images/dayan/bw-portrait.png',
   splash: '/images/dayan/turtleneck.jpg',
   /** Colour editorial shot used by the original Let's Connect band. */
   contact: '/images/dayan/connect.jpg',
-  atelier: '/images/dayan/white-suit-hat.jpg',
+  /** Cut-out figure on transparent ground — frames use object-contain. */
+  atelier: '/images/dayan/house-of-candamil.png',
   mandates: '/images/dayan/black-blazer.jpg',
   hultPrize: '/images/dayan/bw-white-blazer-profile.jpg',
   elleArabia: '/images/dayan/bw-satin-blouse.jpg',
