@@ -138,7 +138,11 @@ const nextConfig: NextConfig = {
       {protocol: 'https', hostname: 'studio.blackoak-re.com'},
       {protocol: 'https', hostname: 'static.shared.propertyfinder.ae'},
       {protocol: 'https', hostname: 'images.unsplash.com'},
-      {protocol: 'https', hostname: 'i.ytimg.com'}
+      {protocol: 'https', hostname: 'i.ytimg.com'},
+      // Instagram reel thumbnails (signed CDN URLs, shard hostnames vary).
+      // Served through the image optimizer, so img-src stays 'self'.
+      {protocol: 'https', hostname: '**.cdninstagram.com'},
+      {protocol: 'https', hostname: '**.fbcdn.net'}
     ]
   },
   async headers() {

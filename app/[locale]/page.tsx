@@ -1,4 +1,5 @@
 import {Suspense} from 'react';
+import Image from 'next/image';
 import {setRequestLocale, getTranslations} from 'next-intl/server';
 import {cn} from '@/lib/utils';
 import {Link} from '@/lib/i18n/navigation';
@@ -8,17 +9,21 @@ import {ExpandableVideoList} from '@/components/home/expandable-video-list';
 import {StickySocials} from '@/components/home/sticky-socials';
 import {
   CAREER_IDS,
+  CASE_STUDIES,
   ENDORSEMENT_IDS,
   EXPERTISE,
   FEATURED_VIDEOS,
   LINKS,
   MEDIA,
-  PORTRAITS
+  PORTRAITS,
+  TRUSTPILOT,
+  type MediaItem
 } from '@/lib/home/content';
 import {DAYAN_AGENT, fetchAgentListings, type StudioListingCard} from '@/lib/studio/properties';
-import {MediaCarousel} from '@/components/home/media-carousel';
 import {PlayGlyph} from '@/components/home/play-glyph';
-import {getDirection, routing, type Locale} from '@/lib/i18n/routing';
+import {SOCIAL_ICONS} from '@/lib/site/social';
+import {fetchLatestReels} from '@/lib/instagram/reels';
+import {routing, type Locale} from '@/lib/i18n/routing';
 
 // Featured listings come from the BlackOak Studio CRM feed; ISR every 5 min.
 export const revalidate = 300;
@@ -32,6 +37,8 @@ export function generateStaticParams() {
 
 type Props = {params: Promise<{locale: Locale}>};
 
+const INSTAGRAM_ICON = SOCIAL_ICONS.find((icon) => icon.label === 'Instagram');
+
 const POSTER = '/video/bg3.poster.jpg';
 const VIDEO_AV1 = '/video/bg3.av1.webm';
 const VIDEO_H264 = '/video/bg3.h264.mp4';
@@ -39,9 +46,11 @@ const VIDEO_H264 = '/video/bg3.h264.mp4';
 /**
  * Single-page portfolio. Section order and anchor ids:
  *   #hero → overview → #listings → panels → #about → #expertise →
- *   #experience → endorsements → videos → #atelier → #media → #contact
+ *   #case-studies → #experience → endorsements → #reviews → videos →
+ *   #atelier → instagram → #media → #data-room → #contact
  * The nav (About · Expertise · Experience · Listings · House of
- * Candamil · Media · Contact) links to these anchors.
+ * Candamil · International · Media · Contact) links to these anchors;
+ * International opens the cross-border expertise page.
  */
 export default async function HomePage({params}: Props) {
   const {locale} = await params;
@@ -301,12 +310,12 @@ export default async function HomePage({params}: Props) {
                 {tHome('about.tagline')}
               </p>
               <div className="mt-8 lg:hidden">
-                <div className="relative aspect-[4/5] w-full overflow-hidden">
+                <div className="relative aspect-[2/3] w-full overflow-hidden">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={PORTRAITS.about}
                     alt={tHome('about.imageAlt')}
-                    className="absolute inset-0 h-full w-full object-contain object-bottom"
+                    className="absolute inset-0 h-full w-full object-cover"
                   />
                 </div>
               </div>
@@ -359,17 +368,14 @@ export default async function HomePage({params}: Props) {
               </span>
             </h2>
           </div>
-          {/* Brick grid: tiles alternate tall / short. Greyscale at rest → colour on hover. */}
+          {/* Uniform grid: every tile is one square linking to its detail page.
+           * Greyscale at rest → colour on hover. */}
           <ul className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 md:mt-20">
-            {EXPERTISE.map((tile, i) => {
-              const isTall = i % 2 === 0;
-              return (
-                <li
-                  key={tile.id}
-                  className={cn(
-                    'group relative block overflow-hidden text-white',
-                    isTall ? 'aspect-[493/421]' : 'aspect-[493/301]'
-                  )}
+            {EXPERTISE.map((tile) => (
+              <li key={tile.id}>
+                <Link
+                  href={`/expertise/${tile.slug}`}
+                  className="group relative block aspect-square overflow-hidden text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
@@ -402,15 +408,88 @@ export default async function HomePage({params}: Props) {
                     >
                       {tHome(`expertise.items.${tile.id}.body`)}
                     </p>
+                    <p
+                      className="mt-5 inline-flex items-center gap-2 self-start border-b border-white/40 pb-1 text-[10px] uppercase tracking-[0.32em] !text-white transition-colors group-hover:border-white"
+                      style={{color: '#ffffff'}}
+                      data-ui-label
+                    >
+                      {tHome('expertise.explore')}
+                      <span
+                        aria-hidden="true"
+                        className="transition-transform duration-300 group-hover:translate-x-1 rtl:scale-x-[-1]"
+                      >
+                        →
+                      </span>
+                    </p>
                   </div>
-                </li>
-              );
-            })}
+                </Link>
+              </li>
+            ))}
           </ul>
         </Container>
       </Section>
 
-      {/* 7. CAREER TIMELINE */}
+      {/* 7. CASE STUDIES — title banner + three cards ahead of the career timeline */}
+      <section
+        id="case-studies"
+        aria-labelledby="case-studies-heading"
+        className="scroll-mt-16 bg-[var(--bg-alt)] py-16 md:py-24"
+      >
+        <Container>
+          <div className="flex items-center gap-6 md:gap-10">
+            <span aria-hidden="true" className="h-px flex-1 bg-[var(--text-title)]/20" />
+            <h2
+              id="case-studies-heading"
+              className="font-display text-2xl leading-[1.1] text-[var(--text-title)] md:text-4xl"
+            >
+              {tHome('caseStudies.heading')}
+            </h2>
+            <span aria-hidden="true" className="h-px flex-1 bg-[var(--text-title)]/20" />
+          </div>
+          <ul className="mt-12 grid gap-x-6 gap-y-12 sm:grid-cols-3 md:mt-16">
+            {CASE_STUDIES.map((study) => (
+              <li key={study.id}>
+                <Link href={`/case-studies/${study.slug}`} className="group block">
+                  <div className="relative aspect-square w-full overflow-hidden bg-[var(--bg-dark)]">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={study.image}
+                      alt=""
+                      loading="lazy"
+                      className="absolute inset-0 h-full w-full object-cover grayscale transition-[transform,filter] duration-[800ms] ease-out group-hover:scale-[1.04] group-hover:grayscale-0"
+                    />
+                  </div>
+                  <p
+                    className="mt-5 font-display text-sm tracking-[0.22em] text-[var(--text-muted)]"
+                  >
+                    <bdi>{String(study.number).padStart(2, '0')}</bdi>
+                  </p>
+                  <h3 className="mt-2 font-display text-2xl leading-[1.15] text-[var(--text-title)]">
+                    {tHome(`caseStudies.items.${study.id}.title`)}
+                  </h3>
+                  <p className="mt-3 text-sm leading-[1.7] text-[var(--text-body)]">
+                    {tHome(`caseStudies.items.${study.id}.summary`)}
+                  </p>
+                  <p
+                    className="mt-5 inline-flex items-center gap-2 border-b border-[var(--text-title)]/40 pb-1 text-[10px] uppercase tracking-[0.32em] text-[var(--text-title)] transition-colors group-hover:border-[var(--text-title)]"
+                    data-ui-label
+                  >
+                    {tHome('caseStudies.view')}
+                    <span
+                      aria-hidden="true"
+                      className="transition-transform duration-300 group-hover:translate-x-1 rtl:scale-x-[-1]"
+                    >
+                      →
+                    </span>
+                  </p>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </Container>
+      </section>
+
+      {/* 8. CAREER — stacked show/hide rows */}
       <Section id="experience" className="scroll-mt-16">
         <Container>
           <p
@@ -425,33 +504,53 @@ export default async function HomePage({params}: Props) {
           <p className="mt-4 max-w-2xl text-base leading-[1.7] text-[var(--text-body)] md:text-lg">
             {tHome('career.intro')}
           </p>
-          {/* One timeline rail; every entry stacks years → company → role →
-           * summary in a single column, with a marker on the rail. */}
-          <ol className="mt-12 border-s border-[var(--divider)] md:mt-16">
-            {CAREER_IDS.map((id) => (
-              <li
-                key={id}
-                className="relative ps-7 pb-12 last:pb-0 before:absolute before:start-[-4.5px] before:top-[0.55rem] before:h-2 before:w-2 before:rounded-full before:bg-[var(--text-title)] md:ps-10 md:pb-14"
-              >
-                <p className="text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)]" data-ui-label>
-                  <bdi>{tHome(`career.items.${id}.years`)}</bdi>
-                </p>
-                <p className="mt-3 font-display text-2xl leading-[1.15] text-[var(--text-title)] md:text-3xl">
-                  {tHome(`career.items.${id}.company`)}
-                </p>
-                <p className="mt-2 font-display text-base italic text-[var(--text-muted)] md:text-lg">
-                  {tHome(`career.items.${id}.role`)}
-                </p>
-                <p className="mt-4 max-w-2xl text-base leading-[1.7] text-[var(--text-body)]">
-                  {tHome(`career.items.${id}.summary`)}
-                </p>
+          {/* Stacked rows; each opens to show its summary (native <details>,
+           * no client JS). The current role starts open. */}
+          <ul className="mt-12 border-t border-[var(--divider)] md:mt-16">
+            {CAREER_IDS.map((id, i) => (
+              <li key={id} className="border-b border-[var(--divider)]">
+                <details className="group" open={i === 0}>
+                  <summary className="flex cursor-pointer list-none items-center gap-6 py-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--text-title)] md:py-7 [&::-webkit-details-marker]:hidden">
+                    <span className="block flex-1 md:grid md:grid-cols-[180px_1fr] md:items-baseline md:gap-8">
+                      <span
+                        className="block text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)]"
+                        data-ui-label
+                      >
+                        <bdi>{tHome(`career.items.${id}.years`)}</bdi>
+                      </span>
+                      <span className="mt-2 block md:mt-0">
+                        <span className="block font-display text-2xl leading-[1.15] text-[var(--text-title)] md:text-3xl">
+                          {tHome(`career.items.${id}.company`)}
+                        </span>
+                        <span className="mt-1 block font-display text-base italic text-[var(--text-muted)] md:text-lg">
+                          {tHome(`career.items.${id}.role`)}
+                        </span>
+                      </span>
+                    </span>
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.25"
+                      className="h-6 w-6 shrink-0 text-[var(--text-title)] transition-transform duration-300 group-open:rotate-45"
+                      aria-hidden="true"
+                    >
+                      <path d="M12 5v14M5 12h14" strokeLinecap="round" />
+                    </svg>
+                  </summary>
+                  <div className="pb-8 md:ps-[212px]">
+                    <p className="max-w-2xl text-base leading-[1.7] text-[var(--text-body)]">
+                      {tHome(`career.items.${id}.summary`)}
+                    </p>
+                  </div>
+                </details>
               </li>
             ))}
-          </ol>
+          </ul>
         </Container>
       </Section>
 
-      {/* 8. ENDORSEMENTS — light-grey, 3 quote cards */}
+      {/* 9. ENDORSEMENTS — light-grey, 3 quote cards */}
       <Section tone="alt" className="py-24 md:py-32">
         <Container>
           <div className="text-center">
@@ -507,7 +606,89 @@ export default async function HomePage({params}: Props) {
         </Container>
       </Section>
 
-      {/* 9. FEATURED VIDEOS — dark band: writeup + 1 highlighted + 3-then-expand stack */}
+      {/* 10. TRUSTPILOT REVIEWS — verbatim quotes from the public profile */}
+      <Section id="reviews" className="scroll-mt-16 py-24 md:py-32">
+        <Container>
+          <div className="border-b border-[var(--divider)] pb-10 lg:flex lg:items-end lg:justify-between lg:gap-16 lg:pb-12">
+            <h2 className="font-display">
+              <span
+                className="block text-sm uppercase tracking-[0.32em] text-[var(--text-muted)]"
+                data-ui-label
+              >
+                {tHome('reviews.eyebrow')}
+              </span>
+              <span className="mt-3 block text-4xl leading-[1] text-[var(--text-title)] md:text-5xl lg:text-6xl">
+                {tHome('reviews.heading')}
+              </span>
+            </h2>
+            <p className="mt-6 max-w-md text-sm leading-[1.7] text-[var(--text-body)] md:text-base lg:mt-0 lg:pb-1 lg:text-end">
+              {tHome('reviews.body')}
+            </p>
+          </div>
+          <ul className="mt-12 grid gap-8 md:mt-16 md:grid-cols-3">
+            {TRUSTPILOT.reviews.map((review) => (
+              <li key={review.id} className="flex flex-col bg-[var(--bg-alt)] p-8 md:p-10">
+                <StarRating
+                  rating={review.rating}
+                  label={tHome('reviews.ratingLabel', {rating: review.rating})}
+                />
+                <blockquote className="mt-6 flex-1">
+                  {tHome.has(`reviews.items.${review.id}.title`) ? (
+                    <>
+                      <p className="font-display text-xl leading-[1.3] text-[var(--text-title)] md:text-2xl">
+                        {tHome(`reviews.items.${review.id}.title`)}
+                      </p>
+                      <p className="mt-4 whitespace-pre-line text-base leading-[1.7] text-[var(--text-body)]">
+                        {tHome(`reviews.items.${review.id}.text`)}
+                        {review.excerpt && ' …'}
+                      </p>
+                    </>
+                  ) : (
+                    // A one-line review with no title carries the display type itself.
+                    <p className="whitespace-pre-line font-display text-xl leading-[1.3] text-[var(--text-title)] md:text-2xl">
+                      {tHome(`reviews.items.${review.id}.text`)}
+                      {review.excerpt && ' …'}
+                    </p>
+                  )}
+                </blockquote>
+                <div className="mt-8 border-t border-[var(--divider)] pt-6">
+                  <p className="font-display text-base text-[var(--text-title)]">
+                    {tHome(`reviews.items.${review.id}.name`)}
+                  </p>
+                  <p
+                    className="mt-1 text-[11px] uppercase tracking-[0.18em] text-[var(--text-muted)]"
+                    data-ui-label
+                  >
+                    {tHome('reviews.source')} · <bdi>{formatLongDate(review.published, locale)}</bdi>
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-12 flex flex-wrap items-center gap-x-10 gap-y-5">
+            <a
+              href={TRUSTPILOT.profile}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 border-b border-[var(--text-title)]/40 pb-1 text-[11px] uppercase tracking-[0.22em] text-[var(--text-title)] transition-colors hover:border-[var(--text-title)]"
+              data-ui-label
+            >
+              {tHome('reviews.readAll')} <span aria-hidden="true" className="rtl:scale-x-[-1]">→</span>
+            </a>
+            <a
+              href={TRUSTPILOT.write}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 border-b border-transparent pb-1 text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)] transition-colors hover:border-[var(--text-muted)]"
+              data-ui-label
+            >
+              {tHome('reviews.write')}
+            </a>
+          </div>
+        </Container>
+      </Section>
+
+      {/* 11. FEATURED VIDEOS — dark band: writeup + 1 highlighted + 3-then-expand stack */}
       <Section tone="dark" className="py-24 md:py-32">
         <Container>
           <div className="max-w-2xl">
@@ -558,7 +739,7 @@ export default async function HomePage({params}: Props) {
         </Container>
       </Section>
 
-      {/* 10. HOUSE OF CANDAMIL — copy left, image right */}
+      {/* 12. HOUSE OF CANDAMIL — copy left, image right */}
       <Section id="atelier" className="scroll-mt-16 py-24 md:py-32">
         <Container>
           {/* Text column matches the copy measure (36rem); the portrait column
@@ -628,10 +809,59 @@ export default async function HomePage({params}: Props) {
         </Container>
       </Section>
 
-      {/* 11. MEDIA & HONOURS — light newsroom grid + 3-column credentials */}
-      {/* overflow-x-clip: the fanned cards may extend past the viewport on
-       * small screens; clip them there without creating a horizontal scroll. */}
-      <Section id="media" tone="alt" className="scroll-mt-16 overflow-x-clip py-24 md:py-32">
+      {/* 13. INSTAGRAM — dark band: handle + follow link, latest reels beneath */}
+      <section aria-label={tHome('instagram.ariaLabel')} className="bg-[var(--bg-dark)] py-12 md:py-16">
+        <Container>
+          <a
+            href={LINKS.instagram}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex flex-col items-center gap-6 text-center md:flex-row md:justify-between md:text-start"
+          >
+            <span className="flex flex-col items-center gap-4 md:flex-row md:gap-6">
+              {INSTAGRAM_ICON && (
+                <svg viewBox="0 0 24 24" fill="#ffffff" className="h-8 w-8 shrink-0 md:h-10 md:w-10" aria-hidden="true">
+                  <path d={INSTAGRAM_ICON.path} />
+                </svg>
+              )}
+              <span className="block">
+                <span
+                  className="block text-[11px] uppercase tracking-[0.32em] !text-white/70"
+                  style={{color: 'rgba(255,255,255,0.7)'}}
+                  data-ui-label
+                >
+                  {tHome('instagram.eyebrow')}
+                </span>
+                <span
+                  className="mt-2 block break-all font-display text-2xl leading-[1.1] !text-white sm:text-3xl md:text-4xl"
+                  style={{color: '#ffffff'}}
+                >
+                  <bdi dir="ltr">{LINKS.instagramHandle}</bdi>
+                </span>
+              </span>
+            </span>
+            <span
+              className="inline-flex items-center gap-2 border-b border-white/40 pb-1 text-[11px] uppercase tracking-[0.22em] !text-white transition-colors group-hover:border-white"
+              style={{color: '#ffffff'}}
+              data-ui-label
+            >
+              {tHome('instagram.cta')}
+              <span
+                aria-hidden="true"
+                className="transition-transform duration-300 group-hover:translate-x-1 rtl:scale-x-[-1]"
+              >
+                →
+              </span>
+            </span>
+          </a>
+          <Suspense fallback={null}>
+            <InstagramReels locale={locale} />
+          </Suspense>
+        </Container>
+      </section>
+
+      {/* 14. MEDIA & HONOURS — square tile grid + 3-column credentials */}
+      <Section id="media" tone="alt" className="scroll-mt-16 py-24 md:py-32">
         <Container>
           {/* Editorial header: title left, standfirst right, sharing a baseline
            * with a hairline underneath — the same rule the tiles use. */}
@@ -652,24 +882,21 @@ export default async function HomePage({params}: Props) {
             </p>
           </div>
 
-          {/* Fanned card deck — the centre story upright, the rest rotated
-           * away on either side; click, drag or use the arrows. */}
-          <div className="mt-6 md:mt-14 lg:mt-20">
-            <MediaCarousel
-              dir={getDirection(locale)}
-              slides={MEDIA.map((item) => ({
-                id: item.id,
-                image: item.image,
-                fit: item.fit,
-                href: item.href,
-                video: item.video,
-                kicker: tHome(`media.items.${item.id}.kicker`),
-                title: tHome(`media.items.${item.id}.title`),
-                body: tHome(`media.items.${item.id}.body`),
-                alt: tHome(`media.items.${item.id}.alt`)
-              }))}
-            />
-          </div>
+          {/* Square tiles, four to a row on desktop, caption beneath each. */}
+          <ul className="mt-12 grid gap-x-6 gap-y-12 sm:grid-cols-2 md:mt-16 lg:grid-cols-4">
+            {MEDIA.map((item) => (
+              <li key={item.id}>
+                <MediaTile
+                  item={item}
+                  kicker={tHome(`media.items.${item.id}.kicker`)}
+                  title={tHome(`media.items.${item.id}.title`)}
+                  body={tHome(`media.items.${item.id}.body`)}
+                  alt={tHome(`media.items.${item.id}.alt`)}
+                  watchLabel={tHome('media.watchOnYouTube')}
+                />
+              </li>
+            ))}
+          </ul>
 
           <div className="mt-20 grid gap-12 border-t border-[var(--divider)] pt-14 md:grid-cols-3 md:mt-24">
             <CredentialList
@@ -688,7 +915,64 @@ export default async function HomePage({params}: Props) {
         </Container>
       </Section>
 
-      {/* 12. CONTACT — same composition as the original Let's Connect band:
+      {/* 15. DATA ROOM — coming-soon banner for the future client login area.
+       * Placeholder copy only: no project figures until the real area ships. */}
+      <Section id="data-room" className="scroll-mt-16 py-24 md:py-32">
+        <Container>
+          <div className="text-center">
+            <p
+              className="text-[11px] uppercase tracking-[0.32em] text-[var(--text-muted)]"
+              data-ui-label
+            >
+              {tHome('dataRoom.eyebrow')}
+            </p>
+            <h2 className="mt-6 font-display text-5xl uppercase leading-[0.95] tracking-[0.06em] text-[var(--text-title)] sm:text-7xl lg:text-9xl">
+              {tHome('dataRoom.heading')}
+            </h2>
+            <p className="mx-auto mt-8 max-w-xl text-base leading-[1.7] text-[var(--text-body)] md:text-lg">
+              {tHome('dataRoom.body')}
+            </p>
+          </div>
+          <ul className="mt-14 grid border-t border-[var(--divider)] md:mt-20 md:grid-cols-3 md:border-t-0">
+            {(['plans', 'returns', 'details'] as const).map((item) => (
+              <li
+                key={item}
+                className="flex gap-5 border-b border-[var(--divider)] py-8 md:border-b-0 md:border-s md:px-8 md:py-2 md:first:border-s-0 md:first:ps-0"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.25"
+                  className="mt-1 h-5 w-5 shrink-0 text-[var(--text-muted)]"
+                  aria-hidden="true"
+                >
+                  <rect x="5" y="10.5" width="14" height="9.5" rx="1" />
+                  <path d="M8 10.5V7.5a4 4 0 018 0v3" strokeLinecap="round" />
+                </svg>
+                <div>
+                  <h3 className="font-display text-xl leading-[1.2] text-[var(--text-title)] md:text-2xl">
+                    {tHome(`dataRoom.items.${item}.title`)}
+                  </h3>
+                  <p className="mt-2 text-sm leading-[1.7] text-[var(--text-body)]">
+                    {tHome(`dataRoom.items.${item}.body`)}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-14 text-center md:mt-20">
+            <span
+              className="inline-block border border-[var(--text-title)]/30 px-7 py-4 text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)]"
+              data-ui-label
+            >
+              {tHome('dataRoom.login')}
+            </span>
+          </p>
+        </Container>
+      </Section>
+
+      {/* 16. CONTACT — same composition as the original Let's Connect band:
        * full-bleed portrait left, dark form + details right. */}
       <section
         id="contact"
@@ -999,6 +1283,139 @@ function PanelCard({
   );
 }
 
+/** Monochrome star row; the rating is announced once via `label`. */
+function StarRating({rating, label}: {rating: number; label: string}) {
+  return (
+    <div className="flex gap-1" role="img" aria-label={label}>
+      {[1, 2, 3, 4, 5].map((n) => (
+        <svg
+          key={n}
+          viewBox="0 0 24 24"
+          className={cn('h-4 w-4', n <= rating ? 'fill-[var(--text-title)]' : 'fill-[var(--divider)]')}
+          aria-hidden="true"
+        >
+          <path d="M12 2.5l2.9 6.2 6.6.8-4.9 4.6 1.3 6.6L12 17.4l-5.9 3.3 1.3-6.6-4.9-4.6 6.6-.8z" />
+        </svg>
+      ))}
+    </div>
+  );
+}
+
+/** Latest reels as a strip of 9:16 thumbnails, each linking to the reel on
+ * Instagram. Renders nothing when the feed is unavailable. */
+async function InstagramReels({locale}: {locale: Locale}) {
+  const reels = await fetchLatestReels(6);
+  if (reels.length === 0) return null;
+  const t = await getTranslations({locale, namespace: 'Home.instagram'});
+  return (
+    <ul className="mt-10 grid grid-cols-3 gap-3 md:mt-12 md:grid-cols-6 md:gap-4">
+      {reels.map((reel, i) => (
+        <li key={reel.id}>
+          <a
+            href={reel.permalink}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={t('reelLabel', {number: i + 1})}
+            className="group relative block aspect-[9/16] overflow-hidden bg-white/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+          >
+            <Image
+              src={reel.thumbnail}
+              alt=""
+              fill
+              sizes="(min-width: 1280px) 180px, (min-width: 768px) 15vw, 33vw"
+              className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+            />
+            <PlayGlyph size="sm" />
+          </a>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+/** One square media tile with its caption beneath. Portrait assets fill
+ * the frame; landscape ones are matted on the dark tone; an item without
+ * an image renders a typographic placard so nothing fabricated is shown. */
+function MediaTile({
+  item,
+  kicker,
+  title,
+  body,
+  alt,
+  watchLabel
+}: {
+  item: MediaItem;
+  kicker: string;
+  title: string;
+  body: string;
+  alt: string;
+  watchLabel: string;
+}) {
+  const frame = (
+    <div className="relative aspect-square w-full overflow-hidden bg-[var(--bg-dark)]">
+      {item.image ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={item.image}
+          alt={alt}
+          loading="lazy"
+          className={cn(
+            'absolute inset-0 h-full w-full transition-transform duration-700 ease-out group-hover:scale-[1.03]',
+            item.fit === 'contain' ? 'object-contain p-5' : 'object-cover object-top'
+          )}
+        />
+      ) : (
+        <p
+          className="absolute inset-x-0 bottom-0 p-6 font-display text-2xl leading-[1.15] !text-white"
+          style={{color: '#ffffff'}}
+          aria-hidden="true"
+        >
+          {title}
+        </p>
+      )}
+      {item.video && <PlayGlyph />}
+    </div>
+  );
+
+  const caption = (
+    <div className="mt-5">
+      <p className="text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)]" data-ui-label>
+        {kicker}
+      </p>
+      <h3
+        className={cn(
+          'mt-3 font-display text-xl leading-snug text-[var(--text-title)]',
+          item.href && 'group-hover:underline'
+        )}
+      >
+        {title}
+      </h3>
+      <p className="mt-3 text-sm leading-[1.7] text-[var(--text-body)]">{body}</p>
+    </div>
+  );
+
+  if (item.href) {
+    return (
+      <a
+        href={item.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group block"
+        aria-label={`${watchLabel}: ${title}`}
+      >
+        {frame}
+        {caption}
+      </a>
+    );
+  }
+  return (
+    <article className="group">
+      {frame}
+      {caption}
+    </article>
+  );
+}
+
 type VideoData = {
   id: string;
   title: string;
@@ -1006,11 +1423,12 @@ type VideoData = {
   blurb?: string;
 };
 
-function formatVideoDate(iso: string, locale: string) {
+function formatLongDate(iso: string, locale: string) {
   return new Date(iso).toLocaleDateString(locale, {
     year: 'numeric',
     month: 'long',
-    day: 'numeric'
+    day: 'numeric',
+    timeZone: 'UTC'
   });
 }
 
@@ -1039,7 +1457,7 @@ function FeaturedVideoHero({video, locale}: {video: VideoData; locale: string}) 
       </div>
       <div className="mt-6">
         <p className="text-[11px] uppercase tracking-[0.22em] text-white/65" data-ui-label>
-          <time dateTime={video.published}>{formatVideoDate(video.published, locale)}</time>
+          <time dateTime={video.published}>{formatLongDate(video.published, locale)}</time>
         </p>
         <p className="mt-3 font-display text-2xl leading-snug text-white group-hover:underline md:text-3xl">
           {video.title}
@@ -1080,7 +1498,7 @@ function StackedVideoCard({video, locale}: {video: VideoData; locale: string}) {
           {video.title}
         </p>
         <p className="mt-2 text-[10px] uppercase tracking-[0.22em] text-white/65" data-ui-label>
-          <time dateTime={video.published}>{formatVideoDate(video.published, locale)}</time>
+          <time dateTime={video.published}>{formatLongDate(video.published, locale)}</time>
         </p>
       </div>
     </a>

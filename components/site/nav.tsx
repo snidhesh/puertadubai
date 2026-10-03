@@ -39,6 +39,7 @@ const NAV_ITEMS = [
   {key: 'experience', href: '/#experience'},
   {key: 'listings', href: '/#listings'},
   {key: 'atelier', href: '/#atelier'},
+  {key: 'international', href: '/expertise/cross-border-investment'},
   {key: 'media', href: '/#media'},
   {key: 'contact', href: '/#contact'}
 ] as const;
@@ -91,28 +92,28 @@ export function SiteNav() {
         )}
       >
         <Container className="flex h-16 items-center justify-between gap-4 md:gap-8">
-          {/* Wordmark lockup: DC monogram + DAYAN CANDAMIL (Arsenal, 0.28em)
-           * over DUBAI · MIAMI · BOGOTÁ (Roboto Flex, 0.32em). */}
+          {/* Stacked lockup: DC monogram centred above DAYAN CANDAMIL (Arsenal,
+           * 0.28em) and DUBAI · MIAMI · BOGOTÁ (Roboto Flex, 0.32em). */}
           <Link
             href="/"
             aria-label={t('logoAria')}
             className={cn(
-              'flex items-center gap-3 transition-colors duration-300',
+              'flex flex-col items-center gap-1.5 transition-colors duration-300',
               transparent ? 'text-white' : 'text-[var(--text-title)]'
             )}
           >
             <Image
               src={logoMark}
               alt=""
-              height={22}
-              width={Math.round((22 * 616) / 100)}
+              height={20}
+              width={Math.round((20 * 616) / 100)}
               priority
               className={cn(
-                'hidden h-[18px] w-auto transition-[filter] duration-300 min-[360px]:block sm:h-[22px]',
+                'h-4 w-auto transition-[filter] duration-300 sm:h-5',
                 transparent && '[filter:invert(1)]'
               )}
             />
-            <span className="flex flex-col leading-none">
+            <span className="flex flex-col items-center leading-none">
               <span
                 className="whitespace-nowrap font-display text-[12px] uppercase tracking-[0.2em] sm:text-[15px] sm:tracking-[0.28em]"
                 data-ui-label
@@ -132,7 +133,7 @@ export function SiteNav() {
           </Link>
           <nav
             aria-label={t('siteNavAria')}
-            className="hidden items-center gap-6 text-[11px] uppercase tracking-[0.14em] lg:flex"
+            className="hidden items-center gap-4 text-[11px] uppercase tracking-[0.1em] lg:flex xl:gap-6 xl:tracking-[0.14em]"
             data-ui-label
           >
             {NAV_ITEMS.map((item) => (

@@ -11,7 +11,8 @@
 
 export const LINKS = {
   linkedin: 'https://www.linkedin.com/in/dayancandamil/',
-  instagram: 'https://www.instagram.com/dayancandamil/',
+  instagram: 'https://www.instagram.com/dayancandamilglobal/',
+  instagramHandle: '@dayancandamilglobal',
   youtube: 'https://www.youtube.com/@Dayan.Candamil',
   youtubeVideos: 'https://www.youtube.com/@Dayan.Candamil/videos',
   houseOfCandamil: 'https://www.houseofcandamil.com',
@@ -22,8 +23,8 @@ export const LINKS = {
 } as const;
 
 export const PORTRAITS = {
-  /** Black-and-white editorial portrait, cut out on transparent ground — frames use object-contain. */
-  about: '/images/dayan/bw-portrait.png',
+  /** Black-and-white editorial portrait, full-frame 2:3 (source: assets/dayan-aboutus.jpeg). */
+  about: '/images/dayan/about-portrait.jpg',
   splash: '/images/dayan/turtleneck.jpg',
   /** Colour editorial shot used by the original Let's Connect band. */
   contact: '/images/dayan/connect.jpg',
@@ -37,17 +38,59 @@ export const PORTRAITS = {
 
 export type ExpertiseTile = {
   id: 'advisory' | 'privateClients' | 'transactions' | 'developers' | 'corridors' | 'creative';
+  /** URL segment of the detail page at /expertise/[slug]. */
+  slug: string;
   image: string;
+  /** Optional onward link shown on the detail page. */
+  related?: {href: string; label: 'listings' | 'atelier'};
 };
 
 export const EXPERTISE: ReadonlyArray<ExpertiseTile> = [
-  {id: 'advisory', image: '/images/tiles/tile-01.jpg'},
-  {id: 'privateClients', image: '/images/tiles/tile-05.jpg'},
-  {id: 'transactions', image: '/images/tiles/tile-06.jpg'},
-  {id: 'developers', image: '/images/uae/business-bay.png'},
-  {id: 'corridors', image: '/images/uae/bluewaters-island.jpg'},
-  {id: 'creative', image: '/images/dayan/bw-studio-satin.jpg'}
+  {id: 'advisory', slug: 'cross-border-investment', image: '/images/tiles/tile-01.jpg'},
+  {id: 'privateClients', slug: 'private-clients', image: '/images/tiles/tile-05.jpg'},
+  {
+    id: 'transactions',
+    slug: 'prime-off-market',
+    image: '/images/tiles/tile-06.jpg',
+    related: {href: '/projects', label: 'listings'}
+  },
+  {id: 'developers', slug: 'developer-market-entry', image: '/images/uae/business-bay.png'},
+  {id: 'corridors', slug: 'morocco-west-africa', image: '/images/uae/bluewaters-island.jpg'},
+  {
+    id: 'creative',
+    slug: 'luxury-brand-direction',
+    image: '/images/dayan/bw-studio-satin.jpg',
+    related: {href: '/#atelier', label: 'atelier'}
+  }
 ];
+
+/** Bullet count on each expertise detail page (`point1`…`pointN` in messages). */
+export const EXPERTISE_POINTS = [1, 2, 3, 4] as const;
+
+/**
+ * Case studies. All three are DUMMY entries (`placeholder: true`): stand-in
+ * photography and placeholder copy in `Home.caseStudies.items.<id>` with no
+ * client names or figures. While any entry is a placeholder its detail
+ * page is `noindex` and stays out of the sitemap. Replace image + copy and
+ * drop the flag once Dayan supplies a real, verifiable case.
+ */
+export type CaseStudy = {
+  id: 'one' | 'two' | 'three';
+  /** URL segment of the detail page at /case-studies/[slug]. */
+  slug: string;
+  number: number;
+  image: string;
+  placeholder?: boolean;
+};
+
+export const CASE_STUDIES: ReadonlyArray<CaseStudy> = [
+  {id: 'one', slug: '1', number: 1, image: '/images/uae/palm-jumeirah.png', placeholder: true},
+  {id: 'two', slug: '2', number: 2, image: '/images/uae/dubai-marina.png', placeholder: true},
+  {id: 'three', slug: '3', number: 3, image: '/images/uae/downtown-dubai.png', placeholder: true}
+];
+
+/** Body sections of a case-study detail page, in order. */
+export const CASE_STUDY_SECTIONS = ['overview', 'challenge', 'approach', 'outcome'] as const;
 
 export const CAREER_IDS = [
   'blackoak',
@@ -63,7 +106,25 @@ export const CAREER_IDS = [
 export const ENDORSEMENT_IDS = ['blackoakAppointment', 'caviarSpoon', 'blackoakBridge'] as const;
 
 /**
- * Media tiles share one 4:5 frame so the grid reads as a gallery wall.
+ * Reviews quoted from Dayan's public Trustpilot profile, newest first.
+ * Wording lives in `Home.reviews.items.<id>` and must match the profile
+ * word for word — a review is never edited, only excerpted (`excerpt`
+ * marks one that is cut short and ends in an ellipsis). No aggregate
+ * score or review count is shown, so the section cannot drift from what
+ * Trustpilot itself displays. Add new reviews here by hand.
+ */
+export const TRUSTPILOT = {
+  profile: 'https://www.trustpilot.com/review/www.dayancandamil.com',
+  write: 'https://www.trustpilot.com/evaluate/www.dayancandamil.com',
+  reviews: [
+    {id: 'terraine', rating: 5, published: '2026-09-23', excerpt: true},
+    {id: 'johnPaulo', rating: 5, published: '2026-06-04', excerpt: false},
+    {id: 'dave', rating: 5, published: '2025-11-13', excerpt: false}
+  ]
+} as const;
+
+/**
+ * Media tiles share one square frame so the grid reads as a gallery wall.
  * Portrait assets fill the frame (`cover`); landscape assets — a video
  * still, a certificate — are matted on the dark tone (`contain`) like a
  * framed print rather than cropped. An item without an image renders a
@@ -72,7 +133,7 @@ export const ENDORSEMENT_IDS = ['blackoakAppointment', 'caviarSpoon', 'blackoakB
 export type MediaItem = {
   id: 'bazaar' | 'mfw' | 'elle' | 'alanba' | 'hultPrize' | 'top1';
   image?: string;
-  /** How the asset sits in the 4:5 frame. Defaults to `cover`. */
+  /** How the asset sits in the square frame. Defaults to `cover`. */
   fit?: 'cover' | 'contain';
   href?: string;
   video?: boolean;
