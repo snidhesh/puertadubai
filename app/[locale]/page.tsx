@@ -386,7 +386,7 @@ export default async function HomePage({params}: Props) {
                   />
                   <div
                     aria-hidden="true"
-                    className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-black/10 transition-opacity duration-500 group-hover:from-black/75"
+                    className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-black/15 transition-opacity duration-500 group-hover:from-black/80"
                   />
                   <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-8">
                     <p
@@ -446,11 +446,13 @@ export default async function HomePage({params}: Props) {
             </h2>
             <span aria-hidden="true" className="h-px flex-1 bg-[var(--text-title)]/20" />
           </div>
-          <ul className="mt-12 grid gap-x-6 gap-y-12 sm:grid-cols-3 md:mt-16">
+          {/* Phones: thumbnail beside the text so three cards stay compact.
+           * sm and up: square image above the caption, three across. */}
+          <ul className="mt-10 grid gap-x-6 gap-y-8 sm:mt-12 sm:grid-cols-3 sm:gap-y-12 md:mt-16">
             {CASE_STUDIES.map((study) => (
               <li key={study.id}>
-                <Link href={`/case-studies/${study.slug}`} className="group block">
-                  <div className="relative aspect-square w-full overflow-hidden bg-[var(--bg-dark)]">
+                <Link href={`/case-studies/${study.slug}`} className="group flex gap-5 sm:block">
+                  <div className="relative aspect-square w-24 shrink-0 self-start overflow-hidden bg-[var(--bg-dark)] sm:w-full">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={study.image}
@@ -459,29 +461,29 @@ export default async function HomePage({params}: Props) {
                       className="absolute inset-0 h-full w-full object-cover grayscale transition-[transform,filter] duration-[800ms] ease-out group-hover:scale-[1.04] group-hover:grayscale-0"
                     />
                   </div>
-                  <p
-                    className="mt-5 font-display text-sm tracking-[0.22em] text-[var(--text-muted)]"
-                  >
-                    <bdi>{String(study.number).padStart(2, '0')}</bdi>
-                  </p>
-                  <h3 className="mt-2 font-display text-2xl leading-[1.15] text-[var(--text-title)]">
-                    {tHome(`caseStudies.items.${study.id}.title`)}
-                  </h3>
-                  <p className="mt-3 text-sm leading-[1.7] text-[var(--text-body)]">
-                    {tHome(`caseStudies.items.${study.id}.summary`)}
-                  </p>
-                  <p
-                    className="mt-5 inline-flex items-center gap-2 border-b border-[var(--text-title)]/40 pb-1 text-[10px] uppercase tracking-[0.32em] text-[var(--text-title)] transition-colors group-hover:border-[var(--text-title)]"
-                    data-ui-label
-                  >
-                    {tHome('caseStudies.view')}
-                    <span
-                      aria-hidden="true"
-                      className="transition-transform duration-300 group-hover:translate-x-1 rtl:scale-x-[-1]"
+                  <div className="min-w-0">
+                    <p className="font-display text-sm tracking-[0.22em] text-[var(--text-muted)] sm:mt-5">
+                      <bdi>{String(study.number).padStart(2, '0')}</bdi>
+                    </p>
+                    <h3 className="mt-1 font-display text-xl leading-[1.15] text-[var(--text-title)] sm:mt-2 sm:text-2xl">
+                      {tHome(`caseStudies.items.${study.id}.title`)}
+                    </h3>
+                    <p className="mt-2 text-sm leading-[1.7] text-[var(--text-body)] sm:mt-3">
+                      {tHome(`caseStudies.items.${study.id}.summary`)}
+                    </p>
+                    <p
+                      className="mt-3 inline-flex items-center gap-2 whitespace-nowrap border-b border-[var(--text-title)]/40 pb-1 text-[10px] uppercase tracking-[0.18em] text-[var(--text-title)] transition-colors group-hover:border-[var(--text-title)] sm:mt-5 sm:tracking-[0.32em]"
+                      data-ui-label
                     >
-                      →
-                    </span>
-                  </p>
+                      {tHome('caseStudies.view')}
+                      <span
+                        aria-hidden="true"
+                        className="transition-transform duration-300 group-hover:translate-x-1 rtl:scale-x-[-1]"
+                      >
+                        →
+                      </span>
+                    </p>
+                  </div>
                 </Link>
               </li>
             ))}
@@ -882,8 +884,9 @@ export default async function HomePage({params}: Props) {
             </p>
           </div>
 
-          {/* Square tiles, four to a row on desktop, caption beneath each. */}
-          <ul className="mt-12 grid gap-x-6 gap-y-12 sm:grid-cols-2 md:mt-16 lg:grid-cols-4">
+          {/* Square tiles, caption beneath each: two to a row on phones and
+           * tablets, four on desktop. */}
+          <ul className="mt-10 grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 sm:gap-y-12 md:mt-16 lg:grid-cols-4">
             {MEDIA.map((item) => (
               <li key={item.id}>
                 <MediaTile
@@ -963,7 +966,7 @@ export default async function HomePage({params}: Props) {
           </ul>
           <p className="mt-14 text-center md:mt-20">
             <span
-              className="inline-block border border-[var(--text-title)]/30 px-7 py-4 text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)]"
+              className="inline-block border border-[var(--text-title)]/30 px-4 py-4 text-[11px] uppercase tracking-[0.14em] text-[var(--text-muted)] sm:px-7 sm:tracking-[0.22em]"
               data-ui-label
             >
               {tHome('dataRoom.login')}
@@ -1361,12 +1364,12 @@ function MediaTile({
           loading="lazy"
           className={cn(
             'absolute inset-0 h-full w-full transition-transform duration-700 ease-out group-hover:scale-[1.03]',
-            item.fit === 'contain' ? 'object-contain p-5' : 'object-cover object-top'
+            item.fit === 'contain' ? 'object-contain p-3 sm:p-5' : 'object-cover object-top'
           )}
         />
       ) : (
         <p
-          className="absolute inset-x-0 bottom-0 p-6 font-display text-2xl leading-[1.15] !text-white"
+          className="absolute inset-x-0 bottom-0 p-4 font-display text-lg leading-[1.15] !text-white sm:p-6 sm:text-2xl"
           style={{color: '#ffffff'}}
           aria-hidden="true"
         >
@@ -1378,19 +1381,23 @@ function MediaTile({
   );
 
   const caption = (
-    <div className="mt-5">
-      <p className="text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)]" data-ui-label>
+    <div className="mt-4 sm:mt-5">
+      <p
+        className="text-[10px] uppercase tracking-[0.14em] text-[var(--text-muted)] sm:text-[11px] sm:tracking-[0.22em]"
+        data-ui-label
+      >
         {kicker}
       </p>
       <h3
         className={cn(
-          'mt-3 font-display text-xl leading-snug text-[var(--text-title)]',
+          'mt-2 font-display text-base leading-snug text-[var(--text-title)] sm:mt-3 sm:text-xl',
           item.href && 'group-hover:underline'
         )}
       >
         {title}
       </h3>
-      <p className="mt-3 text-sm leading-[1.7] text-[var(--text-body)]">{body}</p>
+      {/* Too narrow a measure at half a phone screen; shown from sm up. */}
+      <p className="mt-3 hidden text-sm leading-[1.7] text-[var(--text-body)] sm:block">{body}</p>
     </div>
   );
 
