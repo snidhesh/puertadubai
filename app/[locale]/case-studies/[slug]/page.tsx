@@ -23,7 +23,7 @@ export async function generateMetadata({params}: Props): Promise<Metadata> {
   const t = await getTranslations({locale, namespace: 'Home.caseStudies.items'});
   return {
     title: t(`${study.id}.title`),
-    description: t(`${study.id}.summary`),
+    description: t(`${study.id}.objective`),
     // Dummy entries must not be indexed.
     ...(study.placeholder && {robots: {index: false, follow: false}})
   };
@@ -31,8 +31,9 @@ export async function generateMetadata({params}: Props): Promise<Metadata> {
 
 /**
  * Case-study detail — one page per card in the home page's Case Studies
- * section. Copy lives in `Home.caseStudies.items.<id>`; entries flagged
- * `placeholder` carry dummy copy and say so on the page.
+ * section. Copy lives in `Home.caseStudies.items.<id>` (section 8 of the
+ * copy document); an entry flagged `placeholder` carries dummy copy and
+ * says so on the page.
  */
 export default async function CaseStudyPage({params}: Props) {
   const {locale, slug} = await params;
@@ -89,7 +90,7 @@ export default async function CaseStudyPage({params}: Props) {
             className="mt-5 max-w-xl text-base leading-[1.7] !text-white/85 md:text-lg"
             style={{color: 'rgba(255,255,255,0.85)'}}
           >
-            {tItems(`${study.id}.summary`)}
+            {tItems(`${study.id}.client`)}
           </p>
         </Container>
       </section>

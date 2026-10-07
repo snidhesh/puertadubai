@@ -106,16 +106,18 @@ export default async function ExpertiseDetailPage({params}: Props) {
               >
                 {t('coversHeading')}
               </h2>
-              <ul className="mt-6 border-t border-[var(--divider)]">
+              <dl className="mt-6 border-t border-[var(--divider)]">
                 {EXPERTISE_POINTS.map((n) => (
-                  <li
-                    key={n}
-                    className="border-b border-[var(--divider)] py-5 text-base leading-[1.7] text-[var(--text-body)]"
-                  >
-                    {tItems(`${tile.id}.point${n}`)}
-                  </li>
+                  <div key={n} className="border-b border-[var(--divider)] py-6">
+                    <dt className="font-display text-xl leading-[1.2] text-[var(--text-title)] md:text-2xl">
+                      {tItems(`${tile.id}.point${n}Title`)}
+                    </dt>
+                    <dd className="mt-2 text-base leading-[1.7] text-[var(--text-body)]">
+                      {tItems(`${tile.id}.point${n}Body`)}
+                    </dd>
+                  </div>
                 ))}
-              </ul>
+              </dl>
               <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-5">
                 <Link
                   href="/#contact"

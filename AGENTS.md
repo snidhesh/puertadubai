@@ -8,7 +8,9 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 ## Source of truth
 Content spec: `DAYAN_CANDAMIL_SITE_UPDATE.md` + `Dayan_Candamil_Portfolio_Content.md` (single-page
-portfolio for Dayan Candamil — she/her). Static data in `lib/home/content.ts`, copy in `messages/*.json`.
+portfolio for Dayan Candamil — she/her). **`Dayan Candamil — Website Copy.pdf` (Oct 2026, from Dayan)
+is the final copy and supersedes both for About, the six Expertise sections, Case Studies and Press.**
+It is third person throughout ("Dayan", never "we"); keep that voice in any new copy. Static data in `lib/home/content.ts`, copy in `messages/*.json`.
 The language switcher is hidden until ES/PT translations are confirmed; non-EN message files currently
 mirror `en.json`.
 

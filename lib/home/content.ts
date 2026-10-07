@@ -37,7 +37,7 @@ export const PORTRAITS = {
 } as const;
 
 export type ExpertiseTile = {
-  id: 'advisory' | 'privateClients' | 'transactions' | 'developers' | 'corridors' | 'creative';
+  id: 'advisory' | 'privateClients' | 'transactions' | 'developers' | 'marrakech' | 'houseOfCandamil';
   /** URL segment of the detail page at /expertise/[slug]. */
   slug: string;
   image: string;
@@ -45,6 +45,7 @@ export type ExpertiseTile = {
   related?: {href: string; label: 'listings' | 'atelier'};
 };
 
+/** Order follows sections 2–7 of the copy document. */
 export const EXPERTISE: ReadonlyArray<ExpertiseTile> = [
   {id: 'advisory', slug: 'cross-border-investment', image: '/images/tiles/tile-01.jpg'},
   {id: 'privateClients', slug: 'private-clients', image: '/images/tiles/tile-05.jpg'},
@@ -55,27 +56,27 @@ export const EXPERTISE: ReadonlyArray<ExpertiseTile> = [
     related: {href: '/projects', label: 'listings'}
   },
   {id: 'developers', slug: 'developer-market-entry', image: '/images/uae/business-bay.png'},
-  {id: 'corridors', slug: 'morocco-west-africa', image: '/images/uae/bluewaters-island.jpg'},
+  {id: 'marrakech', slug: 'marrakech-north-africa', image: '/images/uae/bluewaters-island.jpg'},
   {
-    id: 'creative',
-    slug: 'luxury-brand-direction',
+    id: 'houseOfCandamil',
+    slug: 'house-of-candamil',
     image: '/images/dayan/bw-studio-satin.jpg',
     related: {href: '/#atelier', label: 'atelier'}
   }
 ];
 
-/** Bullet count on each expertise detail page (`point1`…`pointN` in messages). */
-export const EXPERTISE_POINTS = [1, 2, 3, 4] as const;
+/** Titled items on each expertise detail page (`point<N>Title` / `point<N>Body` in messages). */
+export const EXPERTISE_POINTS = [1, 2, 3] as const;
 
 /**
- * Case studies. All three are DUMMY entries (`placeholder: true`): stand-in
- * photography and placeholder copy in `Home.caseStudies.items.<id>` with no
- * client names or figures. While any entry is a placeholder its detail
- * page is `noindex` and stays out of the sitemap. Replace image + copy and
- * drop the flag once Dayan supplies a real, verifiable case.
+ * Case studies, from section 8 of the copy document. Copy lives in
+ * `Home.caseStudies.items.<id>`. Photography is still stand-in (no
+ * project imagery supplied); swap `image` when assets land. An entry
+ * flagged `placeholder` (dummy copy) renders `noindex` and stays out of
+ * the sitemap.
  */
 export type CaseStudy = {
-  id: 'one' | 'two' | 'three';
+  id: 'familyOffice' | 'estateCommission';
   /** URL segment of the detail page at /case-studies/[slug]. */
   slug: string;
   number: number;
@@ -84,13 +85,15 @@ export type CaseStudy = {
 };
 
 export const CASE_STUDIES: ReadonlyArray<CaseStudy> = [
-  {id: 'one', slug: '1', number: 1, image: '/images/uae/palm-jumeirah.png', placeholder: true},
-  {id: 'two', slug: '2', number: 2, image: '/images/uae/dubai-marina.png', placeholder: true},
-  {id: 'three', slug: '3', number: 3, image: '/images/uae/downtown-dubai.png', placeholder: true}
+  {id: 'familyOffice', slug: '1', number: 1, image: '/images/uae/difc.jpg'},
+  {id: 'estateCommission', slug: '2', number: 2, image: '/images/tiles/tile-02.jpg'}
 ];
 
 /** Body sections of a case-study detail page, in order. */
-export const CASE_STUDY_SECTIONS = ['overview', 'challenge', 'approach', 'outcome'] as const;
+export const CASE_STUDY_SECTIONS = ['objective', 'approach', 'outcome'] as const;
+
+/** The Data Room is hidden until its real content exists (copy doc, designer notes). */
+export const DATA_ROOM_ENABLED = false;
 
 export const CAREER_IDS = [
   'blackoak',
@@ -131,7 +134,7 @@ export const TRUSTPILOT = {
  * typographic placard in the same frame.
  */
 export type MediaItem = {
-  id: 'bazaar' | 'mfw' | 'elle' | 'alanba' | 'hultPrize' | 'top1';
+  id: 'bazaar' | 'mfw' | 'elle' | 'alanba';
   image?: string;
   /** How the asset sits in the square frame. Defaults to `cover`. */
   fit?: 'cover' | 'contain';
@@ -150,9 +153,8 @@ export const MEDIA: ReadonlyArray<MediaItem> = [
     video: true
   },
   {id: 'elle', image: '/images/press/elle-arabia-2021.jpg'},
-  {id: 'alanba'},
-  {id: 'hultPrize', image: PORTRAITS.hultPrize},
-  {id: 'top1', image: '/images/press/top-1-percent-2024.jpg', fit: 'contain'}
+  // Needs a photo or crop of the article (copy doc, designer notes).
+  {id: 'alanba'}
 ];
 
 /**

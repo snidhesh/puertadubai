@@ -1,6 +1,6 @@
 import type {MetadataRoute} from 'next';
 import {routing, type Locale} from '@/lib/i18n/routing';
-import {EXPERTISE} from '@/lib/home/content';
+import {CASE_STUDIES, EXPERTISE} from '@/lib/home/content';
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.dayancandamil.com').replace(/\/$/, '');
 
@@ -8,13 +8,14 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.dayancandamil
  * Public routes (locale-prefixed except EN which uses the bare path under
  * `as-needed`). Every entry emits `alternates.languages` so search engines
  * discover the localised variants. The portfolio is a single page plus the
- * listings index, the expertise detail pages and the two legal pages;
+ * listings index, the expertise and case-study pages and the two legal pages;
  * legacy routes 301 to anchors via next.config.ts.
  */
 const STATIC_PATHS = [
   '/',
   '/projects',
   ...EXPERTISE.map((tile) => `/expertise/${tile.slug}`),
+  ...CASE_STUDIES.filter((study) => !study.placeholder).map((study) => `/case-studies/${study.slug}`),
   '/legal-notice',
   '/privacy'
 ];

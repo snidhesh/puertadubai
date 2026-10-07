@@ -10,6 +10,7 @@ import {StickySocials} from '@/components/home/sticky-socials';
 import {
   CAREER_IDS,
   CASE_STUDIES,
+  DATA_ROOM_ENABLED,
   ENDORSEMENT_IDS,
   EXPERTISE,
   FEATURED_VIDEOS,
@@ -22,7 +23,7 @@ import {
 import {DAYAN_AGENT, fetchAgentListings, type StudioListingCard} from '@/lib/studio/properties';
 import {PlayGlyph} from '@/components/home/play-glyph';
 import {SOCIAL_ICONS} from '@/lib/site/social';
-import {fetchLatestReels} from '@/lib/instagram/reels';
+import {fetchLatestPosts} from '@/lib/instagram/posts';
 import {routing, type Locale} from '@/lib/i18n/routing';
 
 // Featured listings come from the BlackOak Studio CRM feed; ISR every 5 min.
@@ -319,7 +320,10 @@ export default async function HomePage({params}: Props) {
                   />
                 </div>
               </div>
-              <p className="mt-8 max-w-xl text-base leading-[1.7] text-[var(--text-body)]">
+              <h3 className="mt-8 font-display text-xl text-[var(--text-title)] md:text-2xl">
+                {tHome('about.introHeading')}
+              </h3>
+              <p className="mt-4 max-w-xl text-base leading-[1.7] text-[var(--text-body)]">
                 {tHome('about.intro')}
               </p>
               <div className="mt-10 space-y-10">
@@ -447,8 +451,8 @@ export default async function HomePage({params}: Props) {
             <span aria-hidden="true" className="h-px flex-1 bg-[var(--text-title)]/20" />
           </div>
           {/* Phones: thumbnail beside the text so three cards stay compact.
-           * sm and up: square image above the caption, three across. */}
-          <ul className="mt-10 grid gap-x-6 gap-y-8 sm:mt-12 sm:grid-cols-3 sm:gap-y-12 md:mt-16">
+           * sm and up: square image above the caption, two across. */}
+          <ul className="mt-10 grid gap-x-8 gap-y-8 sm:mt-12 sm:grid-cols-2 sm:gap-y-12 md:mt-16 lg:gap-x-10">
             {CASE_STUDIES.map((study) => (
               <li key={study.id}>
                 <Link href={`/case-studies/${study.slug}`} className="group flex gap-5 sm:block">
@@ -469,7 +473,7 @@ export default async function HomePage({params}: Props) {
                       {tHome(`caseStudies.items.${study.id}.title`)}
                     </h3>
                     <p className="mt-2 text-sm leading-[1.7] text-[var(--text-body)] sm:mt-3">
-                      {tHome(`caseStudies.items.${study.id}.summary`)}
+                      {tHome(`caseStudies.items.${study.id}.client`)}
                     </p>
                     <p
                       className="mt-3 inline-flex items-center gap-2 whitespace-nowrap border-b border-[var(--text-title)]/40 pb-1 text-[10px] uppercase tracking-[0.18em] text-[var(--text-title)] transition-colors group-hover:border-[var(--text-title)] sm:mt-5 sm:tracking-[0.32em]"
@@ -776,7 +780,7 @@ export default async function HomePage({params}: Props) {
                 {tHome('atelier.intro')}
               </p>
               <div className="mt-10 space-y-10">
-                {(['1', '2'] as const).map((n) => (
+                {(['1', '2', '3'] as const).map((n) => (
                   <div key={n}>
                     <h3 className="font-display text-xl text-[var(--text-title)] md:text-2xl">
                       {tHome(`atelier.h${n}`)}
@@ -811,7 +815,7 @@ export default async function HomePage({params}: Props) {
         </Container>
       </Section>
 
-      {/* 13. INSTAGRAM — dark band: handle + follow link, latest reels beneath */}
+      {/* 13. INSTAGRAM — dark band: handle + follow link, latest posts beneath */}
       <section aria-label={tHome('instagram.ariaLabel')} className="bg-[var(--bg-dark)] py-12 md:py-16">
         <Container>
           <a
@@ -857,7 +861,7 @@ export default async function HomePage({params}: Props) {
             </span>
           </a>
           <Suspense fallback={null}>
-            <InstagramReels locale={locale} />
+            <InstagramPosts locale={locale} />
           </Suspense>
         </Container>
       </section>
@@ -919,61 +923,63 @@ export default async function HomePage({params}: Props) {
       </Section>
 
       {/* 15. DATA ROOM — coming-soon banner for the future client login area.
-       * Placeholder copy only: no project figures until the real area ships. */}
-      <Section id="data-room" className="scroll-mt-16 py-24 md:py-32">
-        <Container>
-          <div className="text-center">
-            <p
-              className="text-[11px] uppercase tracking-[0.32em] text-[var(--text-muted)]"
-              data-ui-label
-            >
-              {tHome('dataRoom.eyebrow')}
-            </p>
-            <h2 className="mt-6 font-display text-5xl uppercase leading-[0.95] tracking-[0.06em] text-[var(--text-title)] sm:text-7xl lg:text-9xl">
-              {tHome('dataRoom.heading')}
-            </h2>
-            <p className="mx-auto mt-8 max-w-xl text-base leading-[1.7] text-[var(--text-body)] md:text-lg">
-              {tHome('dataRoom.body')}
-            </p>
-          </div>
-          <ul className="mt-14 grid border-t border-[var(--divider)] md:mt-20 md:grid-cols-3 md:border-t-0">
-            {(['plans', 'returns', 'details'] as const).map((item) => (
-              <li
-                key={item}
-                className="flex gap-5 border-b border-[var(--divider)] py-8 md:border-b-0 md:border-s md:px-8 md:py-2 md:first:border-s-0 md:first:ps-0"
+       * Placeholder copy only, so hidden behind DATA_ROOM_ENABLED until final. */}
+      {DATA_ROOM_ENABLED && (
+        <Section id="data-room" className="scroll-mt-16 py-24 md:py-32">
+          <Container>
+            <div className="text-center">
+              <p
+                className="text-[11px] uppercase tracking-[0.32em] text-[var(--text-muted)]"
+                data-ui-label
               >
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.25"
-                  className="mt-1 h-5 w-5 shrink-0 text-[var(--text-muted)]"
-                  aria-hidden="true"
+                {tHome('dataRoom.eyebrow')}
+              </p>
+              <h2 className="mt-6 font-display text-5xl uppercase leading-[0.95] tracking-[0.06em] text-[var(--text-title)] sm:text-7xl lg:text-9xl">
+                {tHome('dataRoom.heading')}
+              </h2>
+              <p className="mx-auto mt-8 max-w-xl text-base leading-[1.7] text-[var(--text-body)] md:text-lg">
+                {tHome('dataRoom.body')}
+              </p>
+            </div>
+            <ul className="mt-14 grid border-t border-[var(--divider)] md:mt-20 md:grid-cols-3 md:border-t-0">
+              {(['plans', 'returns', 'details'] as const).map((item) => (
+                <li
+                  key={item}
+                  className="flex gap-5 border-b border-[var(--divider)] py-8 md:border-b-0 md:border-s md:px-8 md:py-2 md:first:border-s-0 md:first:ps-0"
                 >
-                  <rect x="5" y="10.5" width="14" height="9.5" rx="1" />
-                  <path d="M8 10.5V7.5a4 4 0 018 0v3" strokeLinecap="round" />
-                </svg>
-                <div>
-                  <h3 className="font-display text-xl leading-[1.2] text-[var(--text-title)] md:text-2xl">
-                    {tHome(`dataRoom.items.${item}.title`)}
-                  </h3>
-                  <p className="mt-2 text-sm leading-[1.7] text-[var(--text-body)]">
-                    {tHome(`dataRoom.items.${item}.body`)}
-                  </p>
-                </div>
-              </li>
-            ))}
-          </ul>
-          <p className="mt-14 text-center md:mt-20">
-            <span
-              className="inline-block border border-[var(--text-title)]/30 px-4 py-4 text-[11px] uppercase tracking-[0.14em] text-[var(--text-muted)] sm:px-7 sm:tracking-[0.22em]"
-              data-ui-label
-            >
-              {tHome('dataRoom.login')}
-            </span>
-          </p>
-        </Container>
-      </Section>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.25"
+                    className="mt-1 h-5 w-5 shrink-0 text-[var(--text-muted)]"
+                    aria-hidden="true"
+                  >
+                    <rect x="5" y="10.5" width="14" height="9.5" rx="1" />
+                    <path d="M8 10.5V7.5a4 4 0 018 0v3" strokeLinecap="round" />
+                  </svg>
+                  <div>
+                    <h3 className="font-display text-xl leading-[1.2] text-[var(--text-title)] md:text-2xl">
+                      {tHome(`dataRoom.items.${item}.title`)}
+                    </h3>
+                    <p className="mt-2 text-sm leading-[1.7] text-[var(--text-body)]">
+                      {tHome(`dataRoom.items.${item}.body`)}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-14 text-center md:mt-20">
+              <span
+                className="inline-block border border-[var(--text-title)]/30 px-4 py-4 text-[11px] uppercase tracking-[0.14em] text-[var(--text-muted)] sm:px-7 sm:tracking-[0.22em]"
+                data-ui-label
+              >
+                {tHome('dataRoom.login')}
+              </span>
+            </p>
+          </Container>
+        </Section>
+      )}
 
       {/* 16. CONTACT — same composition as the original Let's Connect band:
        * full-bleed portrait left, dark form + details right. */}
@@ -1304,31 +1310,31 @@ function StarRating({rating, label}: {rating: number; label: string}) {
   );
 }
 
-/** Latest reels as a strip of 9:16 thumbnails, each linking to the reel on
+/** Latest posts as a row of square tiles, each linking to the post on
  * Instagram. Renders nothing when the feed is unavailable. */
-async function InstagramReels({locale}: {locale: Locale}) {
-  const reels = await fetchLatestReels(6);
-  if (reels.length === 0) return null;
+async function InstagramPosts({locale}: {locale: Locale}) {
+  const posts = await fetchLatestPosts(6);
+  if (posts.length === 0) return null;
   const t = await getTranslations({locale, namespace: 'Home.instagram'});
   return (
-    <ul className="mt-10 grid grid-cols-3 gap-3 md:mt-12 md:grid-cols-6 md:gap-4">
-      {reels.map((reel, i) => (
-        <li key={reel.id}>
+    <ul className="mt-10 grid grid-cols-3 gap-2 sm:gap-3 md:mt-12 md:grid-cols-6 md:gap-4">
+      {posts.map((post, i) => (
+        <li key={post.id}>
           <a
-            href={reel.permalink}
+            href={post.permalink}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label={t('reelLabel', {number: i + 1})}
-            className="group relative block aspect-[9/16] overflow-hidden bg-white/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+            aria-label={t('postLabel', {number: i + 1})}
+            className="group relative block aspect-square overflow-hidden bg-white/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
           >
             <Image
-              src={reel.thumbnail}
+              src={post.image}
               alt=""
               fill
               sizes="(min-width: 1280px) 180px, (min-width: 768px) 15vw, 33vw"
               className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
             />
-            <PlayGlyph size="sm" />
+            {post.video && <PlayGlyph size="sm" />}
           </a>
         </li>
       ))}
