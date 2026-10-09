@@ -67,6 +67,36 @@
       "viewAll": "View all listings",
       "empty": "Listings are syncing from the CRM. Check back shortly, or view all listings."
     },
+    "international": {
+      "eyebrow": "International Properties",
+      "heading": "Selected Opportunities Across the Globe",
+      "intro": "A curated selection of international assets, presented to qualified investors on request.",
+      "advisoryLink": "Cross-border investment advisory",
+      "properties": {
+        "portugalLand": {
+          "tag1": "Land",
+          "tag2": "Investment opportunity",
+          "locationChip": "Portugal",
+          "location": "Portugal · Europe",
+          "title": "Exclusive Land Investment Opportunity",
+          "body": "An exceptional opportunity to acquire a substantial landholding in Portugal, offering significant scale and long-term investment potential.",
+          "audience": "A rare opportunity for institutional investors, private equity groups, family offices, and strategic land investors seeking large-scale assets in Europe.",
+          "priceLabel": "Asking price",
+          "price": "Upon request",
+          "detailsHeading": "Property details",
+          "detail1Label": "Location",
+          "detail1Value": "Portugal",
+          "detail2Label": "Total land area",
+          "detail2Value": "100,000,000 sqm (10,000 hectares)",
+          "detail3Label": "Asking price",
+          "detail3Value": "Upon request",
+          "detail4Label": "Further details",
+          "detail4Value": "Available to qualified investors upon inquiry",
+          "cta": "Enquire about this asset",
+          "imageAlt": "Rocky coastline and turquoise sea in Portugal"
+        }
+      }
+    },
     "panels": {
       "ariaLabel": "Ways to work with Dayan",
       "mandatesEyebrow": "Private mandates",
@@ -327,34 +357,45 @@
       "postLabel": "View post {number} on Instagram"
     },
     "media": {
-      "eyebrowLine1": "Selected features",
-      "eyebrowLine2": "In the Press",
-      "body": "A presence across fashion, culture and the Arab world.",
+      "eyebrow": "In the Press",
+      "heading": "A presence across fashion, culture and the Arab world.",
       "watchOnYouTube": "Watch on YouTube",
+      "viewOnLinkedIn": "View on LinkedIn",
       "items": {
         "bazaar": {
+          "label": "Harper's Bazaar",
           "kicker": "Harper's Bazaar Vietnam · August 2021",
           "title": "The Cover",
           "body": "A cover story and portrait of Dayan Candamil, and of the vision that shaped House of Candamil.",
           "alt": "Harper's Bazaar Vietnam cover, August 2021, featuring Dayan Candamil"
         },
         "mfw": {
+          "label": "Marrakech Fashion Week",
           "kicker": "Marrakech Fashion Week · 2022",
           "title": "House of Candamil on the Runway",
           "body": "The House of Candamil collection was unveiled in Marrakech under Dayan's creative direction.",
           "alt": "House of Candamil runway at Marrakech Fashion Week 2022"
         },
         "elle": {
+          "label": "ELLE Arabia",
           "kicker": "ELLE Arabia · 2021",
           "title": "Introducing Dayan Candamil",
           "body": "A feature celebrating her arrival in the Emirates and the debut of House of Candamil, in collaboration with The Caviar Spoon.",
           "alt": "Dayan Candamil, editorial portrait"
         },
         "alanba": {
-          "kicker": "Alanba · Kuwait · 2024",
+          "label": "Alanba",
+          "kicker": "Alanba · Kuwait · August 2022",
           "title": "Craft, Identity & Heritage",
           "body": "In one of the Arab world's most established newspapers, Dayan speaks about craftsmanship, national identity and the preservation of heritage.",
-          "alt": ""
+          "alt": "Kuwait Towers against a clear sky, Kuwait City"
+        },
+        "hultPrize": {
+          "label": "Hult Prize",
+          "kicker": "Hult Prize On-Campus Programme · Settat, Morocco · 2023",
+          "title": "Redesigning Fashion to Make It More Sustainable",
+          "body": "Dayan was invited by Settat University and the Hult Prize Foundation to speak at the International Hult Prize On-Campus Programme, whose theme that year was making fashion more sustainable.",
+          "alt": "Dayan Candamil in a white jacket, black-and-white portrait from the Hult Prize speaker announcement"
         }
       },
       "alsoHeading": "Also featured in",
@@ -379,15 +420,15 @@
       "items": {
         "plans": {
           "title": "Payment plans",
-          "body": "Placeholder text. Instalments and milestones for each project will appear here."
+          "body": "Instalments and milestones for each project will appear here."
         },
         "returns": {
           "title": "Returns",
-          "body": "Placeholder text. The return figures for each project will appear here."
+          "body": "The return figures for each project will appear here."
         },
         "details": {
           "title": "Project data",
-          "body": "Placeholder text. The rest of the project information will appear here."
+          "body": "The rest of the project information will appear here."
         }
       },
       "login": "Client login — coming soon"

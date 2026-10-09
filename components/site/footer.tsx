@@ -2,7 +2,7 @@ import Image from 'next/image';
 import {getTranslations} from 'next-intl/server';
 import {Link} from '@/lib/i18n/navigation';
 import {Container} from '@/components/ui/container';
-import {LINKS} from '@/lib/home/content';
+import {CAREER_ENABLED, LINKS} from '@/lib/home/content';
 import logoLockup from '../../public/brand/logo-lockup.png';
 
 const EXPLORE = [
@@ -10,8 +10,12 @@ const EXPLORE = [
   {key: 'expertise', href: '/#expertise'},
   {key: 'experience', href: '/#experience'},
   {key: 'listings', href: '/#listings'},
+  {key: 'international', href: '/#international'},
   {key: 'media', href: '/#media'}
 ] as const;
+
+/** Experience only has an anchor while the career section is rendered. */
+const VISIBLE_EXPLORE = EXPLORE.filter((item) => CAREER_ENABLED || item.key !== 'experience');
 
 export async function SiteFooter() {
   const t = await getTranslations('Footer');
@@ -43,10 +47,10 @@ export async function SiteFooter() {
           <p className="text-[11px] uppercase tracking-[0.12em] text-[var(--text-muted)]" data-ui-label>
             {t('exploreHeading')}
           </p>
-          <ul className="mt-3 space-y-2">
-            {EXPLORE.map((item) => (
+          <ul className="mt-2 space-y-0">
+            {VISIBLE_EXPLORE.map((item) => (
               <li key={item.key}>
-                <Link href={item.href} className="hover:text-[var(--accent)]">
+                <Link href={item.href} className="inline-block py-1 hover:text-[var(--accent)]">
                   {tNav(item.key)}
                 </Link>
               </li>
@@ -57,14 +61,14 @@ export async function SiteFooter() {
           <p className="text-[11px] uppercase tracking-[0.12em] text-[var(--text-muted)]" data-ui-label>
             {t('elsewhereHeading')}
           </p>
-          <ul className="mt-3 space-y-2">
+          <ul className="mt-2 space-y-0">
             {elsewhere.map((item) => (
               <li key={item.href}>
                 <a
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-[var(--accent)]"
+                  className="inline-block py-1 hover:text-[var(--accent)]"
                 >
                   {item.label}
                 </a>
@@ -76,14 +80,14 @@ export async function SiteFooter() {
           <p className="text-[11px] uppercase tracking-[0.12em] text-[var(--text-muted)]" data-ui-label>
             {t('legalHeading')}
           </p>
-          <ul className="mt-3 space-y-2">
+          <ul className="mt-2 space-y-0">
             <li>
-              <Link href="/legal-notice" className="hover:text-[var(--accent)]">
+              <Link href="/legal-notice" className="inline-block py-1 hover:text-[var(--accent)]">
                 {t('legalNotice')}
               </Link>
             </li>
             <li>
-              <Link href="/privacy" className="hover:text-[var(--accent)]">
+              <Link href="/privacy" className="inline-block py-1 hover:text-[var(--accent)]">
                 {t('privacy')}
               </Link>
             </li>

@@ -7,7 +7,7 @@ import {usePathname} from 'next/navigation';
 import {Link} from '@/lib/i18n/navigation';
 import {Container} from '@/components/ui/container';
 import {SOCIAL_ICONS} from '@/lib/site/social';
-import {LINKS} from '@/lib/home/content';
+import {CAREER_ENABLED, LINKS} from '@/lib/home/content';
 import {cn} from '@/lib/utils';
 import logoMark from '../../public/brand/logo-mark.png';
 
@@ -39,10 +39,13 @@ const NAV_ITEMS = [
   {key: 'experience', href: '/#experience'},
   {key: 'listings', href: '/#listings'},
   {key: 'atelier', href: '/#atelier'},
-  {key: 'international', href: '/expertise/cross-border-investment'},
+  {key: 'international', href: '/#international'},
   {key: 'media', href: '/#media'},
   {key: 'contact', href: '/#contact'}
 ] as const;
+
+/** Experience only has an anchor while the career section is rendered. */
+const VISIBLE_NAV_ITEMS = NAV_ITEMS.filter((item) => CAREER_ENABLED || item.key !== 'experience');
 
 export function SiteNav() {
   const t = useTranslations('Nav');
@@ -122,7 +125,7 @@ export function SiteNav() {
               </span>
               <span
                 className={cn(
-                  'mt-1 whitespace-nowrap text-[7px] uppercase tracking-[0.24em] sm:text-[8px] sm:tracking-[0.32em]',
+                  'mt-1 whitespace-nowrap text-[8px] uppercase tracking-[0.18em] sm:text-[9px] sm:tracking-[0.24em]',
                   transparent ? 'text-white/70' : 'text-[var(--text-muted)]'
                 )}
                 data-ui-label
@@ -136,7 +139,7 @@ export function SiteNav() {
             className="hidden items-center gap-4 text-[11px] uppercase tracking-[0.1em] lg:flex xl:gap-6 xl:tracking-[0.14em]"
             data-ui-label
           >
-            {NAV_ITEMS.map((item) => (
+            {VISIBLE_NAV_ITEMS.map((item) => (
               <Link
                 key={item.key}
                 href={item.href}
@@ -210,7 +213,7 @@ export function SiteNav() {
         <div className="flex flex-1 flex-col justify-between overflow-y-auto px-6 py-10 md:px-10">
           <nav aria-label={t('siteNavAria')}>
             <ul className="space-y-5">
-              {NAV_ITEMS.map((item) => (
+              {VISIBLE_NAV_ITEMS.map((item) => (
                 <li key={item.key}>
                   <Link
                     href={item.href}
@@ -254,10 +257,10 @@ export function SiteNav() {
             </ul>
 
             <div className="mt-8 grid gap-3 text-sm">
-              <a href={`mailto:${LINKS.email}`} className="!text-white hover:underline" style={{color: '#ffffff'}}>
+              <a href={`mailto:${LINKS.email}`} className="py-1 !text-white hover:underline" style={{color: '#ffffff'}}>
                 {LINKS.email}
               </a>
-              <a href={LINKS.whatsapp} className="!text-white hover:underline" style={{color: '#ffffff'}}>
+              <a href={LINKS.whatsapp} className="py-1 !text-white hover:underline" style={{color: '#ffffff'}}>
                 <bdi>{LINKS.whatsappDisplay}</bdi>
               </a>
             </div>

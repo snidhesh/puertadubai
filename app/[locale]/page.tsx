@@ -7,18 +7,24 @@ import {Container, Section} from '@/components/ui/container';
 import {ContactForm} from '@/components/home/contact-form';
 import {ExpandableVideoList} from '@/components/home/expandable-video-list';
 import {StickySocials} from '@/components/home/sticky-socials';
+import {PressPanels} from '@/components/home/press-panels';
+import {InstagramMosaic} from '@/components/home/instagram-mosaic';
 import {
+  CAREER_ENABLED,
   CAREER_IDS,
   CASE_STUDIES,
+  DATA_ROOM_CARDS_ENABLED,
   DATA_ROOM_ENABLED,
   ENDORSEMENT_IDS,
   EXPERTISE,
   FEATURED_VIDEOS,
+  INSTAGRAM_AVATAR,
+  INSTAGRAM_POSTS,
+  INTERNATIONAL_PROPERTIES,
   LINKS,
   MEDIA,
   PORTRAITS,
-  TRUSTPILOT,
-  type MediaItem
+  TRUSTPILOT
 } from '@/lib/home/content';
 import {DAYAN_AGENT, fetchAgentListings, type StudioListingCard} from '@/lib/studio/properties';
 import {PlayGlyph} from '@/components/home/play-glyph';
@@ -46,12 +52,14 @@ const VIDEO_H264 = '/video/bg3.h264.mp4';
 
 /**
  * Single-page portfolio. Section order and anchor ids:
- *   #hero → overview → #listings → panels → #about → #expertise →
- *   #case-studies → #experience → endorsements → #reviews → videos →
- *   #atelier → instagram → #media → #data-room → #contact
+ *   #hero → overview → #listings → #international → panels → #about →
+ *   #expertise → #case-studies → #experience → endorsements → #reviews →
+ *   videos → #atelier → instagram → #media → #data-room → #contact
  * The nav (About · Expertise · Experience · Listings · House of
  * Candamil · International · Media · Contact) links to these anchors;
- * International opens the cross-border expertise page.
+ * the cross-border expertise page is linked from #international.
+ * #experience (career) is hidden behind CAREER_ENABLED (nav, footer and hero
+ * CTA drop their links too); #data-room shows while DATA_ROOM_ENABLED is on.
  */
 export default async function HomePage({params}: Props) {
   const {locale} = await params;
@@ -131,7 +139,7 @@ export default async function HomePage({params}: Props) {
             {t('primaryCta')}
           </a>
           <a
-            href="#experience"
+            href={CAREER_ENABLED ? '#experience' : '#about'}
             className="inline-flex h-[50px] items-center justify-center border border-white bg-transparent px-10 text-[12px] font-medium uppercase tracking-[0.18em] !text-white transition-colors hover:bg-white hover:!text-[var(--text-title)]"
             style={{color: '#ffffff'}}
             data-ui-label
@@ -144,10 +152,12 @@ export default async function HomePage({params}: Props) {
       {/* Sticky social column — stays right-edge through scroll, fades near footer */}
       <StickySocials />
 
-      {/* 2. OVERVIEW STRIP — image | editorial | stats, split-color bg */}
+      {/* 2. OVERVIEW STRIP — image | editorial | stats, split-color bg. On
+       * tablets the stats drop beneath as a three-up row; the three-column
+       * strip only from lg, where the stats column has room. */}
       <section
         aria-label={tHome('overview.ariaLabel')}
-        className="grid md:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)]"
+        className="grid md:grid-cols-2 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)]"
       >
         <div className="relative min-h-[260px] bg-[var(--bg-alt)] md:min-h-[440px]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -178,8 +188,8 @@ export default async function HomePage({params}: Props) {
           </div>
         </div>
 
-        <div className="flex items-center justify-center bg-[var(--bg)] px-6 py-14 md:px-10 md:py-20 lg:px-16">
-          <ul className="w-full max-w-sm space-y-7 md:space-y-9">
+        <div className="flex items-center justify-center bg-[var(--bg)] px-6 py-14 md:col-span-2 md:px-10 md:py-16 lg:col-span-1 lg:px-16 lg:py-20">
+          <ul className="w-full max-w-sm space-y-7 md:grid md:max-w-none md:grid-cols-3 md:gap-8 md:space-y-0 lg:block lg:max-w-sm lg:space-y-9">
             <Stat value="14" label={tHome('overview.statYears')} />
             <Stat value="5" label={tHome('overview.statMarkets')} />
             <Stat value="3" label={tHome('overview.statLanguages')} last />
@@ -236,13 +246,79 @@ export default async function HomePage({params}: Props) {
         </Container>
       </Section>
 
-      {/* 4. THREE-PANEL BAND — mobile snap carousel, md+ 3-col grid */}
+      {/* 3b. INTERNATIONAL — after blackoak-re.com/international-properties:
+       * centred hairlined eyebrow + heading, then each asset as a card split
+       * between its photo (tag chips) and a dark details panel. */}
+      <Section id="international" tone="alt" className="scroll-mt-16 py-20 md:py-28">
+        <Container>
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="flex items-center justify-center gap-4">
+              <span className="h-px w-10 bg-[var(--text-muted)] opacity-40" aria-hidden="true" />
+              <span
+                className="text-[11px] uppercase tracking-[0.32em] text-[var(--text-muted)]"
+                data-ui-label
+              >
+                {tHome('international.eyebrow')}
+              </span>
+              <span className="h-px w-10 bg-[var(--text-muted)] opacity-40" aria-hidden="true" />
+            </p>
+            <h2 className="mt-5 font-display text-4xl leading-[1.05] text-[var(--text-title)] md:text-5xl lg:text-6xl">
+              {tHome('international.heading')}
+            </h2>
+            <p className="mt-5 text-base leading-[1.7] text-[var(--text-body)] md:text-lg">
+              {tHome('international.intro')}
+            </p>
+            <Link
+              href="/expertise/cross-border-investment"
+              className="relative before:absolute before:inset-x-0 before:-inset-y-3 before:content-[''] mt-5 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.22em] text-[var(--accent)] hover:underline"
+              data-ui-label
+            >
+              {tHome('international.advisoryLink')}{' '}
+              <span aria-hidden="true" className="rtl:scale-x-[-1]">
+                →
+              </span>
+            </Link>
+          </div>
+
+          <ul className="mt-12 space-y-10 md:mt-16">
+            {INTERNATIONAL_PROPERTIES.map((property) => {
+              const key = `international.properties.${property.id}` as const;
+              return (
+                <li key={property.id}>
+                  <InternationalPropertyCard
+                    image={property.image}
+                    focus={property.focus}
+                    alt={tHome(`${key}.imageAlt`)}
+                    tags={[tHome(`${key}.tag1`), tHome(`${key}.tag2`)]}
+                    locationChip={tHome(`${key}.locationChip`)}
+                    location={tHome(`${key}.location`)}
+                    title={tHome(`${key}.title`)}
+                    body={tHome(`${key}.body`)}
+                    audience={tHome(`${key}.audience`)}
+                    priceLabel={tHome(`${key}.priceLabel`)}
+                    price={tHome(`${key}.price`)}
+                    detailsHeading={tHome(`${key}.detailsHeading`)}
+                    details={[1, 2, 3, 4].map((n) => ({
+                      label: tHome(`${key}.detail${n}Label`),
+                      value: tHome(`${key}.detail${n}Value`)
+                    }))}
+                    cta={tHome(`${key}.cta`)}
+                  />
+                </li>
+              );
+            })}
+          </ul>
+        </Container>
+      </Section>
+
+      {/* 4. THREE-PANEL BAND — snap carousel below lg (three cards are too
+       * cramped at tablet widths), 3-col grid from lg */}
       <section
         aria-label={tHome('panels.ariaLabel')}
         className={[
           'flex snap-x snap-mandatory overflow-x-auto scroll-smooth',
           '[scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden',
-          'md:grid md:grid-cols-3 md:overflow-visible',
+          'lg:grid lg:grid-cols-3 lg:overflow-visible',
           'bg-[var(--bg-dark)]'
         ].join(' ')}
       >
@@ -311,7 +387,7 @@ export default async function HomePage({params}: Props) {
                 {tHome('about.tagline')}
               </p>
               <div className="mt-8 lg:hidden">
-                <div className="relative aspect-[2/3] w-full overflow-hidden">
+                <div className="relative mx-auto aspect-[2/3] w-full max-w-[420px] overflow-hidden">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={PORTRAITS.about}
@@ -342,7 +418,7 @@ export default async function HomePage({params}: Props) {
                 href={LINKS.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-10 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-[var(--accent)] hover:underline"
+                className="relative before:absolute before:inset-x-0 before:-inset-y-3 before:content-[''] mt-10 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-[var(--accent)] hover:underline"
                 data-ui-label
               >
                 {tHome('about.linkedinCta')} <span aria-hidden="true" className="rtl:scale-x-[-1]">→</span>
@@ -495,66 +571,68 @@ export default async function HomePage({params}: Props) {
         </Container>
       </section>
 
-      {/* 8. CAREER — stacked show/hide rows */}
-      <Section id="experience" className="scroll-mt-16">
-        <Container>
-          <p
-            className="text-[11px] uppercase tracking-[0.32em] text-[var(--text-muted)]"
-            data-ui-label
-          >
-            {tHome('career.eyebrow')}
-          </p>
-          <h2 className="mt-4 max-w-3xl font-display text-3xl text-[var(--text-title)] md:text-5xl">
-            {tHome('career.heading')}
-          </h2>
-          <p className="mt-4 max-w-2xl text-base leading-[1.7] text-[var(--text-body)] md:text-lg">
-            {tHome('career.intro')}
-          </p>
-          {/* Stacked rows; each opens to show its summary (native <details>,
-           * no client JS). The current role starts open. */}
-          <ul className="mt-12 border-t border-[var(--divider)] md:mt-16">
-            {CAREER_IDS.map((id, i) => (
-              <li key={id} className="border-b border-[var(--divider)]">
-                <details className="group" open={i === 0}>
-                  <summary className="flex cursor-pointer list-none items-center gap-6 py-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--text-title)] md:py-7 [&::-webkit-details-marker]:hidden">
-                    <span className="block flex-1 md:grid md:grid-cols-[180px_1fr] md:items-baseline md:gap-8">
-                      <span
-                        className="block text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)]"
-                        data-ui-label
+      {/* 8. CAREER — stacked show/hide rows; hidden behind CAREER_ENABLED */}
+      {CAREER_ENABLED && (
+        <Section id="experience" className="scroll-mt-16">
+          <Container>
+            <p
+              className="text-[11px] uppercase tracking-[0.32em] text-[var(--text-muted)]"
+              data-ui-label
+            >
+              {tHome('career.eyebrow')}
+            </p>
+            <h2 className="mt-4 max-w-3xl font-display text-3xl text-[var(--text-title)] md:text-5xl">
+              {tHome('career.heading')}
+            </h2>
+            <p className="mt-4 max-w-2xl text-base leading-[1.7] text-[var(--text-body)] md:text-lg">
+              {tHome('career.intro')}
+            </p>
+            {/* Stacked rows; each opens to show its summary (native <details>,
+             * no client JS). The current role starts open. */}
+            <ul className="mt-12 border-t border-[var(--divider)] md:mt-16">
+              {CAREER_IDS.map((id, i) => (
+                <li key={id} className="border-b border-[var(--divider)]">
+                  <details className="group" open={i === 0}>
+                    <summary className="flex cursor-pointer list-none items-center gap-6 py-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--text-title)] md:py-7 [&::-webkit-details-marker]:hidden">
+                      <span className="block flex-1 md:grid md:grid-cols-[180px_1fr] md:items-baseline md:gap-8">
+                        <span
+                          className="block text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)]"
+                          data-ui-label
+                        >
+                          <bdi>{tHome(`career.items.${id}.years`)}</bdi>
+                        </span>
+                        <span className="mt-2 block md:mt-0">
+                          <span className="block font-display text-2xl leading-[1.15] text-[var(--text-title)] md:text-3xl">
+                            {tHome(`career.items.${id}.company`)}
+                          </span>
+                          <span className="mt-1 block font-display text-base italic text-[var(--text-muted)] md:text-lg">
+                            {tHome(`career.items.${id}.role`)}
+                          </span>
+                        </span>
+                      </span>
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.25"
+                        className="h-6 w-6 shrink-0 text-[var(--text-title)] transition-transform duration-300 group-open:rotate-45"
+                        aria-hidden="true"
                       >
-                        <bdi>{tHome(`career.items.${id}.years`)}</bdi>
-                      </span>
-                      <span className="mt-2 block md:mt-0">
-                        <span className="block font-display text-2xl leading-[1.15] text-[var(--text-title)] md:text-3xl">
-                          {tHome(`career.items.${id}.company`)}
-                        </span>
-                        <span className="mt-1 block font-display text-base italic text-[var(--text-muted)] md:text-lg">
-                          {tHome(`career.items.${id}.role`)}
-                        </span>
-                      </span>
-                    </span>
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.25"
-                      className="h-6 w-6 shrink-0 text-[var(--text-title)] transition-transform duration-300 group-open:rotate-45"
-                      aria-hidden="true"
-                    >
-                      <path d="M12 5v14M5 12h14" strokeLinecap="round" />
-                    </svg>
-                  </summary>
-                  <div className="pb-8 md:ps-[212px]">
-                    <p className="max-w-2xl text-base leading-[1.7] text-[var(--text-body)]">
-                      {tHome(`career.items.${id}.summary`)}
-                    </p>
-                  </div>
-                </details>
-              </li>
-            ))}
-          </ul>
-        </Container>
-      </Section>
+                        <path d="M12 5v14M5 12h14" strokeLinecap="round" />
+                      </svg>
+                    </summary>
+                    <div className="pb-8 md:ps-[212px]">
+                      <p className="max-w-2xl text-base leading-[1.7] text-[var(--text-body)]">
+                        {tHome(`career.items.${id}.summary`)}
+                      </p>
+                    </div>
+                  </details>
+                </li>
+              ))}
+            </ul>
+          </Container>
+        </Section>
+      )}
 
       {/* 9. ENDORSEMENTS — light-grey, 3 quote cards */}
       <Section tone="alt" className="py-24 md:py-32">
@@ -572,7 +650,7 @@ export default async function HomePage({params}: Props) {
               </span>
             </h2>
           </div>
-          <ul className="mt-16 grid gap-8 md:grid-cols-3 md:mt-20">
+          <ul className="mt-16 grid gap-8 md:mt-20 lg:grid-cols-3">
             {ENDORSEMENT_IDS.map((id) => (
               <li
                 key={id}
@@ -631,7 +709,7 @@ export default async function HomePage({params}: Props) {
               {tHome('reviews.body')}
             </p>
           </div>
-          <ul className="mt-12 grid gap-8 md:mt-16 md:grid-cols-3">
+          <ul className="mt-12 grid gap-8 md:mt-16 lg:grid-cols-3">
             {TRUSTPILOT.reviews.map((review) => (
               <li key={review.id} className="flex flex-col bg-[var(--bg-alt)] p-8 md:p-10">
                 <StarRating
@@ -676,7 +754,7 @@ export default async function HomePage({params}: Props) {
               href={TRUSTPILOT.profile}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 border-b border-[var(--text-title)]/40 pb-1 text-[11px] uppercase tracking-[0.22em] text-[var(--text-title)] transition-colors hover:border-[var(--text-title)]"
+              className="relative before:absolute before:inset-x-0 before:-inset-y-3 before:content-[''] inline-flex items-center gap-2 border-b border-[var(--text-title)]/40 pb-1 text-[11px] uppercase tracking-[0.22em] text-[var(--text-title)] transition-colors hover:border-[var(--text-title)]"
               data-ui-label
             >
               {tHome('reviews.readAll')} <span aria-hidden="true" className="rtl:scale-x-[-1]">→</span>
@@ -685,7 +763,7 @@ export default async function HomePage({params}: Props) {
               href={TRUSTPILOT.write}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 border-b border-transparent pb-1 text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)] transition-colors hover:border-[var(--text-muted)]"
+              className="relative before:absolute before:inset-x-0 before:-inset-y-3 before:content-[''] inline-flex items-center gap-2 border-b border-transparent pb-1 text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)] transition-colors hover:border-[var(--text-muted)]"
               data-ui-label
             >
               {tHome('reviews.write')}
@@ -767,7 +845,7 @@ export default async function HomePage({params}: Props) {
                 {tHome('atelier.tagline')}
               </p>
               <div className="mt-8 lg:hidden">
-                <div className="relative aspect-[4/5] w-full overflow-hidden">
+                <div className="relative mx-auto aspect-[2/3] w-full max-w-[420px] overflow-hidden">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={PORTRAITS.atelier}
@@ -795,14 +873,14 @@ export default async function HomePage({params}: Props) {
                 href={LINKS.houseOfCandamil}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-10 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-[var(--accent)] hover:underline"
+                className="relative before:absolute before:inset-x-0 before:-inset-y-3 before:content-[''] mt-10 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-[var(--accent)] hover:underline"
                 data-ui-label
               >
                 {tHome('atelier.cta')} <span aria-hidden="true" className="rtl:scale-x-[-1]">→</span>
               </a>
             </div>
             <div className="hidden lg:block">
-              <div className="relative h-full min-h-[520px] w-[400px] overflow-hidden">
+              <div className="relative h-full min-h-[630px] w-[420px] overflow-hidden xl:min-h-[780px] xl:w-[520px]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={PORTRAITS.atelier}
@@ -815,20 +893,35 @@ export default async function HomePage({params}: Props) {
         </Container>
       </Section>
 
-      {/* 13. INSTAGRAM — dark band: handle + follow link, latest posts beneath */}
-      <section aria-label={tHome('instagram.ariaLabel')} className="bg-[var(--bg-dark)] py-12 md:py-16">
+      {/* 13. INSTAGRAM — dark band: profile roundel + handle, follow button,
+       * then a curated mosaic (hero + six) with the live feed filling the
+       * small tiles when a token is available. */}
+      <section
+        aria-label={tHome('instagram.ariaLabel')}
+        className="bg-[var(--bg-dark)] py-16 md:py-24"
+      >
         <Container>
-          <a
-            href={LINKS.instagram}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group flex flex-col items-center gap-6 text-center md:flex-row md:justify-between md:text-start"
-          >
-            <span className="flex flex-col items-center gap-4 md:flex-row md:gap-6">
-              {INSTAGRAM_ICON && (
-                <svg viewBox="0 0 24 24" fill="#ffffff" className="h-8 w-8 shrink-0 md:h-10 md:w-10" aria-hidden="true">
-                  <path d={INSTAGRAM_ICON.path} />
-                </svg>
+          <div className="flex flex-col items-center gap-8 text-center md:flex-row md:flex-wrap md:items-end md:justify-between md:gap-x-10 md:text-start">
+            <a
+              href={LINKS.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex flex-col items-center gap-5 md:flex-row md:gap-6"
+            >
+              {INSTAGRAM_AVATAR ? (
+                <Image
+                  src={INSTAGRAM_AVATAR}
+                  alt=""
+                  width={160}
+                  height={160}
+                  className="h-20 w-20 shrink-0 rounded-full object-cover ring-1 ring-white/25 transition-transform duration-500 group-hover:scale-[1.03] md:h-24 md:w-24"
+                />
+              ) : (
+                INSTAGRAM_ICON && (
+                  <svg viewBox="0 0 24 24" fill="#ffffff" className="h-10 w-10 shrink-0" aria-hidden="true">
+                    <path d={INSTAGRAM_ICON.path} />
+                  </svg>
+                )
               )}
               <span className="block">
                 <span
@@ -839,73 +932,77 @@ export default async function HomePage({params}: Props) {
                   {tHome('instagram.eyebrow')}
                 </span>
                 <span
-                  className="mt-2 block break-all font-display text-2xl leading-[1.1] !text-white sm:text-3xl md:text-4xl"
+                  className="mt-2 block break-all font-display text-2xl leading-[1.1] !text-white sm:text-3xl md:break-normal lg:text-4xl"
                   style={{color: '#ffffff'}}
                 >
                   <bdi dir="ltr">{LINKS.instagramHandle}</bdi>
                 </span>
               </span>
-            </span>
-            <span
-              className="inline-flex items-center gap-2 border-b border-white/40 pb-1 text-[11px] uppercase tracking-[0.22em] !text-white transition-colors group-hover:border-white"
+            </a>
+            <a
+              href={LINKS.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex h-[50px] shrink-0 items-center justify-center border border-white px-10 text-[11px] uppercase tracking-[0.22em] !text-white transition-colors hover:bg-white hover:!text-[var(--text-title)]"
               style={{color: '#ffffff'}}
               data-ui-label
             >
               {tHome('instagram.cta')}
-              <span
-                aria-hidden="true"
-                className="transition-transform duration-300 group-hover:translate-x-1 rtl:scale-x-[-1]"
-              >
-                →
-              </span>
-            </span>
-          </a>
-          <Suspense fallback={null}>
-            <InstagramPosts locale={locale} />
+            </a>
+          </div>
+          <Suspense
+            fallback={
+              <InstagramMosaic
+                tiles={INSTAGRAM_POSTS}
+                labelFor={(n) => tHome('instagram.postLabel', {number: n})}
+              />
+            }
+          >
+            <LiveInstagramMosaic locale={locale} />
           </Suspense>
         </Container>
       </section>
 
-      {/* 14. MEDIA & HONOURS — square tile grid + 3-column credentials */}
-      <Section id="media" tone="alt" className="scroll-mt-16 py-24 md:py-32">
+      {/* 14. MEDIA & HONOURS — dark band: expanding press panels (after the
+       * "International Properties" row on blackoak-re.com) + 3-column
+       * credentials. Hairline on top separates it from the Instagram band. */}
+      <Section id="media" tone="dark" className="scroll-mt-16 border-t border-white/10 py-24 md:py-32">
         <Container>
-          {/* Editorial header: title left, standfirst right, sharing a baseline
-           * with a hairline underneath — the same rule the tiles use. */}
-          <div className="border-b border-[var(--divider)] pb-10 lg:flex lg:items-end lg:justify-between lg:gap-16 lg:pb-12">
-            <h2 className="font-display">
+          <div className="mb-12 md:mb-16">
+            <p className="mb-5 flex items-center gap-4">
+              <span className="h-px w-6 bg-white" aria-hidden="true" />
               <span
-                className="block text-sm uppercase tracking-[0.32em] text-[var(--text-muted)]"
+                className="text-[11px] font-medium uppercase tracking-[0.35em] !text-white md:text-xs"
+                style={{color: '#ffffff'}}
                 data-ui-label
               >
-                {tHome('media.eyebrowLine1')}
+                {tHome('media.eyebrow')}
               </span>
-              <span className="mt-3 block text-4xl leading-[1] text-[var(--text-title)] md:text-5xl lg:text-6xl">
-                {tHome('media.eyebrowLine2')}
-              </span>
-            </h2>
-            <p className="mt-6 max-w-md text-sm leading-[1.7] text-[var(--text-body)] md:text-base lg:mt-0 lg:pb-1 lg:text-end">
-              {tHome('media.body')}
             </p>
+            <h2
+              className="max-w-3xl font-display text-3xl leading-tight !text-white md:text-5xl"
+              style={{color: '#ffffff'}}
+            >
+              {tHome('media.heading')}
+            </h2>
           </div>
 
-          {/* Square tiles, caption beneath each: two to a row on phones and
-           * tablets, four on desktop. */}
-          <ul className="mt-10 grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 sm:gap-y-12 md:mt-16 lg:grid-cols-4">
-            {MEDIA.map((item) => (
-              <li key={item.id}>
-                <MediaTile
-                  item={item}
-                  kicker={tHome(`media.items.${item.id}.kicker`)}
-                  title={tHome(`media.items.${item.id}.title`)}
-                  body={tHome(`media.items.${item.id}.body`)}
-                  alt={tHome(`media.items.${item.id}.alt`)}
-                  watchLabel={tHome('media.watchOnYouTube')}
-                />
-              </li>
-            ))}
-          </ul>
+          <PressPanels
+            items={MEDIA.map((item) => ({
+              id: item.id,
+              image: item.image,
+              focus: item.focus,
+              href: item.href,
+              linkLabel: item.video ? tHome('media.watchOnYouTube') : tHome('media.viewOnLinkedIn'),
+              label: tHome(`media.items.${item.id}.label`),
+              kicker: tHome(`media.items.${item.id}.kicker`),
+              title: tHome(`media.items.${item.id}.title`),
+              body: tHome(`media.items.${item.id}.body`),
+              alt: tHome(`media.items.${item.id}.alt`)
+            }))}
+          />
 
-          <div className="mt-20 grid gap-12 border-t border-[var(--divider)] pt-14 md:grid-cols-3 md:mt-24">
+          <div className="mt-20 grid gap-12 border-t border-white/10 pt-14 md:mt-24 md:grid-cols-3">
             <CredentialList
               heading={tHome('media.alsoHeading')}
               items={[1, 2, 3, 4, 5].map((n) => tHome(`media.also${n}`))}
@@ -922,56 +1019,73 @@ export default async function HomePage({params}: Props) {
         </Container>
       </Section>
 
-      {/* 15. DATA ROOM — coming-soon banner for the future client login area.
-       * Placeholder copy only, so hidden behind DATA_ROOM_ENABLED until final. */}
+      {/* 15. DATA ROOM — coming-soon banner for the future client login area,
+       * toggled by DATA_ROOM_ENABLED. Dark band with a hairline on top so it
+       * reads as its own block between the Press and Contact bands. */}
       {DATA_ROOM_ENABLED && (
-        <Section id="data-room" className="scroll-mt-16 py-24 md:py-32">
+        <Section id="data-room" tone="dark" className="scroll-mt-16 border-t border-white/10 py-24 md:py-32">
           <Container>
             <div className="text-center">
               <p
-                className="text-[11px] uppercase tracking-[0.32em] text-[var(--text-muted)]"
+                className="text-[11px] uppercase tracking-[0.32em] !text-white/70"
+                style={{color: 'rgba(255,255,255,0.7)'}}
                 data-ui-label
               >
                 {tHome('dataRoom.eyebrow')}
               </p>
-              <h2 className="mt-6 font-display text-5xl uppercase leading-[0.95] tracking-[0.06em] text-[var(--text-title)] sm:text-7xl lg:text-9xl">
+              <h2
+                className="mt-6 font-display text-5xl uppercase leading-[0.95] tracking-[0.06em] !text-white sm:text-7xl lg:text-9xl"
+                style={{color: '#ffffff'}}
+              >
                 {tHome('dataRoom.heading')}
               </h2>
-              <p className="mx-auto mt-8 max-w-xl text-base leading-[1.7] text-[var(--text-body)] md:text-lg">
+              <p
+                className="mx-auto mt-8 max-w-xl text-base leading-[1.7] !text-white/80 md:text-lg"
+                style={{color: 'rgba(255,255,255,0.8)'}}
+              >
                 {tHome('dataRoom.body')}
               </p>
             </div>
-            <ul className="mt-14 grid border-t border-[var(--divider)] md:mt-20 md:grid-cols-3 md:border-t-0">
-              {(['plans', 'returns', 'details'] as const).map((item) => (
-                <li
-                  key={item}
-                  className="flex gap-5 border-b border-[var(--divider)] py-8 md:border-b-0 md:border-s md:px-8 md:py-2 md:first:border-s-0 md:first:ps-0"
-                >
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.25"
-                    className="mt-1 h-5 w-5 shrink-0 text-[var(--text-muted)]"
-                    aria-hidden="true"
+            {DATA_ROOM_CARDS_ENABLED && (
+              <ul className="mt-14 grid border-t border-white/15 md:mt-20 md:grid-cols-3 md:border-t-0">
+                {(['plans', 'returns', 'details'] as const).map((item) => (
+                  <li
+                    key={item}
+                    className="flex gap-5 border-b border-white/15 py-8 md:border-b-0 md:border-s md:px-8 md:py-2 md:first:border-s-0 md:first:ps-0"
                   >
-                    <rect x="5" y="10.5" width="14" height="9.5" rx="1" />
-                    <path d="M8 10.5V7.5a4 4 0 018 0v3" strokeLinecap="round" />
-                  </svg>
-                  <div>
-                    <h3 className="font-display text-xl leading-[1.2] text-[var(--text-title)] md:text-2xl">
-                      {tHome(`dataRoom.items.${item}.title`)}
-                    </h3>
-                    <p className="mt-2 text-sm leading-[1.7] text-[var(--text-body)]">
-                      {tHome(`dataRoom.items.${item}.body`)}
-                    </p>
-                  </div>
-                </li>
-              ))}
-            </ul>
-            <p className="mt-14 text-center md:mt-20">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.25"
+                      className="mt-1 h-5 w-5 shrink-0 text-white/60"
+                      aria-hidden="true"
+                    >
+                      <rect x="5" y="10.5" width="14" height="9.5" rx="1" />
+                      <path d="M8 10.5V7.5a4 4 0 018 0v3" strokeLinecap="round" />
+                    </svg>
+                    <div>
+                      <h3
+                        className="font-display text-xl leading-[1.2] !text-white md:text-2xl"
+                        style={{color: '#ffffff'}}
+                      >
+                        {tHome(`dataRoom.items.${item}.title`)}
+                      </h3>
+                      <p
+                        className="mt-2 text-sm leading-[1.7] !text-white/75"
+                        style={{color: 'rgba(255,255,255,0.75)'}}
+                      >
+                        {tHome(`dataRoom.items.${item}.body`)}
+                      </p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+            <p className="mt-12 text-center md:mt-16">
               <span
-                className="inline-block border border-[var(--text-title)]/30 px-4 py-4 text-[11px] uppercase tracking-[0.14em] text-[var(--text-muted)] sm:px-7 sm:tracking-[0.22em]"
+                className="inline-block border border-white/35 px-4 py-4 text-[11px] uppercase tracking-[0.14em] !text-white/80 sm:px-7 sm:tracking-[0.22em]"
+                style={{color: 'rgba(255,255,255,0.8)'}}
                 data-ui-label
               >
                 {tHome('dataRoom.login')}
@@ -1056,14 +1170,17 @@ function Stat({value, label, last = false}: {value: string; label: string; last?
     <li
       className={cn(
         'flex items-baseline justify-between gap-6',
-        !last && 'border-b border-[var(--divider)] pb-5'
+        // Tablet row: number over label, hairline on top of each cell.
+        'md:flex-col md:items-start md:gap-3 md:border-t md:border-[var(--divider)] md:pt-5',
+        'lg:flex-row lg:items-baseline lg:justify-between lg:gap-6 lg:border-t-0 lg:pt-0',
+        !last && 'border-b border-[var(--divider)] pb-5 md:border-b-0 md:pb-0 lg:border-b lg:pb-5'
       )}
     >
       <span className="font-display text-5xl leading-none text-[var(--text-title)] md:text-6xl">
         <bdi>{value}</bdi>
       </span>
       <span
-        className="max-w-[14rem] text-end text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)]"
+        className="max-w-[14rem] text-end text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)] md:text-start lg:text-end"
         data-ui-label
       >
         {label}
@@ -1205,14 +1322,15 @@ function CredentialList({heading, items}: {heading: string; items: string[]}) {
   return (
     <div>
       <h3
-        className="font-sans text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)]"
+        className="font-sans text-[11px] uppercase tracking-[0.22em] !text-white/55"
+        style={{color: 'rgba(255,255,255,0.55)'}}
         data-ui-label
       >
         {heading}
       </h3>
-      <ul className="mt-4 divide-y divide-[var(--divider)] border-t border-[var(--divider)]">
+      <ul className="mt-4 divide-y divide-white/10 border-t border-white/10">
         {items.map((item) => (
-          <li key={item} className="py-3 text-sm leading-[1.7] text-[var(--text-body)]">
+          <li key={item} className="py-3 text-sm leading-[1.7] text-white/80">
             {item}
           </li>
         ))}
@@ -1244,7 +1362,7 @@ function PanelCard({
     <a
       href={href}
       {...(external ? {target: '_blank', rel: 'noopener noreferrer'} : {})}
-      className="group relative isolate block w-[85vw] shrink-0 snap-start overflow-hidden text-white aspect-[5/4] md:w-auto md:aspect-[4/3] lg:aspect-[5/4]"
+      className="group relative isolate block w-[85vw] shrink-0 snap-start overflow-hidden text-white aspect-[5/4] md:w-[60vw] md:aspect-[4/3] lg:w-auto lg:aspect-[5/4]"
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
@@ -1292,6 +1410,178 @@ function PanelCard({
   );
 }
 
+/** One international asset: photo with tag chips on one side, dark details
+ * panel on the other (location, title, copy, price block, 2×2 details,
+ * enquiry link). Stacks photo-over-panel below `lg`. */
+function InternationalPropertyCard({
+  image,
+  focus,
+  alt,
+  tags,
+  locationChip,
+  location,
+  title,
+  body,
+  audience,
+  priceLabel,
+  price,
+  detailsHeading,
+  details,
+  cta
+}: {
+  image: string;
+  focus: string;
+  alt: string;
+  tags: string[];
+  locationChip: string;
+  location: string;
+  title: string;
+  body: string;
+  audience: string;
+  priceLabel: string;
+  price: string;
+  detailsHeading: string;
+  details: {label: string; value: string}[];
+  cta: string;
+}) {
+  const chip = 'px-3 py-1.5 text-[10px] uppercase tracking-[0.22em]';
+  return (
+    <article className="grid overflow-hidden lg:grid-cols-2">
+      <div className="relative aspect-[4/3] lg:aspect-auto lg:min-h-[640px]">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={image}
+          alt={alt}
+          loading="lazy"
+          className="absolute inset-0 h-full w-full object-cover"
+          style={{objectPosition: focus}}
+        />
+        <ul className="absolute start-4 top-4 flex flex-col items-start gap-2 md:start-6 md:top-6">
+          {tags.map((tag, i) => (
+            <li
+              key={tag}
+              className={cn(
+                chip,
+                i === 0 ? 'bg-white text-[var(--text-title)]' : 'bg-[var(--bg-dark)] !text-white'
+              )}
+              style={i === 0 ? undefined : {color: '#ffffff'}}
+              data-ui-label
+            >
+              {tag}
+            </li>
+          ))}
+        </ul>
+        <span
+          className={cn(chip, 'absolute bottom-4 end-4 bg-[var(--bg-dark)] !text-white md:bottom-6 md:end-6')}
+          style={{color: '#ffffff'}}
+          data-ui-label
+        >
+          {locationChip}
+        </span>
+      </div>
+      <div className="flex flex-col justify-center bg-[var(--bg-dark)] p-8 md:p-12 lg:p-14">
+        <p
+          className="text-[11px] uppercase tracking-[0.28em] !text-white/60"
+          style={{color: 'rgba(255,255,255,0.6)'}}
+          data-ui-label
+        >
+          {location}
+        </p>
+        <h3
+          className="mt-4 font-display text-3xl leading-[1.1] !text-white md:text-4xl"
+          style={{color: '#ffffff'}}
+        >
+          {title}
+        </h3>
+        <p
+          className="mt-5 max-w-xl text-sm leading-[1.7] !text-white/80 md:text-base"
+          style={{color: 'rgba(255,255,255,0.8)'}}
+        >
+          {body}
+        </p>
+        <div className="mt-8 border-t border-white/15 pt-8">
+          <p
+            className="text-[10px] uppercase tracking-[0.28em] !text-white/55"
+            style={{color: 'rgba(255,255,255,0.55)'}}
+            data-ui-label
+          >
+            {priceLabel}
+          </p>
+          <p className="mt-2 font-display text-3xl !text-white md:text-4xl" style={{color: '#ffffff'}}>
+            {price}
+          </p>
+        </div>
+        {/* A <p>, not a heading: the unlayered global h1–h6 rule would force the
+         * display face and tight tracking over these utilities. */}
+        <p
+          className="mt-8 text-[10px] uppercase tracking-[0.28em] !text-white/55"
+          style={{color: 'rgba(255,255,255,0.55)'}}
+          data-ui-label
+        >
+          {detailsHeading}
+        </p>
+        <dl className="mt-4 grid gap-x-8 gap-y-4 sm:grid-cols-2">
+          {details.map((detail) => (
+            <div key={detail.label} className="flex gap-3">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.75"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="mt-1 h-3.5 w-3.5 shrink-0 text-white/70"
+                aria-hidden="true"
+              >
+                <path d="M5 12l5 5L20 7" />
+              </svg>
+              <div>
+                <dt
+                  className="text-[11px] uppercase tracking-[0.18em] !text-white/55"
+                  style={{color: 'rgba(255,255,255,0.55)'}}
+                  data-ui-label
+                >
+                  {detail.label}
+                </dt>
+                <dd className="mt-1 text-sm !text-white/90" style={{color: 'rgba(255,255,255,0.9)'}}>
+                  <bdi>{detail.value}</bdi>
+                </dd>
+              </div>
+            </div>
+          ))}
+        </dl>
+        <p
+          className="mt-8 max-w-xl font-display text-lg italic leading-[1.5] !text-white/75"
+          style={{color: 'rgba(255,255,255,0.75)'}}
+        >
+          {audience}
+        </p>
+        <a
+          href="#contact"
+          className="relative before:absolute before:inset-x-0 before:-inset-y-3 before:content-[''] mt-8 inline-flex w-fit items-center gap-2 border-b border-white/40 pb-1 text-[11px] uppercase tracking-[0.25em] !text-white transition-colors hover:border-white"
+          style={{color: '#ffffff'}}
+          data-ui-label
+        >
+          {cta}
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.75"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="h-3.5 w-3.5 rtl:scale-x-[-1]"
+            aria-hidden="true"
+          >
+            <path d="M5 12h14" />
+            <path d="m12 5 7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+    </article>
+  );
+}
+
 /** Monochrome star row; the rating is announced once via `label`. */
 function StarRating({rating, label}: {rating: number; label: string}) {
   return (
@@ -1310,123 +1600,17 @@ function StarRating({rating, label}: {rating: number; label: string}) {
   );
 }
 
-/** Latest posts as a row of square tiles, each linking to the post on
- * Instagram. Renders nothing when the feed is unavailable. */
-async function InstagramPosts({locale}: {locale: Locale}) {
-  const posts = await fetchLatestPosts(6);
-  if (posts.length === 0) return null;
-  const t = await getTranslations({locale, namespace: 'Home.instagram'});
-  return (
-    <ul className="mt-10 grid grid-cols-3 gap-2 sm:gap-3 md:mt-12 md:grid-cols-6 md:gap-4">
-      {posts.map((post, i) => (
-        <li key={post.id}>
-          <a
-            href={post.permalink}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={t('postLabel', {number: i + 1})}
-            className="group relative block aspect-square overflow-hidden bg-white/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
-          >
-            <Image
-              src={post.image}
-              alt=""
-              fill
-              sizes="(min-width: 1280px) 180px, (min-width: 768px) 15vw, 33vw"
-              className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-            />
-            {post.video && <PlayGlyph size="sm" />}
-          </a>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-/** One square media tile with its caption beneath. Portrait assets fill
- * the frame; landscape ones are matted on the dark tone; an item without
- * an image renders a typographic placard so nothing fabricated is shown. */
-function MediaTile({
-  item,
-  kicker,
-  title,
-  body,
-  alt,
-  watchLabel
-}: {
-  item: MediaItem;
-  kicker: string;
-  title: string;
-  body: string;
-  alt: string;
-  watchLabel: string;
-}) {
-  const frame = (
-    <div className="relative aspect-square w-full overflow-hidden bg-[var(--bg-dark)]">
-      {item.image ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={item.image}
-          alt={alt}
-          loading="lazy"
-          className={cn(
-            'absolute inset-0 h-full w-full transition-transform duration-700 ease-out group-hover:scale-[1.03]',
-            item.fit === 'contain' ? 'object-contain p-3 sm:p-5' : 'object-cover object-top'
-          )}
-        />
-      ) : (
-        <p
-          className="absolute inset-x-0 bottom-0 p-4 font-display text-lg leading-[1.15] !text-white sm:p-6 sm:text-2xl"
-          style={{color: '#ffffff'}}
-          aria-hidden="true"
-        >
-          {title}
-        </p>
-      )}
-      {item.video && <PlayGlyph />}
-    </div>
-  );
-
-  const caption = (
-    <div className="mt-4 sm:mt-5">
-      <p
-        className="text-[10px] uppercase tracking-[0.14em] text-[var(--text-muted)] sm:text-[11px] sm:tracking-[0.22em]"
-        data-ui-label
-      >
-        {kicker}
-      </p>
-      <h3
-        className={cn(
-          'mt-2 font-display text-base leading-snug text-[var(--text-title)] sm:mt-3 sm:text-xl',
-          item.href && 'group-hover:underline'
-        )}
-      >
-        {title}
-      </h3>
-      {/* Too narrow a measure at half a phone screen; shown from sm up. */}
-      <p className="mt-3 hidden text-sm leading-[1.7] text-[var(--text-body)] sm:block">{body}</p>
-    </div>
-  );
-
-  if (item.href) {
-    return (
-      <a
-        href={item.href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="group block"
-        aria-label={`${watchLabel}: ${title}`}
-      >
-        {frame}
-        {caption}
-      </a>
-    );
-  }
-  return (
-    <article className="group">
-      {frame}
-      {caption}
-    </article>
-  );
+/** Curated hero plus the six latest live posts when the feed is available;
+ * otherwise the curated small tiles. Renders nothing with no posts at all. */
+async function LiveInstagramMosaic({locale}: {locale: Locale}) {
+  const [live, t] = await Promise.all([
+    fetchLatestPosts(6),
+    getTranslations({locale, namespace: 'Home.instagram'})
+  ]);
+  const [hero, ...curated] = INSTAGRAM_POSTS;
+  const small = live.length === 6 ? live : curated;
+  const tiles = hero ? [hero, ...small] : small;
+  return <InstagramMosaic tiles={tiles} labelFor={(n) => t('postLabel', {number: n})} />;
 }
 
 type VideoData = {

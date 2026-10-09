@@ -22,13 +22,61 @@ export const LINKS = {
   email: 'dayan@dayancandamil.com'
 } as const;
 
+/**
+ * Curated posts for the Instagram mosaic on the home page: the first is
+ * the hero tile, the next six fill the small tiles. Images are our own
+ * copies of the post media (Instagram's CDN URLs are signed and expire);
+ * each tile links to the public post. When the live feed is available
+ * (`INSTAGRAM_ACCESS_TOKEN`) the latest posts take the small tiles and the
+ * hero stays curated.
+ */
+export type InstagramPick = {
+  /** Post shortcode, e.g. the `Cx…` part of instagram.com/p/Cx…/ */
+  id: string;
+  image: string;
+  permalink: string;
+  video?: boolean;
+  /** Crop anchor for the square tile; `top` keeps a graphic's headline in frame. */
+  focus?: 'top' | 'center';
+};
+
+export const INSTAGRAM_POSTS: ReadonlyArray<InstagramPick> = [
+  // Hero: walking the pool deck of a waterfront villa (reel cover).
+  {id: 'DeHf7KAIjSH', image: '/images/instagram/DeHf7KAIjSH.jpg', permalink: 'https://www.instagram.com/reel/DeHf7KAIjSH/', video: true},
+  // "I don't sell homes. I build portfolios." — brand statement.
+  {id: 'Dd8p5Y1od00', image: '/images/instagram/Dd8p5Y1od00.jpg', permalink: 'https://www.instagram.com/p/Dd8p5Y1od00/'},
+  // MJL Lamaa apartment for sale, Madinat Jumeirah Living (reel cover).
+  {id: 'DePzJ-II4HQ', image: '/images/instagram/DePzJ-II4HQ.jpg', permalink: 'https://www.instagram.com/reel/DePzJ-II4HQ/', video: true, focus: 'top'},
+  // Dayan against the Dubai skyline at dusk (reel cover).
+  {id: 'Dd9Jeg1IkgP', image: '/images/instagram/Dd9Jeg1IkgP.jpg', permalink: 'https://www.instagram.com/reel/Dd9Jeg1IkgP/', video: true},
+  // Ramhan Island marina apartments, Abu Dhabi (reel cover).
+  {id: 'Dd1VI_Io6ai', image: '/images/instagram/Dd1VI_Io6ai.jpg', permalink: 'https://www.instagram.com/reel/Dd1VI_Io6ai/', video: true, focus: 'top'},
+  // Opening the door of a residence (reel cover).
+  {id: 'Ddv0Tj0oQwE', image: '/images/instagram/Ddv0Tj0oQwE.jpg', permalink: 'https://www.instagram.com/reel/Ddv0Tj0oQwE/', video: true},
+  // Delano Marrakech save-the-date, 30 October 2026 — monochrome sketch.
+  {id: 'DeKRlbUIQ2o', image: '/images/instagram/DeKRlbUIQ2o.jpg', permalink: 'https://www.instagram.com/p/DeKRlbUIQ2o/'}
+];
+
+/** Profile picture saved locally; `undefined` falls back to the Instagram glyph. */
+export const INSTAGRAM_AVATAR: string | undefined = '/images/instagram/profile.jpg';
+
+/**
+ * International assets featured on the home page (after the International
+ * Properties page on blackoak-re.com). Copy lives in messages under
+ * `Home.international.properties.<id>`; `focus` is the photo's object-position.
+ */
+export const INTERNATIONAL_PROPERTIES = [
+  {id: 'portugalLand', image: '/images/international/portugal.jpg', focus: '50% 45%'}
+] as const;
+
 export const PORTRAITS = {
   /** Black-and-white editorial portrait, full-frame 2:3 (source: assets/dayan-aboutus.jpeg). */
   about: '/images/dayan/about-portrait.jpg',
   splash: '/images/dayan/turtleneck.jpg',
   /** Colour editorial shot used by the original Let's Connect band. */
   contact: '/images/dayan/connect.jpg',
-  /** Cut-out figure on transparent ground — frames use object-contain. */
+  /** Cut-out figure on transparent ground — frames use object-contain
+   * (source: assets/dayan_gallery/house of candamil.png, 408×612, swapped in 2026-10-09). */
   atelier: '/images/dayan/house-of-candamil.png',
   mandates: '/images/dayan/black-blazer.jpg',
   hultPrize: '/images/dayan/bw-white-blazer-profile.jpg',
@@ -92,8 +140,13 @@ export const CASE_STUDIES: ReadonlyArray<CaseStudy> = [
 /** Body sections of a case-study detail page, in order. */
 export const CASE_STUDY_SECTIONS = ['objective', 'approach', 'outcome'] as const;
 
-/** The Data Room is hidden until its real content exists (copy doc, designer notes). */
-export const DATA_ROOM_ENABLED = false;
+/** Coming-soon banner for the client Data Room; flip to false to hide it again. */
+export const DATA_ROOM_ENABLED = true;
+/** The three feature cards (payment plans, returns, project data) are parked until the content is real. */
+export const DATA_ROOM_CARDS_ENABLED = false;
+
+/** The career timeline (nav "Experience") is hidden; flip to true to show it again. */
+export const CAREER_ENABLED = false;
 
 export const CAREER_IDS = [
   'blackoak',
@@ -127,34 +180,52 @@ export const TRUSTPILOT = {
 } as const;
 
 /**
- * Media tiles share one square frame so the grid reads as a gallery wall.
- * Portrait assets fill the frame (`cover`); landscape assets — a video
- * still, a certificate — are matted on the dark tone (`contain`) like a
- * framed print rather than cropped. An item without an image renders a
- * typographic placard in the same frame.
+ * Press features, shown as click-to-expand image panels (see
+ * components/home/press-panels.tsx). Images fill their panel, anchored to
+ * the top so magazine mastheads survive the crop; an item without an image
+ * gets a plain tone and a typographic placard so nothing fabricated is shown.
  */
 export type MediaItem = {
-  id: 'bazaar' | 'mfw' | 'elle' | 'alanba';
+  id: 'bazaar' | 'mfw' | 'elle' | 'alanba' | 'hultPrize';
   image?: string;
-  /** How the asset sits in the square frame. Defaults to `cover`. */
-  fit?: 'cover' | 'contain';
+  /** Where the crop anchors. Defaults to `top` so magazine mastheads survive. */
+  focus?: 'top' | 'center';
   href?: string;
   video?: boolean;
   placeholder?: boolean;
 };
 
+/**
+ * On-page order; the first item is the one open by default. `href` without
+ * `video` is Dayan's LinkedIn post about the feature (public, no sign-in).
+ */
 export const MEDIA: ReadonlyArray<MediaItem> = [
+  {
+    id: 'elle',
+    image: '/images/press/elle-arabia-2021.jpg',
+    href: 'https://www.linkedin.com/posts/dayancandamil_ellearabia-dubai-ellemagazine-share-6792989519370096640-mzB4/'
+  },
   {id: 'bazaar', image: '/images/press/bazaar-vn-2021.jpg'},
   {
     id: 'mfw',
     image: '/images/press/marrakech-fashion-week-2022.jpg',
-    fit: 'contain',
     href: 'https://www.youtube.com/watch?v=b0JG-50XToQ',
     video: true
   },
-  {id: 'elle', image: '/images/press/elle-arabia-2021.jpg'},
-  // Needs a photo or crop of the article (copy doc, designer notes).
-  {id: 'alanba'}
+  // Kuwait Towers stand in for the article page (the post itself carries the
+  // 4 Aug 2022 clipping); centred so the globes stay in frame.
+  {
+    id: 'alanba',
+    image: '/images/press/alanba-kuwait-towers.jpg',
+    focus: 'center',
+    href: 'https://www.linkedin.com/posts/dayancandamil_gokuwait-kuwait-gcc-share-7140790163063975936-wZk7/'
+  },
+  // Speaker portrait from the Hult Prize announcement (photo: Andrés Oyuela, per the post).
+  {
+    id: 'hultPrize',
+    image: '/images/press/hult-prize-settat-2023.jpg',
+    href: 'https://www.linkedin.com/posts/dayancandamil_thankyou-settat-hultprizefoundation-ugcPost-7143319611235618816-mxmJ/'
+  }
 ];
 
 /**
