@@ -53,6 +53,7 @@ export default async function ExpertiseDetailPage({params}: Props) {
           src={tile.image}
           alt=""
           className="absolute inset-0 -z-20 h-full w-full object-cover grayscale"
+          style={tile.focus ? {objectPosition: tile.focus} : undefined}
         />
         <div
           aria-hidden="true"

@@ -463,6 +463,7 @@ export default async function HomePage({params}: Props) {
                     alt=""
                     loading="lazy"
                     className="absolute inset-0 h-full w-full object-cover grayscale transition-[transform,filter] duration-[800ms] ease-out group-hover:scale-[1.06] group-hover:grayscale-0"
+                    style={tile.focus ? {objectPosition: tile.focus} : undefined}
                   />
                   <div
                     aria-hidden="true"
@@ -824,12 +825,14 @@ export default async function HomePage({params}: Props) {
       </Section>
 
       {/* 12. HOUSE OF CANDAMIL — copy left, image right */}
-      <Section id="atelier" className="scroll-mt-16 py-24 md:py-32">
+      <Section id="atelier" className="scroll-mt-16 py-24 md:py-32 lg:pb-0">
         <Container>
           {/* Text column matches the copy measure (36rem); the portrait column
-           * hugs it rather than the far edge so the two read as one composition. */}
+           * hugs it rather than the far edge so the two read as one composition.
+           * From lg the section drops its bottom padding so the cut-out stands
+           * directly on the Instagram band; the text column keeps its own. */}
           <div className="grid gap-12 lg:grid-cols-[minmax(0,36rem)_auto] lg:gap-12">
-            <div>
+            <div className="lg:pb-32">
               <h2 className="font-display text-[var(--text-title)]">
                 <span
                   className="block text-sm uppercase tracking-[0.24em] text-[var(--text-muted)]"
@@ -1020,10 +1023,11 @@ export default async function HomePage({params}: Props) {
       </Section>
 
       {/* 15. DATA ROOM — coming-soon banner for the future client login area,
-       * toggled by DATA_ROOM_ENABLED. Dark band with a hairline on top so it
-       * reads as its own block between the Press and Contact bands. */}
+       * toggled by DATA_ROOM_ENABLED. True black (not the --bg-dark grey of the
+       * Press and Contact bands either side) plus a hairline, so it reads as
+       * its own block rather than a continuation of the Press section. */}
       {DATA_ROOM_ENABLED && (
-        <Section id="data-room" tone="dark" className="scroll-mt-16 border-t border-white/10 py-24 md:py-32">
+        <Section id="data-room" tone="dark" className="scroll-mt-16 border-y border-white/15 bg-black py-24 md:py-32">
           <Container>
             <div className="text-center">
               <p

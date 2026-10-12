@@ -89,6 +89,12 @@ export type ExpertiseTile = {
   /** URL segment of the detail page at /expertise/[slug]. */
   slug: string;
   image: string;
+  /**
+   * CSS `object-position` for the photo. The home tile is square and the
+   * detail hero is a wide band, so a full-length portrait needs its focus
+   * pulled up to the face; landscape photos crop fine from the centre.
+   */
+  focus?: string;
   /** Optional onward link shown on the detail page. */
   related?: {href: string; label: 'listings' | 'atelier'};
 };
@@ -109,6 +115,7 @@ export const EXPERTISE: ReadonlyArray<ExpertiseTile> = [
     id: 'houseOfCandamil',
     slug: 'house-of-candamil',
     image: '/images/dayan/bw-studio-satin.jpg',
+    focus: '50% 8%',
     related: {href: '/#atelier', label: 'atelier'}
   }
 ];
