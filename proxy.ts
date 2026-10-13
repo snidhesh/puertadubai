@@ -22,14 +22,15 @@ export function proxy(request: NextRequest): NextResponse {
   return intlMiddleware(request) as NextResponse;
 }
 
+/**
+ * The proxy MUST also run for the App Router's prefetch requests
+ * (`Next-Router-Prefetch: 1`). With `localePrefix: 'as-needed'` the
+ * default-locale routes (`/`, `/expertise/...`) only exist because
+ * next-intl rewrites them to `/en/...` here; a prefetch that bypasses the
+ * rewrite resolves to the 404 payload, the router caches it, and the next
+ * menu click lands on the 404 page. Prefixed locales were unaffected, which
+ * is why it only showed up some of the time.
+ */
 export const config = {
-  matcher: [
-    {
-      source: '/((?!api|_next|studio|internal|.*\\..*).*)',
-      missing: [
-        {type: 'header', key: 'next-router-prefetch'},
-        {type: 'header', key: 'purpose', value: 'prefetch'}
-      ]
-    }
-  ]
+  matcher: ['/((?!api|_next|studio|internal|.*\\..*).*)']
 };

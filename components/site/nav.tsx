@@ -7,7 +7,8 @@ import {usePathname} from 'next/navigation';
 import {Link} from '@/lib/i18n/navigation';
 import {Container} from '@/components/ui/container';
 import {SOCIAL_ICONS} from '@/lib/site/social';
-import {CAREER_ENABLED, LINKS} from '@/lib/home/content';
+import {LINKS} from '@/lib/home/content';
+import {VISIBLE_NAV_ITEMS, anchorId} from '@/lib/site/nav-items';
 import {cn} from '@/lib/utils';
 import logoMark from '../../public/brand/logo-mark.png';
 
@@ -29,23 +30,6 @@ function getServerSnapshotScrolled() {
   return false;
 }
 
-/**
- * Single-page anchors. `/#about` (not `#about`) so the links also work
- * from /privacy and /legal-notice; next-intl's Link prefixes the locale.
- */
-const NAV_ITEMS = [
-  {key: 'about', href: '/#about'},
-  {key: 'expertise', href: '/#expertise'},
-  {key: 'experience', href: '/#experience'},
-  {key: 'listings', href: '/#listings'},
-  {key: 'atelier', href: '/#atelier'},
-  {key: 'international', href: '/#international'},
-  {key: 'media', href: '/#media'},
-  {key: 'contact', href: '/#contact'}
-] as const;
-
-/** Experience only has an anchor while the career section is rendered. */
-const VISIBLE_NAV_ITEMS = NAV_ITEMS.filter((item) => CAREER_ENABLED || item.key !== 'experience');
 
 export function SiteNav() {
   const t = useTranslations('Nav');
@@ -56,11 +40,54 @@ export function SiteNav() {
     getServerSnapshotScrolled
   );
   const [mobileOpen, setMobileOpen] = useState(false);
+  // Anchor id of the home section currently under the reading line, or null.
+  const [active, setActive] = useState<string | null>(null);
 
   // Only the homepage starts with a transparent-over-hero nav.
   // Other routes always show the white nav.
   const isHome = pathname === '/' || /^\/(en|fr|es|pt|ar)\/?$/.test(pathname);
   const transparent = isHome && !scrolled && !mobileOpen;
+
+  // Scroll-spy: the nav item whose section contains the reading line (about
+  // a third of the way down the viewport) is marked `aria-current`. Only
+  // sections that are nav targets count, so the marker clears while the
+  // visitor is in a band without its own nav entry instead of sticking to
+  // the last one passed. rAF-throttled; all setState calls happen inside
+  // the frame callback, never synchronously in the effect body.
+  useEffect(() => {
+    if (!isHome) {
+      queueMicrotask(() => setActive(null));
+      return;
+    }
+    const ids = VISIBLE_NAV_ITEMS.map((item) => anchorId(item.href));
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const line = Math.max(SCROLL_THRESHOLD, window.innerHeight * 0.35);
+      let current: string | null = null;
+      for (const id of ids) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= line && rect.bottom > line) {
+          current = id;
+          break;
+        }
+      }
+      setActive((prev) => (prev === current ? prev : current));
+    };
+    const schedule = () => {
+      if (!frame) frame = window.requestAnimationFrame(update);
+    };
+    window.addEventListener('scroll', schedule, {passive: true});
+    window.addEventListener('resize', schedule);
+    schedule();
+    return () => {
+      window.removeEventListener('scroll', schedule);
+      window.removeEventListener('resize', schedule);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
+  }, [isHome, pathname]);
 
   // Lock body scroll + close on Escape while the drawer is open.
   useEffect(() => {
@@ -139,20 +166,28 @@ export function SiteNav() {
             className="hidden items-center gap-4 text-[11px] uppercase tracking-[0.1em] lg:flex xl:gap-6 xl:tracking-[0.14em]"
             data-ui-label
           >
-            {VISIBLE_NAV_ITEMS.map((item) => (
-              <Link
-                key={item.key}
-                href={item.href}
-                className={cn(
-                  'transition-colors duration-200',
-                  transparent
-                    ? 'text-white/85 hover:text-white'
-                    : 'text-[var(--text-muted)] hover:text-[var(--accent)]'
-                )}
-              >
-                {t(item.key)}
-              </Link>
-            ))}
+            {VISIBLE_NAV_ITEMS.map((item) => {
+              const current = active === anchorId(item.href);
+              return (
+                <Link
+                  key={item.key}
+                  href={item.href}
+                  aria-current={current ? 'location' : undefined}
+                  className={cn(
+                    // Hairline under the current section's item; fades in/out.
+                    'relative py-1 transition-colors duration-200 after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-current after:opacity-0 after:transition-opacity after:duration-300 after:content-[\'\']',
+                    current && 'after:opacity-100',
+                    transparent
+                      ? 'text-white/85 hover:text-white'
+                      : current
+                        ? 'text-[var(--text-title)]'
+                        : 'text-[var(--text-muted)] hover:text-[var(--accent)]'
+                  )}
+                >
+                  {t(item.key)}
+                </Link>
+              );
+            })}
           </nav>
           <div className="ms-auto flex items-center gap-3 lg:hidden">
             <button
@@ -213,18 +248,31 @@ export function SiteNav() {
         <div className="flex flex-1 flex-col justify-between overflow-y-auto px-6 py-10 md:px-10">
           <nav aria-label={t('siteNavAria')}>
             <ul className="space-y-5">
-              {VISIBLE_NAV_ITEMS.map((item) => (
-                <li key={item.key}>
-                  <Link
-                    href={item.href}
-                    onClick={() => setMobileOpen(false)}
-                    className="block font-display text-3xl !text-white hover:!text-white/70 md:text-4xl"
-                    style={{color: '#ffffff'}}
-                  >
-                    {t(item.key)}
-                  </Link>
-                </li>
-              ))}
+              {VISIBLE_NAV_ITEMS.map((item) => {
+                const current = active === anchorId(item.href);
+                return (
+                  <li key={item.key}>
+                    <Link
+                      href={item.href}
+                      onClick={() => setMobileOpen(false)}
+                      aria-current={current ? 'location' : undefined}
+                      className="flex items-center font-display text-3xl !text-white hover:!text-white/70 md:text-4xl"
+                      style={{color: '#ffffff'}}
+                    >
+                      {/* Short rule indents only the section the visitor is in;
+                       * the others stay flush with the drawer's text edge. */}
+                      <span
+                        aria-hidden="true"
+                        className={cn(
+                          'h-px bg-white transition-[width,margin] duration-300',
+                          current ? 'me-4 w-6' : 'me-0 w-0'
+                        )}
+                      />
+                      {t(item.key)}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </nav>
 

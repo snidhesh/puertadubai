@@ -52,9 +52,19 @@
   --font-sans: var(--font-sans);
 }
 
-/* Splash overlay scroll lock — see components/site/splash-screen.tsx. */
+/* Trustpilot's brand green — the ONE chromatic exception to the monochrome
+ * palette, used only for Trustpilot star tiles and rating bars because their
+ * guidelines require the stars in this colour. Never reuse it elsewhere. */
+:root {
+  --trustpilot-green: #00b67a;
+}
+
+/* Splash overlay — see components/site/splash-screen.tsx. */
 html.dc-splash-open {
-  overflow: hidden;
+  overflow: hidden; /* scroll lock while the overlay shows */
+}
+html.dc-splash-skip [data-splash] {
+  display: none; /* already seen this session: never paints, even before hydration */
 }
 
 body {

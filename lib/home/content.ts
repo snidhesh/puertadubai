@@ -70,8 +70,13 @@ export const INTERNATIONAL_PROPERTIES = [
 ] as const;
 
 export const PORTRAITS = {
-  /** Black-and-white editorial portrait, full-frame 2:3 (source: assets/dayan-aboutus.jpeg). */
-  about: '/images/dayan/about-portrait.jpg',
+  /**
+   * Black-and-white seated profile, cut out on transparent ground and cropped
+   * at the hips, so frames use object-contain and anchor it to a bottom edge.
+   * She faces left in the file; LTR layouts mirror it so she faces the copy
+   * (source: assets/about_me.png, swapped in 2026-10-13).
+   */
+  about: '/images/dayan/about-me.png',
   splash: '/images/dayan/turtleneck.jpg',
   /** Colour editorial shot used by the original Let's Connect band. */
   contact: '/images/dayan/connect.jpg',
@@ -179,10 +184,48 @@ export const ENDORSEMENT_IDS = ['blackoakAppointment', 'caviarSpoon', 'blackoakB
 export const TRUSTPILOT = {
   profile: 'https://www.trustpilot.com/review/www.dayancandamil.com',
   write: 'https://www.trustpilot.com/evaluate/www.dayancandamil.com',
+  /** A single review's page is `${reviewBase}${reviewId}`. */
+  reviewBase: 'https://www.trustpilot.com/reviews/',
+  /**
+   * TrustScore as displayed on the profile page when it was last checked
+   * (2026-10-13: 4.0 "Great", 3 reviews). It is Trustpilot's weighted figure,
+   * not an average of the cards below, so it must be refreshed by hand when
+   * the profile changes; the band word lives in `Home.reviews.scoreBand`.
+   */
+  trustScore: 4.0,
+  /**
+   * Every review on the public profile, verbatim, newest first (checked
+   * 2026-10-13). `published` and `experienced` are the dates Trustpilot
+   * shows; `country` and `reviewCount` are the reviewer line it prints.
+   */
   reviews: [
-    {id: 'terraine', rating: 5, published: '2026-09-23', excerpt: true},
-    {id: 'johnPaulo', rating: 5, published: '2026-06-04', excerpt: false},
-    {id: 'dave', rating: 5, published: '2025-11-13', excerpt: false}
+    {
+      id: 'antonio',
+      reviewId: '6acce4919159cb7a3d559ba2',
+      rating: 5,
+      country: 'AE',
+      reviewCount: 1,
+      published: '2026-10-12',
+      experienced: '2026-10-03'
+    },
+    {
+      id: 'riad',
+      reviewId: '6ac3ecda1b0e60d8ba3a84e8',
+      rating: 5,
+      country: 'AE',
+      reviewCount: 1,
+      published: '2026-10-05',
+      experienced: '2026-10-05'
+    },
+    {
+      id: 'dave',
+      reviewId: '6abe4fc62be7ce232f80a83a',
+      rating: 5,
+      country: 'UZ',
+      reviewCount: 2,
+      published: '2026-10-01',
+      experienced: '2025-11-13'
+    }
   ]
 } as const;
 

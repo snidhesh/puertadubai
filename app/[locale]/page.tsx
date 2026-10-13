@@ -133,18 +133,18 @@ export default async function HomePage({params}: Props) {
         <div className="mt-10 flex flex-col gap-3 sm:flex-row">
           <a
             href="#contact"
-            className="inline-flex h-[50px] items-center justify-center bg-white px-10 text-[12px] font-medium uppercase tracking-[0.18em] text-[var(--text-title)] transition-colors hover:bg-[var(--bg-alt)]"
+            className="inline-flex h-[50px] items-center justify-center bg-white px-10 text-[11px] font-medium uppercase tracking-[0.22em] text-[var(--text-title)] transition-colors hover:bg-[var(--bg-alt)]"
             data-ui-label
           >
             {t('primaryCta')}
           </a>
           <a
             href={CAREER_ENABLED ? '#experience' : '#about'}
-            className="inline-flex h-[50px] items-center justify-center border border-white bg-transparent px-10 text-[12px] font-medium uppercase tracking-[0.18em] !text-white transition-colors hover:bg-white hover:!text-[var(--text-title)]"
+            className="inline-flex h-[50px] items-center justify-center border border-white bg-transparent px-10 text-[11px] font-medium uppercase tracking-[0.22em] !text-white transition-colors hover:bg-white hover:!text-[var(--text-title)]"
             style={{color: '#ffffff'}}
             data-ui-label
           >
-            {t('secondaryCta')}
+            {t(CAREER_ENABLED ? 'secondaryCta' : 'secondaryCtaAbout')}
           </a>
         </div>
       </section>
@@ -198,20 +198,20 @@ export default async function HomePage({params}: Props) {
       </section>
 
       {/* 3. FEATURED LISTINGS — dark band, title cell + live Studio CRM cards */}
-      <Section id="listings" tone="dark" className="scroll-mt-16">
+      <Section id="listings" tone="dark" className="scroll-mt-16 py-24 md:py-32">
         <Container>
           <div className="grid gap-x-8 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
             <div className="flex flex-col items-start justify-center gap-8 py-8">
               <h2 className="font-display">
                 <span
-                  className="block text-sm uppercase tracking-[0.24em] !text-white/75"
+                  className="block text-sm uppercase tracking-[0.32em] !text-white/75"
                   style={{color: 'rgba(255,255,255,0.75)'}}
                   data-ui-label
                 >
                   {tHome('featuredListings.eyebrow')}
                 </span>
                 <span
-                  className="mt-3 block text-5xl leading-[1] !text-white md:text-6xl lg:text-7xl"
+                  className="mt-3 block text-4xl leading-[1] !text-white md:text-5xl lg:text-6xl"
                   style={{color: '#ffffff'}}
                 >
                   {tHome('featuredListings.heading')}
@@ -226,7 +226,7 @@ export default async function HomePage({params}: Props) {
               <span aria-hidden="true" className="block h-px w-12 bg-white/40" />
               <Link
                 href="/projects"
-                className="inline-flex h-[45px] items-center justify-center border border-white px-8 text-[11px] uppercase tracking-[0.22em] !text-white transition-colors hover:bg-white hover:!text-[var(--text-title)]"
+                className="inline-flex h-[50px] items-center justify-center border border-white px-10 text-[11px] uppercase tracking-[0.22em] !text-white transition-colors hover:bg-white hover:!text-[var(--text-title)]"
                 style={{color: '#ffffff'}}
                 data-ui-label
               >
@@ -249,7 +249,7 @@ export default async function HomePage({params}: Props) {
       {/* 3b. INTERNATIONAL — after blackoak-re.com/international-properties:
        * centred hairlined eyebrow + heading, then each asset as a card split
        * between its photo (tag chips) and a dark details panel. */}
-      <Section id="international" tone="alt" className="scroll-mt-16 py-20 md:py-28">
+      <Section id="international" tone="alt" className="scroll-mt-16 py-24 md:py-32">
         <Container>
           <div className="mx-auto max-w-3xl text-center">
             <p className="flex items-center justify-center gap-4">
@@ -351,30 +351,34 @@ export default async function HomePage({params}: Props) {
         />
       </section>
 
-      {/* 5. ABOUT — tall portrait left + stacked content right */}
-      <Section id="about" className="scroll-mt-16 py-24 md:py-32">
+      {/* 5. ABOUT — seated cut-out portrait left + stacked content right.
+       * From lg the section drops its bottom padding so the figure, which is
+       * cropped at the hips, sits directly on the dark Expertise band; the
+       * text column keeps its own bottom padding (same device as #atelier). */}
+      <Section id="about" className="scroll-mt-16 py-24 md:py-32 lg:pb-0">
         <Container>
           {/* Portrait column hugs the copy measure (36rem) so the two read as
            * one composition rather than sitting at opposite edges. */}
           <div className="grid gap-12 lg:grid-cols-[auto_minmax(0,36rem)] lg:gap-8">
-            {/* Sized to the portrait and sticky, so it stays level with the
-             * copy as the long biography scrolls instead of sinking below it. */}
-            <div className="hidden lg:block lg:self-start lg:justify-self-end lg:sticky lg:top-24">
-              {/* Capped to the viewport so the whole figure stays in view while
-               * stuck; flush to the copy side. */}
+            {/* Stuck to the BOTTOM of the viewport: the cut edge of the figure
+             * always meets the screen edge while the long biography scrolls,
+             * and when the section ends she settles on the band below. */}
+            <div className="hidden lg:block lg:self-end lg:justify-self-end lg:sticky lg:bottom-0">
+              {/* Capped to the viewport (minus the fixed header) so the whole
+               * figure stays in view while stuck; flush to the copy side. */}
               <div className="flex w-[440px] justify-end">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={PORTRAITS.about}
                   alt={tHome('about.imageAlt')}
-                  className="block h-auto max-h-[calc(100vh-5.5rem)] w-auto max-w-full"
+                  className="block h-auto max-h-[calc(100vh-4rem)] w-auto max-w-full ltr:-scale-x-100"
                 />
               </div>
             </div>
-            <div>
+            <div className="lg:pb-32">
               <h2 className="font-display text-[var(--text-title)]">
                 <span
-                  className="block text-sm uppercase tracking-[0.24em] text-[var(--text-muted)]"
+                  className="block text-sm uppercase tracking-[0.32em] text-[var(--text-muted)]"
                   data-ui-label
                 >
                   {tHome('about.eyebrow')}
@@ -386,15 +390,15 @@ export default async function HomePage({params}: Props) {
               <p className="mt-3 font-display text-xl italic text-[var(--text-muted)] md:text-2xl">
                 {tHome('about.tagline')}
               </p>
-              <div className="mt-8 lg:hidden">
-                <div className="relative mx-auto aspect-[2/3] w-full max-w-[420px] overflow-hidden">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={PORTRAITS.about}
-                    alt={tHome('about.imageAlt')}
-                    className="absolute inset-0 h-full w-full object-cover"
-                  />
-                </div>
+              {/* Below lg the figure sits on a hairline between the tagline and
+               * the biography, so its cut edge has a line to rest on. */}
+              <div className="mt-8 border-b border-[var(--divider)] lg:hidden">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={PORTRAITS.about}
+                  alt={tHome('about.imageAlt')}
+                  className="mx-auto block h-auto w-full max-w-[280px] ltr:-scale-x-100"
+                />
               </div>
               <h3 className="mt-8 font-display text-xl text-[var(--text-title)] md:text-2xl">
                 {tHome('about.introHeading')}
@@ -418,7 +422,7 @@ export default async function HomePage({params}: Props) {
                 href={LINKS.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="relative before:absolute before:inset-x-0 before:-inset-y-3 before:content-[''] mt-10 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-[var(--accent)] hover:underline"
+                className="relative before:absolute before:inset-x-0 before:-inset-y-3 before:content-[''] mt-10 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.22em] text-[var(--accent)] hover:underline"
                 data-ui-label
               >
                 {tHome('about.linkedinCta')} <span aria-hidden="true" className="rtl:scale-x-[-1]">→</span>
@@ -553,7 +557,7 @@ export default async function HomePage({params}: Props) {
                       {tHome(`caseStudies.items.${study.id}.client`)}
                     </p>
                     <p
-                      className="mt-3 inline-flex items-center gap-2 whitespace-nowrap border-b border-[var(--text-title)]/40 pb-1 text-[10px] uppercase tracking-[0.18em] text-[var(--text-title)] transition-colors group-hover:border-[var(--text-title)] sm:mt-5 sm:tracking-[0.32em]"
+                      className="mt-3 inline-flex items-center gap-2 whitespace-nowrap border-b border-[var(--text-title)]/40 pb-1 text-[11px] uppercase tracking-[0.22em] text-[var(--text-title)] transition-colors group-hover:border-[var(--text-title)] sm:mt-5 sm:tracking-[0.32em]"
                       data-ui-label
                     >
                       {tHome('caseStudies.view')}
@@ -635,8 +639,9 @@ export default async function HomePage({params}: Props) {
         </Section>
       )}
 
-      {/* 9. ENDORSEMENTS — light-grey, 3 quote cards */}
-      <Section tone="alt" className="py-24 md:py-32">
+      {/* 9. ENDORSEMENTS — white band (the case-studies band before it is
+       * grey, the reviews band after it grey again), 3 grey quote cards */}
+      <Section className="py-24 md:py-32">
         <Container>
           <div className="text-center">
             <h2 className="font-display">
@@ -655,7 +660,7 @@ export default async function HomePage({params}: Props) {
             {ENDORSEMENT_IDS.map((id) => (
               <li
                 key={id}
-                className="relative flex flex-col gap-6 rounded-xl bg-[var(--bg)] p-8 shadow-[0_4px_20px_-8px_rgba(0,0,0,0.08)] md:p-10"
+                className="relative flex flex-col gap-6 bg-[var(--bg-alt)] p-8 md:p-10"
               >
                 <span
                   aria-hidden="true"
@@ -691,64 +696,125 @@ export default async function HomePage({params}: Props) {
         </Container>
       </Section>
 
-      {/* 10. TRUSTPILOT REVIEWS — verbatim quotes from the public profile */}
-      <Section id="reviews" className="scroll-mt-16 py-24 md:py-32">
+      {/* 10. TRUSTPILOT REVIEWS — laid out like the Trustpilot profile page:
+       * a summary box (score, band, star tiles, count, rating bars) beside
+       * the heading, then compact equal-height review cards with Trustpilot's
+       * card anatomy (avatar initial, name, country · review count, star
+       * tiles, date, title, text, experience-date chip, link to the review).
+       * Everything shown is verbatim from the public profile — see TRUSTPILOT
+       * in lib/home/content.ts for when it was last checked. */}
+      <Section id="reviews" tone="alt" className="scroll-mt-16 py-24 md:py-32">
         <Container>
-          <div className="border-b border-[var(--divider)] pb-10 lg:flex lg:items-end lg:justify-between lg:gap-16 lg:pb-12">
-            <h2 className="font-display">
-              <span
-                className="block text-sm uppercase tracking-[0.32em] text-[var(--text-muted)]"
-                data-ui-label
-              >
-                {tHome('reviews.eyebrow')}
-              </span>
-              <span className="mt-3 block text-4xl leading-[1] text-[var(--text-title)] md:text-5xl lg:text-6xl">
-                {tHome('reviews.heading')}
-              </span>
-            </h2>
-            <p className="mt-6 max-w-md text-sm leading-[1.7] text-[var(--text-body)] md:text-base lg:mt-0 lg:pb-1 lg:text-end">
-              {tHome('reviews.body')}
-            </p>
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:gap-16">
+            <div>
+              <h2 className="font-display">
+                <span
+                  className="block text-sm uppercase tracking-[0.32em] text-[var(--text-muted)]"
+                  data-ui-label
+                >
+                  {tHome('reviews.eyebrow')}
+                </span>
+                <span className="mt-3 block text-4xl leading-[1] text-[var(--text-title)] md:text-5xl lg:text-6xl">
+                  {tHome('reviews.heading')}
+                </span>
+              </h2>
+              <p className="mt-6 max-w-md text-sm leading-[1.7] text-[var(--text-body)] md:text-base">
+                {tHome('reviews.body')}
+              </p>
+            </div>
+            <TrustScoreBox
+              score={TRUSTPILOT.trustScore}
+              scoreLabel={tHome('reviews.trustScoreLabel')}
+              band={tHome('reviews.scoreBand')}
+              starsLabel={tHome('reviews.ratingLabel', {rating: Math.round(TRUSTPILOT.trustScore)})}
+              total={tHome('reviews.reviewTotal', {count: TRUSTPILOT.reviews.length})}
+              rows={[5, 4, 3, 2, 1].map((stars) => ({
+                stars,
+                label: tHome('reviews.starRow', {stars}),
+                share:
+                  TRUSTPILOT.reviews.filter((review) => review.rating === stars).length /
+                  TRUSTPILOT.reviews.length
+              }))}
+              href={TRUSTPILOT.profile}
+              linkLabel={tHome('reviews.scoreLink')}
+            />
           </div>
-          <ul className="mt-12 grid gap-8 md:mt-16 lg:grid-cols-3">
-            {TRUSTPILOT.reviews.map((review) => (
-              <li key={review.id} className="flex flex-col bg-[var(--bg-alt)] p-8 md:p-10">
-                <StarRating
-                  rating={review.rating}
-                  label={tHome('reviews.ratingLabel', {rating: review.rating})}
-                />
-                <blockquote className="mt-6 flex-1">
-                  {tHome.has(`reviews.items.${review.id}.title`) ? (
-                    <>
-                      <p className="font-display text-xl leading-[1.3] text-[var(--text-title)] md:text-2xl">
+          {/* Rows stretch, titles and bodies are line-clamped, and the
+           * blockquote grows, so the three cards share one height and their
+           * footers align whatever the review length. */}
+          <ul className="mt-12 grid gap-6 md:mt-16 lg:grid-cols-3">
+            {TRUSTPILOT.reviews.map((review) => {
+              const name = tHome(`reviews.items.${review.id}.name`);
+              const hasTitle = tHome.has(`reviews.items.${review.id}.title`);
+              return (
+                <li
+                  key={review.id}
+                  className="flex flex-col border border-[var(--divider)] bg-[var(--bg)] p-6"
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex min-w-0 items-center gap-3">
+                      <span
+                        aria-hidden="true"
+                        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--bg-dark)] font-display text-base text-[var(--text-on-dark)]"
+                      >
+                        {name.charAt(0)}
+                      </span>
+                      <div className="min-w-0">
+                        <p className="truncate text-sm font-medium text-[var(--text-title)]">{name}</p>
+                        <p className="text-xs text-[var(--text-muted)]">
+                          <bdi>{review.country}</bdi> ·{' '}
+                          {tHome('reviews.reviewTotal', {count: review.reviewCount})}
+                        </p>
+                      </div>
+                    </div>
+                    <p className="shrink-0 text-xs text-[var(--text-muted)]">
+                      <bdi>{formatLongDate(review.published, locale)}</bdi>
+                    </p>
+                  </div>
+                  <div className="mt-4">
+                    <StarTiles
+                      rating={review.rating}
+                      label={tHome('reviews.ratingLabel', {rating: review.rating})}
+                    />
+                  </div>
+                  <blockquote className="mt-4 flex-1">
+                    {hasTitle && (
+                      <p className="line-clamp-2 text-base font-medium leading-[1.4] text-[var(--text-title)]">
                         {tHome(`reviews.items.${review.id}.title`)}
                       </p>
-                      <p className="mt-4 whitespace-pre-line text-base leading-[1.7] text-[var(--text-body)]">
-                        {tHome(`reviews.items.${review.id}.text`)}
-                        {review.excerpt && ' …'}
-                      </p>
-                    </>
-                  ) : (
-                    // A one-line review with no title carries the display type itself.
-                    <p className="whitespace-pre-line font-display text-xl leading-[1.3] text-[var(--text-title)] md:text-2xl">
+                    )}
+                    <p
+                      className={cn(
+                        'whitespace-pre-line text-sm leading-[1.7] text-[var(--text-body)]',
+                        hasTitle ? 'mt-2 line-clamp-4' : 'line-clamp-6'
+                      )}
+                    >
                       {tHome(`reviews.items.${review.id}.text`)}
-                      {review.excerpt && ' …'}
                     </p>
-                  )}
-                </blockquote>
-                <div className="mt-8 border-t border-[var(--divider)] pt-6">
-                  <p className="font-display text-base text-[var(--text-title)]">
-                    {tHome(`reviews.items.${review.id}.name`)}
+                  </blockquote>
+                  <p className="mt-5">
+                    <span className="inline-block bg-[var(--bg-alt)] px-2.5 py-1 text-xs text-[var(--text-body)]">
+                      {tHome('reviews.experienceDate')}:{' '}
+                      <bdi>{formatLongDate(review.experienced, locale)}</bdi>
+                    </span>
                   </p>
-                  <p
-                    className="mt-1 text-[11px] uppercase tracking-[0.18em] text-[var(--text-muted)]"
-                    data-ui-label
-                  >
-                    {tHome('reviews.source')} · <bdi>{formatLongDate(review.published, locale)}</bdi>
-                  </p>
-                </div>
-              </li>
-            ))}
+                  <div className="mt-5 border-t border-[var(--divider)] pt-4">
+                    <a
+                      href={`${TRUSTPILOT.reviewBase}${review.reviewId}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="relative before:absolute before:inset-x-0 before:-inset-y-3 before:content-[''] inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.22em] text-[var(--text-title)] transition-colors hover:text-[var(--text-muted)]"
+                      data-ui-label
+                    >
+                      {tHome('reviews.readReview')}{' '}
+                      <span aria-hidden="true" className="rtl:scale-x-[-1]">
+                        ↗
+                      </span>
+                    </a>
+                  </div>
+                </li>
+              );
+            })}
           </ul>
           <div className="mt-12 flex flex-wrap items-center gap-x-10 gap-y-5">
             <a
@@ -835,7 +901,7 @@ export default async function HomePage({params}: Props) {
             <div className="lg:pb-32">
               <h2 className="font-display text-[var(--text-title)]">
                 <span
-                  className="block text-sm uppercase tracking-[0.24em] text-[var(--text-muted)]"
+                  className="block text-sm uppercase tracking-[0.32em] text-[var(--text-muted)]"
                   data-ui-label
                 >
                   {tHome('atelier.eyebrow')}
@@ -876,7 +942,7 @@ export default async function HomePage({params}: Props) {
                 href={LINKS.houseOfCandamil}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="relative before:absolute before:inset-x-0 before:-inset-y-3 before:content-[''] mt-10 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-[var(--accent)] hover:underline"
+                className="relative before:absolute before:inset-x-0 before:-inset-y-3 before:content-[''] mt-10 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.22em] text-[var(--accent)] hover:underline"
                 data-ui-label
               >
                 {tHome('atelier.cta')} <span aria-hidden="true" className="rtl:scale-x-[-1]">→</span>
@@ -1088,7 +1154,7 @@ export default async function HomePage({params}: Props) {
             )}
             <p className="mt-12 text-center md:mt-16">
               <span
-                className="inline-block border border-white/35 px-4 py-4 text-[11px] uppercase tracking-[0.14em] !text-white/80 sm:px-7 sm:tracking-[0.22em]"
+                className="inline-flex h-[50px] items-center justify-center border border-white/35 px-6 text-[11px] uppercase tracking-[0.22em] !text-white/80 sm:px-10"
                 style={{color: 'rgba(255,255,255,0.8)'}}
                 data-ui-label
               >
@@ -1562,7 +1628,7 @@ function InternationalPropertyCard({
         </p>
         <a
           href="#contact"
-          className="relative before:absolute before:inset-x-0 before:-inset-y-3 before:content-[''] mt-8 inline-flex w-fit items-center gap-2 border-b border-white/40 pb-1 text-[11px] uppercase tracking-[0.25em] !text-white transition-colors hover:border-white"
+          className="relative before:absolute before:inset-x-0 before:-inset-y-3 before:content-[''] mt-8 inline-flex w-fit items-center gap-2 border-b border-white/40 pb-1 text-[11px] uppercase tracking-[0.22em] !text-white transition-colors hover:border-white"
           style={{color: '#ffffff'}}
           data-ui-label
         >
@@ -1587,19 +1653,95 @@ function InternationalPropertyCard({
 }
 
 /** Monochrome star row; the rating is announced once via `label`. */
-function StarRating({rating, label}: {rating: number; label: string}) {
+/** Trustpilot-style star tiles — five squares with a white star each. Filled
+ * tiles use Trustpilot's green (the palette's one chromatic exception, see
+ * globals.css); empty ones the divider grey. */
+function StarTiles({rating, label, size = 'md'}: {rating: number; label: string; size?: 'sm' | 'md'}) {
   return (
-    <div className="flex gap-1" role="img" aria-label={label}>
+    <div className="flex gap-0.5" role="img" aria-label={label}>
       {[1, 2, 3, 4, 5].map((n) => (
-        <svg
+        <span
           key={n}
-          viewBox="0 0 24 24"
-          className={cn('h-4 w-4', n <= rating ? 'fill-[var(--text-title)]' : 'fill-[var(--divider)]')}
-          aria-hidden="true"
+          className={cn(
+            'flex items-center justify-center',
+            size === 'sm' ? 'h-4 w-4' : 'h-5 w-5',
+            n <= rating ? 'bg-[var(--trustpilot-green)]' : 'bg-[var(--divider)]'
+          )}
         >
-          <path d="M12 2.5l2.9 6.2 6.6.8-4.9 4.6 1.3 6.6L12 17.4l-5.9 3.3 1.3-6.6-4.9-4.6 6.6-.8z" />
-        </svg>
+          <svg viewBox="0 0 24 24" className="h-[70%] w-[70%] fill-white" aria-hidden="true">
+            <path d="M12 2.5l2.9 6.2 6.6.8-4.9 4.6 1.3 6.6L12 17.4l-5.9 3.3 1.3-6.6-4.9-4.6 6.6-.8z" />
+          </svg>
+        </span>
       ))}
+    </div>
+  );
+}
+
+/** The profile page's summary box: TrustScore, band word, star tiles and
+ * review count on the left; a 5→1-star bar chart on the right. */
+function TrustScoreBox({
+  score,
+  scoreLabel,
+  band,
+  starsLabel,
+  total,
+  rows,
+  href,
+  linkLabel
+}: {
+  score: number;
+  scoreLabel: string;
+  band: string;
+  starsLabel: string;
+  total: string;
+  rows: ReadonlyArray<{stars: number; label: string; share: number}>;
+  href: string;
+  linkLabel: string;
+}) {
+  return (
+    <div className="border border-[var(--divider)] bg-[var(--bg)] p-6 lg:w-[400px]">
+      <div className="flex items-center gap-6">
+        <div className="shrink-0">
+          <p className="text-[11px] uppercase tracking-[0.18em] text-[var(--text-muted)]" data-ui-label>
+            {scoreLabel}
+          </p>
+          <p className="mt-1 font-display text-5xl leading-none text-[var(--text-title)]">
+            <bdi>{score.toFixed(1)}</bdi>
+          </p>
+          <p className="mt-1 text-sm text-[var(--text-body)]">{band}</p>
+          <div className="mt-2">
+            <StarTiles rating={Math.round(score)} label={starsLabel} size="sm" />
+          </div>
+          <p className="mt-2 text-xs text-[var(--text-muted)]">{total}</p>
+        </div>
+        <dl className="flex-1 space-y-2">
+          {rows.map((row) => (
+            <div key={row.stars} className="flex items-center gap-3 text-xs text-[var(--text-muted)]">
+              <dt className="w-10 shrink-0">
+                <bdi>{row.label}</bdi>
+              </dt>
+              <dd className="h-2 flex-1 bg-[var(--divider)]">
+                <div
+                  className="h-full bg-[var(--trustpilot-green)]"
+                  style={{width: `${Math.round(row.share * 100)}%`}}
+                />
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-5 flex items-center justify-between gap-4 border-t border-[var(--divider)] pt-4 text-[11px] uppercase tracking-[0.22em] text-[var(--text-title)] transition-colors hover:text-[var(--text-muted)]"
+        data-ui-label
+      >
+        {linkLabel}
+        <span aria-hidden="true" className="rtl:scale-x-[-1]">
+          ↗
+        </span>
+      </a>
     </div>
   );
 }

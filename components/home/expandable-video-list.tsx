@@ -35,7 +35,7 @@ export function ExpandableVideoList({
           type="button"
           onClick={() => setExpanded((v) => !v)}
           aria-expanded={expanded}
-          className="mt-2 flex w-full items-center justify-center gap-3 border border-white/30 px-6 py-3 text-[10px] uppercase tracking-[0.22em] text-white/75 transition-colors hover:border-white hover:text-white"
+          className="mt-2 flex w-full items-center justify-center gap-3 border border-white/30 px-6 py-3 text-[11px] uppercase tracking-[0.22em] text-white/75 transition-colors hover:border-white hover:text-white"
           data-ui-label
         >
           {expanded ? 'Show fewer' : `Show ${hiddenCount} more`}

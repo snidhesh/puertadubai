@@ -76,7 +76,10 @@ export default async function LocaleLayout({children, params}: Props) {
   }
   setRequestLocale(locale);
 
-  const messages = await getMessages();
+  const [messages, tNav] = await Promise.all([
+    getMessages(),
+    getTranslations({locale, namespace: 'Nav'})
+  ]);
 
   return (
     // suppressHydrationWarning: the splash gate script toggles a class on
@@ -89,13 +92,22 @@ export default async function LocaleLayout({children, params}: Props) {
       className={`${arsenal.variable} ${robotoFlex.variable} ${elMessiri.variable} ${ibmPlexArabic.variable} scroll-smooth antialiased`}
     >
       <body className="min-h-screen flex flex-col bg-[var(--bg)] text-[var(--text-body)]">
+        {/* Keyboard users: first Tab stop jumps past the fixed nav and the
+         * sticky socials straight to the page content. Visible only on focus. */}
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-[110] focus:bg-white focus:px-5 focus:py-3 focus:text-[11px] focus:uppercase focus:tracking-[0.22em] focus:text-[var(--text-title)] focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-[var(--text-title)]"
+          data-ui-label
+        >
+          {tNav('skipToContent')}
+        </a>
         <NextIntlClientProvider messages={messages} locale={locale}>
           {/* Suspense so the shell can statically prerender while the
            * client-only splash / nav scroll state hydrate. */}
           <Suspense>
             <SplashScreen />
             <SiteNav />
-            <main className="flex-1 pt-16 [&>section:first-child#hero]:-mt-16 [&>section:first-child#hero]:pt-16">
+            <main id="main" tabIndex={-1} className="flex-1 pt-16 [&>section:first-child#hero]:-mt-16 [&>section:first-child#hero]:pt-16">
               {children}
             </main>
             <SiteFooter />

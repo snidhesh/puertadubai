@@ -2,20 +2,12 @@ import Image from 'next/image';
 import {getTranslations} from 'next-intl/server';
 import {Link} from '@/lib/i18n/navigation';
 import {Container} from '@/components/ui/container';
-import {CAREER_ENABLED, LINKS} from '@/lib/home/content';
+import {LINKS} from '@/lib/home/content';
+import {VISIBLE_NAV_ITEMS} from '@/lib/site/nav-items';
 import logoLockup from '../../public/brand/logo-lockup.png';
 
-const EXPLORE = [
-  {key: 'about', href: '/#about'},
-  {key: 'expertise', href: '/#expertise'},
-  {key: 'experience', href: '/#experience'},
-  {key: 'listings', href: '/#listings'},
-  {key: 'international', href: '/#international'},
-  {key: 'media', href: '/#media'}
-] as const;
-
-/** Experience only has an anchor while the career section is rendered. */
-const VISIBLE_EXPLORE = EXPLORE.filter((item) => CAREER_ENABLED || item.key !== 'experience');
+/** Same anchors, same order as the header nav — one table of contents. */
+const VISIBLE_EXPLORE = VISIBLE_NAV_ITEMS;
 
 export async function SiteFooter() {
   const t = await getTranslations('Footer');

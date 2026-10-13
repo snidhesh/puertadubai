@@ -20,14 +20,16 @@
     "wordmark": "Dayan Candamil",
     "wordmarkLine": "Dubai · Miami · Bogotá",
     "siteNavAria": "Site navigation",
-    "follow": "Follow"
+    "follow": "Follow",
+    "skipToContent": "Skip to content"
   },
   "Hero": {
     "kicker": "Dubai · GCC · Americas",
     "headline": "Representing the 1% since 2012.",
     "subhead": "Cross-border real estate and investment adviser to UHNW families, family offices and developers — and founder of the luxury atelier House of Candamil.",
     "primaryCta": "Book a private consultation",
-    "secondaryCta": "View experience"
+    "secondaryCta": "View experience",
+    "secondaryCtaAbout": "Meet Dayan"
   },
   "Splash": {
     "tagline": "Cross-border real estate & investment adviser. Founder, House of Candamil."
@@ -311,18 +313,24 @@
       "body": "Quoted from Dayan's public Trustpilot profile.",
       "source": "Trustpilot",
       "ratingLabel": "Rated {rating} out of 5 stars",
-      "readAll": "Read all reviews on Trustpilot",
+      "trustScoreLabel": "TrustScore",
+      "scoreBand": "Great",
+      "scoreLink": "View the profile on Trustpilot",
+      "reviewTotal": "{count, plural, one {# review} other {# reviews}}",
+      "starRow": "{stars}-star",
+      "experienceDate": "Date of experience",
+      "readReview": "Read on Trustpilot",
+      "readAll": "See all reviews on Trustpilot",
       "write": "Write a review",
       "items": {
-        "terraine": {
-          "name": "Terraine Tuico",
-          "title": "Trusted and Highly Recommended",
-          "text": "I'm truly grateful to have had Dayan as my real estate agent. From the very beginning, she was incredibly patient, attentive, and genuinely listened to what I was looking for.\n\nWhat I appreciated most was that I never felt pressured or rushed into making a decision. She took the time to explain everything clearly, answer all my questions, and guide me through the process with so much professionalism and care."
+        "antonio": {
+          "name": "Antonio Santana",
+          "title": "The experience with Dayan was amazing",
+          "text": "The experience with Dayan was amazing. All of the deals in the future I will do with her as well."
         },
-        "johnPaulo": {
-          "name": "john paulo ebreo",
-          "title": "A true professional on a La Mer villa transaction",
-          "text": "I worked alongside Dayan Candamil on the sale of a villa at La Mer, and she was a pleasure to deal with from start to finish. She knew the community and the product in detail, kept communication clear and fast, and handled every step, from viewings to paperwork and handover, with real care for the client.\n\nCo-broke deals live or die on trust and responsiveness, and Dayan delivered on both."
+        "riad": {
+          "name": "Riad Gohar",
+          "text": "One of the most brilliant and clever woman I have the pleasure to work with. A great entrepreneurial mindset with a very innovative look at business development and always looking after her clients to make best sound investment"
         },
         "dave": {
           "name": "Dave",

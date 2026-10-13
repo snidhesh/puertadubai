@@ -9,24 +9,47 @@ import {PORTRAITS} from '@/lib/home/content';
 import logoLockup from '../../public/brand/logo-lockup.png';
 
 /**
- * Initial-load splash overlay — fixed full-viewport, fades out after
- * a fixed 5-second display window. Shows on every full page load of the
- * homepage (reload included). It does not replay on client-side
+ * Initial-load splash overlay — fixed full-viewport, fades out after a
+ * 1.5-second display window. Shows ONCE PER BROWSER SESSION: the first
+ * full load of the homepage in a tab shows it, later loads and reloads in
+ * that tab (sessionStorage) skip it, and it never replays on client-side
  * navigation back to home within the same document.
  *
  * - z-[100] sits above the fixed nav (z-40) and the sticky socials (z-30).
  * - Scroll is locked (via `html.dc-splash-open`) while visible.
  * - Server-rendered at full opacity so it covers the page from the very
  *   first paint, before any JavaScript runs. A one-line inline script
- *   ahead of it locks scroll pre-hydration; the effect below takes over
- *   once React hydrates. (The marketing CSP allows 'unsafe-inline'
- *   scripts; see next.config.ts.)
+ *   ahead of it runs before the overlay element is parsed: on a repeat
+ *   load it adds `html.dc-splash-skip`, which hides the overlay via CSS so
+ *   there is no flash before hydration; otherwise it locks scroll. The
+ *   effect below takes over once React hydrates. (The marketing CSP
+ *   allows 'unsafe-inline' scripts; see next.config.ts.)
  */
 
-const DISPLAY_MS = 5000;
-const FADE_MS = 600;
+const DISPLAY_MS = 1500;
+const FADE_MS = 400;
 /** Set on <html> while the overlay is up; locks scroll (globals.css). */
 const OPEN_CLASS = 'dc-splash-open';
+/** Set on <html> by the inline script when this session has already seen the splash (globals.css hides it). */
+const SKIP_CLASS = 'dc-splash-skip';
+/** sessionStorage key — one flag per tab session. */
+const SEEN_KEY = 'dc-splash-seen';
+
+function hasSeenThisSession() {
+  try {
+    return window.sessionStorage.getItem(SEEN_KEY) === '1';
+  } catch {
+    return false;
+  }
+}
+
+function markSeenThisSession() {
+  try {
+    window.sessionStorage.setItem(SEEN_KEY, '1');
+  } catch {
+    // Storage blocked (private mode etc.): the splash simply shows again next load.
+  }
+}
 // Module-scoped: survives client-side navigation, resets on a full load.
 // `initialPath` is the route this document was loaded on; once the splash
 // has completed, or the user has navigated client-side to another route,
@@ -37,8 +60,9 @@ let initialPath: string | null = null;
 let initialLoadDone = false;
 
 // Runs inline, synchronously, at its position in the HTML — i.e. before
-// the overlay element below is parsed and before React hydrates.
-const PRE_HYDRATION_SCRIPT = `document.documentElement.classList.add('${OPEN_CLASS}')`;
+// the overlay element below is parsed and before React hydrates. Seen this
+// session → hide the overlay; otherwise lock scroll while it shows.
+const PRE_HYDRATION_SCRIPT = `(function(){var c=document.documentElement.classList;var s=false;try{s=sessionStorage.getItem('${SEEN_KEY}')==='1'}catch(e){}c.add(s?'${SKIP_CLASS}':'${OPEN_CLASS}')})()`;
 
 function isHomePath(path: string) {
   if (path === '/') return true;
@@ -65,12 +89,16 @@ export function SplashScreen() {
     if (initialPath === null) initialPath = pathname;
     // Any client-side navigation ends the "initial load" for good.
     if (pathname !== initialPath) initialLoadDone = true;
-    if (!onHome || initialLoadDone) {
+    if (!onHome || initialLoadDone || hasSeenThisSession()) {
       root.classList.remove(OPEN_CLASS);
+      root.classList.remove(SKIP_CLASS);
       queueMicrotask(() => setPhase('gone'));
       return;
     }
 
+    // Counts as seen from the moment it starts, so leaving mid-splash
+    // doesn't earn a replay on the next load.
+    markSeenThisSession();
     root.classList.add(OPEN_CLASS);
     queueMicrotask(() => setPhase('visible'));
 
@@ -101,7 +129,7 @@ export function SplashScreen() {
         aria-live="polite"
         aria-label={t('loading')}
         className={cn(
-          'fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[var(--bg-dark)] transition-opacity duration-[600ms] ease-out',
+          'fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[var(--bg-dark)] transition-opacity duration-[400ms] ease-out',
           phase === 'visible' && 'opacity-100',
           phase === 'fading' && 'pointer-events-none opacity-0'
         )}
