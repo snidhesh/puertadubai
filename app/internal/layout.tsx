@@ -1,4 +1,5 @@
 import {Arsenal, Roboto_Flex} from 'next/font/google';
+import {Analytics} from '@vercel/analytics/next';
 import '../globals.css';
 
 const arsenal = Arsenal({
@@ -38,7 +39,10 @@ export default function InternalLayout({children}: {children: React.ReactNode}) 
       <head>
         <meta name="robots" content="noindex,nofollow" />
       </head>
-      <body className="min-h-screen bg-[var(--bg)] text-[var(--text-body)]">{children}</body>
+      <body className="min-h-screen bg-[var(--bg)] text-[var(--text-body)]">
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }

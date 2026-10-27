@@ -1,3 +1,5 @@
+import {Analytics} from '@vercel/analytics/next';
+
 /**
  * Studio bypasses the locale layout — no NextIntlClientProvider, no nav,
  * no footer. Studio ships its own self-contained UI.
@@ -14,7 +16,10 @@ export const metadata = {
 export default function StudioLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="en">
-      <body style={{margin: 0}}>{children}</body>
+      <body style={{margin: 0}}>
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
