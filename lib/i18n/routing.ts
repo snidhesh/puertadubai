@@ -13,6 +13,13 @@ export const routing = defineRouting({
 
 export type Locale = (typeof routing.locales)[number];
 
+/**
+ * Locales offered in the header switcher. Only languages with a real
+ * translation belong here; fr/es/ar still mirror en.json, so they stay
+ * routable but unlisted until their copy lands.
+ */
+export const SWITCHER_LOCALES: readonly Locale[] = ['en', 'pt'];
+
 export const RTL_LOCALES = new Set<Locale>(['ar']);
 
 export function getDirection(locale: Locale): 'ltr' | 'rtl' {

@@ -11,8 +11,11 @@ Content spec: `DAYAN_CANDAMIL_SITE_UPDATE.md` + `Dayan_Candamil_Portfolio_Conten
 portfolio for Dayan Candamil — she/her). **`Dayan Candamil — Website Copy.pdf` (Oct 2026, from Dayan)
 is the final copy and supersedes both for About, the six Expertise sections, Case Studies and Press.**
 It is third person throughout ("Dayan", never "we"); keep that voice in any new copy. Static data in `lib/home/content.ts`, copy in `messages/*.json`.
-The language switcher is hidden until ES/PT translations are confirmed; non-EN message files currently
-mirror `en.json`.
+The header switcher (`components/site/language-switcher.tsx`) lists only `SWITCHER_LOCALES` in
+`lib/i18n/routing.ts`, currently EN · PT. `pt.json` is a Brazilian Portuguese translation pending Dayan's
+review; quoted reviews/endorsements stay in their original English. `fr/es/ar.json` still mirror
+`en.json`; add a locale to the switcher only once its file is really translated, and add every new key
+to all five files.
 
 ## Stack
 - Next.js 16 (App Router, TypeScript strict, RSC). `proxy.ts` replaces `middleware.ts` and uses a *named* export `proxy`.

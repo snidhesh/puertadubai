@@ -40,7 +40,7 @@ export function Section({
   return (
     <section
       className={cn(
-        'py-12 md:py-[70px] lg:py-[120px]',
+        'py-14 md:py-20',
         tone === 'alt' && 'bg-[var(--bg-alt)]',
         tone === 'dark' && 'bg-[var(--bg-dark)] text-[var(--text-on-dark)]',
         className

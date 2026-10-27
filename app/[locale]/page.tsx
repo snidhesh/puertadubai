@@ -198,7 +198,7 @@ export default async function HomePage({params}: Props) {
       </section>
 
       {/* 3. FEATURED LISTINGS — dark band, title cell + live Studio CRM cards */}
-      <Section id="listings" tone="dark" className="scroll-mt-16 py-24 md:py-32">
+      <Section id="listings" tone="dark" className="scroll-mt-16 py-14 md:py-20">
         <Container>
           <div className="grid gap-x-8 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
             <div className="flex flex-col items-start justify-center gap-8 py-8">
@@ -249,7 +249,7 @@ export default async function HomePage({params}: Props) {
       {/* 3b. INTERNATIONAL — after blackoak-re.com/international-properties:
        * centred hairlined eyebrow + heading, then each asset as a card split
        * between its photo (tag chips) and a dark details panel. */}
-      <Section id="international" tone="alt" className="scroll-mt-16 py-24 md:py-32">
+      <Section id="international" tone="alt" className="scroll-mt-16 py-14 md:py-20">
         <Container>
           <div className="mx-auto max-w-3xl text-center">
             <p className="flex items-center justify-center gap-4">
@@ -280,7 +280,7 @@ export default async function HomePage({params}: Props) {
             </Link>
           </div>
 
-          <ul className="mt-12 space-y-10 md:mt-16">
+          <ul className="mt-8 space-y-8 md:mt-10">
             {INTERNATIONAL_PROPERTIES.map((property) => {
               const key = `international.properties.${property.id}` as const;
               return (
@@ -351,31 +351,21 @@ export default async function HomePage({params}: Props) {
         />
       </section>
 
-      {/* 5. ABOUT — seated cut-out portrait left + stacked content right.
-       * From lg the section drops its bottom padding so the figure, which is
-       * cropped at the hips, sits directly on the dark Expertise band; the
-       * text column keeps its own bottom padding (same device as #atelier). */}
-      <Section id="about" className="scroll-mt-16 py-24 md:py-32 lg:pb-0">
+      {/* 5. ABOUT — full-frame desk portrait left + stacked content right.
+       * The portrait column stretches to the copy column's height, so the
+       * photo runs from the eyebrow to the LinkedIn link as one block. */}
+      <Section id="about" className="scroll-mt-16 py-14 md:py-20">
         <Container>
-          {/* Portrait column hugs the copy measure (36rem) so the two read as
-           * one composition rather than sitting at opposite edges. */}
-          <div className="grid gap-12 lg:grid-cols-[auto_minmax(0,36rem)] lg:gap-8">
-            {/* Stuck to the BOTTOM of the viewport: the cut edge of the figure
-             * always meets the screen edge while the long biography scrolls,
-             * and when the section ends she settles on the band below. */}
-            <div className="hidden lg:block lg:self-end lg:justify-self-end lg:sticky lg:bottom-0">
-              {/* Capped to the viewport (minus the fixed header) so the whole
-               * figure stays in view while stuck; flush to the copy side. */}
-              <div className="flex w-[440px] justify-end">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={PORTRAITS.about}
-                  alt={tHome('about.imageAlt')}
-                  className="block h-auto max-h-[calc(100vh-4rem)] w-auto max-w-full ltr:-scale-x-100"
-                />
-              </div>
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,36rem)] lg:gap-16">
+            <div className="relative hidden overflow-hidden lg:block">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={PORTRAITS.about}
+                alt={tHome('about.imageAlt')}
+                className="absolute inset-0 h-full w-full object-cover object-[50%_35%]"
+              />
             </div>
-            <div className="lg:pb-32">
+            <div>
               <h2 className="font-display text-[var(--text-title)]">
                 <span
                   className="block text-sm uppercase tracking-[0.32em] text-[var(--text-muted)]"
@@ -390,14 +380,13 @@ export default async function HomePage({params}: Props) {
               <p className="mt-3 font-display text-xl italic text-[var(--text-muted)] md:text-2xl">
                 {tHome('about.tagline')}
               </p>
-              {/* Below lg the figure sits on a hairline between the tagline and
-               * the biography, so its cut edge has a line to rest on. */}
-              <div className="mt-8 border-b border-[var(--divider)] lg:hidden">
+              {/* Below lg the portrait sits between the tagline and the biography. */}
+              <div className="relative mt-8 aspect-[4/5] w-full overflow-hidden lg:hidden">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={PORTRAITS.about}
                   alt={tHome('about.imageAlt')}
-                  className="mx-auto block h-auto w-full max-w-[280px] ltr:-scale-x-100"
+                  className="absolute inset-0 h-full w-full object-cover object-[50%_35%]"
                 />
               </div>
               <h3 className="mt-8 font-display text-xl text-[var(--text-title)] md:text-2xl">
@@ -433,7 +422,7 @@ export default async function HomePage({params}: Props) {
       </Section>
 
       {/* 6. EXPERTISE — dark band, centered title, 6 image tiles */}
-      <Section id="expertise" tone="dark" className="scroll-mt-16 py-24 md:py-32">
+      <Section id="expertise" tone="dark" className="scroll-mt-16 py-14 md:py-20">
         <Container>
           <div className="text-center">
             <h2 className="font-display">
@@ -454,7 +443,7 @@ export default async function HomePage({params}: Props) {
           </div>
           {/* Uniform grid: every tile is one square linking to its detail page.
            * Greyscale at rest → colour on hover. */}
-          <ul className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 md:mt-20">
+          <ul className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 md:mt-12">
             {EXPERTISE.map((tile) => (
               <li key={tile.id}>
                 <Link
@@ -518,7 +507,7 @@ export default async function HomePage({params}: Props) {
       <section
         id="case-studies"
         aria-labelledby="case-studies-heading"
-        className="scroll-mt-16 bg-[var(--bg-alt)] py-16 md:py-24"
+        className="scroll-mt-16 bg-[var(--bg-alt)] py-12 md:py-16"
       >
         <Container>
           <div className="flex items-center gap-6 md:gap-10">
@@ -533,7 +522,7 @@ export default async function HomePage({params}: Props) {
           </div>
           {/* Phones: thumbnail beside the text so three cards stay compact.
            * sm and up: square image above the caption, two across. */}
-          <ul className="mt-10 grid gap-x-8 gap-y-8 sm:mt-12 sm:grid-cols-2 sm:gap-y-12 md:mt-16 lg:gap-x-10">
+          <ul className="mt-8 grid gap-x-8 gap-y-8 sm:mt-10 sm:grid-cols-2 sm:gap-y-10 md:mt-10 lg:gap-x-10">
             {CASE_STUDIES.map((study) => (
               <li key={study.id}>
                 <Link href={`/case-studies/${study.slug}`} className="group flex gap-5 sm:block">
@@ -594,7 +583,7 @@ export default async function HomePage({params}: Props) {
             </p>
             {/* Stacked rows; each opens to show its summary (native <details>,
              * no client JS). The current role starts open. */}
-            <ul className="mt-12 border-t border-[var(--divider)] md:mt-16">
+            <ul className="mt-8 border-t border-[var(--divider)] md:mt-10">
               {CAREER_IDS.map((id, i) => (
                 <li key={id} className="border-b border-[var(--divider)]">
                   <details className="group" open={i === 0}>
@@ -641,7 +630,7 @@ export default async function HomePage({params}: Props) {
 
       {/* 9. ENDORSEMENTS — white band (the case-studies band before it is
        * grey, the reviews band after it grey again), 3 grey quote cards */}
-      <Section className="py-24 md:py-32">
+      <Section className="py-14 md:py-20">
         <Container>
           <div className="text-center">
             <h2 className="font-display">
@@ -656,7 +645,7 @@ export default async function HomePage({params}: Props) {
               </span>
             </h2>
           </div>
-          <ul className="mt-16 grid gap-8 md:mt-20 lg:grid-cols-3">
+          <ul className="mt-10 grid gap-8 md:mt-12 lg:grid-cols-3">
             {ENDORSEMENT_IDS.map((id) => (
               <li
                 key={id}
@@ -703,7 +692,7 @@ export default async function HomePage({params}: Props) {
        * tiles, date, title, text, experience-date chip, link to the review).
        * Everything shown is verbatim from the public profile — see TRUSTPILOT
        * in lib/home/content.ts for when it was last checked. */}
-      <Section id="reviews" tone="alt" className="scroll-mt-16 py-24 md:py-32">
+      <Section id="reviews" tone="alt" className="scroll-mt-16 py-14 md:py-20">
         <Container>
           <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:gap-16">
             <div>
@@ -742,7 +731,7 @@ export default async function HomePage({params}: Props) {
           {/* Rows stretch, titles and bodies are line-clamped, and the
            * blockquote grows, so the three cards share one height and their
            * footers align whatever the review length. */}
-          <ul className="mt-12 grid gap-6 md:mt-16 lg:grid-cols-3">
+          <ul className="mt-8 grid gap-6 md:mt-10 lg:grid-cols-3">
             {TRUSTPILOT.reviews.map((review) => {
               const name = tHome(`reviews.items.${review.id}.name`);
               const hasTitle = tHome.has(`reviews.items.${review.id}.title`);
@@ -751,7 +740,7 @@ export default async function HomePage({params}: Props) {
                   key={review.id}
                   className="flex flex-col border border-[var(--divider)] bg-[var(--bg)] p-6"
                 >
-                  <div className="flex items-start justify-between gap-4">
+                  <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2">
                     <div className="flex min-w-0 items-center gap-3">
                       <span
                         aria-hidden="true"
@@ -760,7 +749,7 @@ export default async function HomePage({params}: Props) {
                         {name.charAt(0)}
                       </span>
                       <div className="min-w-0">
-                        <p className="truncate text-sm font-medium text-[var(--text-title)]">{name}</p>
+                        <p className="text-sm font-medium text-[var(--text-title)]">{name}</p>
                         <p className="text-xs text-[var(--text-muted)]">
                           <bdi>{review.country}</bdi> ·{' '}
                           {tHome('reviews.reviewTotal', {count: review.reviewCount})}
@@ -840,7 +829,7 @@ export default async function HomePage({params}: Props) {
       </Section>
 
       {/* 11. FEATURED VIDEOS — dark band: writeup + 1 highlighted + 3-then-expand stack */}
-      <Section tone="dark" className="py-24 md:py-32">
+      <Section tone="dark" className="py-14 md:py-20">
         <Container>
           <div className="max-w-2xl">
             <h2 className="font-display">
@@ -866,8 +855,12 @@ export default async function HomePage({params}: Props) {
             </p>
           </div>
 
-          <div className="mt-14 grid gap-10 lg:grid-cols-[3fr_2fr] lg:gap-12 md:mt-16">
-            <FeaturedVideoHero video={FEATURED_VIDEOS[0]} locale={locale} />
+          <div className="mt-8 grid gap-10 lg:grid-cols-[3fr_2fr] lg:gap-12 md:mt-10">
+            <FeaturedVideoHero
+              video={FEATURED_VIDEOS[0]}
+              blurb={FEATURED_VIDEOS[0].blurbKey && tHome(`videos.blurbs.${FEATURED_VIDEOS[0].blurbKey}`)}
+              locale={locale}
+            />
             <ExpandableVideoList initialCount={3}>
               {FEATURED_VIDEOS.slice(1, 6).map((video) => (
                 <StackedVideoCard key={video.id} video={video} locale={locale} />
@@ -875,7 +868,7 @@ export default async function HomePage({params}: Props) {
             </ExpandableVideoList>
           </div>
 
-          <div className="mt-14 text-center md:mt-16">
+          <div className="mt-8 text-center md:mt-10">
             <a
               href={LINKS.youtubeVideos}
               target="_blank"
@@ -891,14 +884,14 @@ export default async function HomePage({params}: Props) {
       </Section>
 
       {/* 12. HOUSE OF CANDAMIL — copy left, image right */}
-      <Section id="atelier" className="scroll-mt-16 py-24 md:py-32 lg:pb-0">
+      <Section id="atelier" className="scroll-mt-16 py-14 md:py-20 lg:pb-0">
         <Container>
           {/* Text column matches the copy measure (36rem); the portrait column
            * hugs it rather than the far edge so the two read as one composition.
            * From lg the section drops its bottom padding so the cut-out stands
            * directly on the Instagram band; the text column keeps its own. */}
           <div className="grid gap-12 lg:grid-cols-[minmax(0,36rem)_auto] lg:gap-12">
-            <div className="lg:pb-32">
+            <div className="lg:pb-20">
               <h2 className="font-display text-[var(--text-title)]">
                 <span
                   className="block text-sm uppercase tracking-[0.32em] text-[var(--text-muted)]"
@@ -967,7 +960,7 @@ export default async function HomePage({params}: Props) {
        * small tiles when a token is available. */}
       <section
         aria-label={tHome('instagram.ariaLabel')}
-        className="bg-[var(--bg-dark)] py-16 md:py-24"
+        className="bg-[var(--bg-dark)] py-12 md:py-16"
       >
         <Container>
           <div className="flex flex-col items-center gap-8 text-center md:flex-row md:flex-wrap md:items-end md:justify-between md:gap-x-10 md:text-start">
@@ -1035,7 +1028,7 @@ export default async function HomePage({params}: Props) {
       {/* 14. MEDIA & HONOURS — dark band: expanding press panels (after the
        * "International Properties" row on blackoak-re.com) + 3-column
        * credentials. Hairline on top separates it from the Instagram band. */}
-      <Section id="media" tone="dark" className="scroll-mt-16 border-t border-white/10 py-24 md:py-32">
+      <Section id="media" tone="dark" className="scroll-mt-16 border-t border-white/10 py-14 md:py-20">
         <Container>
           <div className="mb-12 md:mb-16">
             <p className="mb-5 flex items-center gap-4">
@@ -1071,7 +1064,7 @@ export default async function HomePage({params}: Props) {
             }))}
           />
 
-          <div className="mt-20 grid gap-12 border-t border-white/10 pt-14 md:mt-24 md:grid-cols-3">
+          <div className="mt-12 grid gap-10 border-t border-white/10 pt-10 md:mt-14 md:grid-cols-3">
             <CredentialList
               heading={tHome('media.alsoHeading')}
               items={[1, 2, 3, 4, 5].map((n) => tHome(`media.also${n}`))}
@@ -1093,7 +1086,7 @@ export default async function HomePage({params}: Props) {
        * Press and Contact bands either side) plus a hairline, so it reads as
        * its own block rather than a continuation of the Press section. */}
       {DATA_ROOM_ENABLED && (
-        <Section id="data-room" tone="dark" className="scroll-mt-16 border-y border-white/15 bg-black py-24 md:py-32">
+        <Section id="data-room" tone="dark" className="scroll-mt-16 border-y border-white/15 bg-black py-14 md:py-20">
           <Container>
             <div className="text-center">
               <p
@@ -1117,7 +1110,7 @@ export default async function HomePage({params}: Props) {
               </p>
             </div>
             {DATA_ROOM_CARDS_ENABLED && (
-              <ul className="mt-14 grid border-t border-white/15 md:mt-20 md:grid-cols-3 md:border-t-0">
+              <ul className="mt-8 grid border-t border-white/15 md:mt-10 md:grid-cols-3 md:border-t-0">
                 {(['plans', 'returns', 'details'] as const).map((item) => (
                   <li
                     key={item}
@@ -1152,7 +1145,7 @@ export default async function HomePage({params}: Props) {
                 ))}
               </ul>
             )}
-            <p className="mt-12 text-center md:mt-16">
+            <p className="mt-8 text-center md:mt-10">
               <span
                 className="inline-flex h-[50px] items-center justify-center border border-white/35 px-6 text-[11px] uppercase tracking-[0.22em] !text-white/80 sm:px-10"
                 style={{color: 'rgba(255,255,255,0.8)'}}
@@ -1181,7 +1174,7 @@ export default async function HomePage({params}: Props) {
           />
         </div>
 
-        <div className="flex items-center px-6 py-16 md:px-12 md:py-24 lg:px-20">
+        <div className="flex items-center px-6 py-14 md:px-12 md:py-20 lg:px-20">
           <div className="w-full max-w-md">
             <h2 className="font-display">
               <span
@@ -1763,7 +1756,6 @@ type VideoData = {
   id: string;
   title: string;
   published: string;
-  blurb?: string;
 };
 
 function formatLongDate(iso: string, locale: string) {
@@ -1775,7 +1767,15 @@ function formatLongDate(iso: string, locale: string) {
   });
 }
 
-function FeaturedVideoHero({video, locale}: {video: VideoData; locale: string}) {
+function FeaturedVideoHero({
+  video,
+  blurb,
+  locale
+}: {
+  video: VideoData;
+  blurb?: string;
+  locale: string;
+}) {
   return (
     <a
       href={`https://www.youtube.com/watch?v=${video.id}`}
@@ -1805,8 +1805,8 @@ function FeaturedVideoHero({video, locale}: {video: VideoData; locale: string}) 
         <p className="mt-3 font-display text-2xl leading-snug text-white group-hover:underline md:text-3xl">
           {video.title}
         </p>
-        {video.blurb && (
-          <p className="mt-4 max-w-lg text-sm leading-[1.7] text-white/80 md:text-base">{video.blurb}</p>
+        {blurb && (
+          <p className="mt-4 max-w-lg text-sm leading-[1.7] text-white/80 md:text-base">{blurb}</p>
         )}
       </div>
     </a>

@@ -21,7 +21,8 @@
     "wordmarkLine": "Dubai · Miami · Bogotá",
     "siteNavAria": "Site navigation",
     "follow": "Follow",
-    "skipToContent": "Skip to content"
+    "skipToContent": "Skip to content",
+    "languageAria": "Language"
   },
   "Hero": {
     "kicker": "Dubai · GCC · Americas",
@@ -96,6 +97,28 @@
           "detail4Value": "Available to qualified investors upon inquiry",
           "cta": "Enquire about this asset",
           "imageAlt": "Rocky coastline and turquoise sea in Portugal"
+        },
+        "delanoMarrakech": {
+          "tag1": "Branded residences",
+          "tag2": "Villas",
+          "locationChip": "Morocco",
+          "location": "Marrakech · Morocco",
+          "title": "Delano Hotel & Residences Marrakech",
+          "body": "A private collection of 80 villas within Delano Hotel & Residences Marrakech, set in one of the city’s most exclusive enclaves. The residences pair contemporary elegance with Marrakech’s architectural heritage, under the Delano name first unveiled in Miami in 1947.",
+          "audience": "Developed by Yamed and operated by Ennismore, with design by Elastic Architects, landscape by Coopers Hill and dining by Paris Society.",
+          "priceLabel": "Price",
+          "price": "Upon request",
+          "detailsHeading": "Project details",
+          "detail1Label": "Location",
+          "detail1Value": "Marrakech, Morocco",
+          "detail2Label": "Collection",
+          "detail2Value": "80 private villas",
+          "detail3Label": "Developer",
+          "detail3Value": "Yamed",
+          "detail4Label": "Operator",
+          "detail4Value": "Ennismore",
+          "cta": "Enquire about this project",
+          "imageAlt": "Rendering of a Delano Residences Marrakech villa with a pool and palm gardens"
         }
       }
     },
@@ -342,7 +365,12 @@
       "eyebrow": "Featured",
       "heading": "Videos",
       "body": "Property tours and walkthroughs from across the UAE, presented in person by Dayan. Each visit gives a clearer sense of the listing — the building, the developer, the context — than a brochure ever could.",
-      "viewAll": "View all videos on YouTube"
+      "viewAll": "View all videos on YouTube",
+      "showMore": "Show {count} more",
+      "showFewer": "Show fewer",
+      "blurbs": {
+        "meraasHq": "A walkthrough of what’s currently available across Meraas’s Dubai portfolio, presented from inside their headquarters with the development team. The kind of access a brochure can’t substitute for."
+      }
     },
     "atelier": {
       "eyebrow": "The atelier",
@@ -404,6 +432,20 @@
           "title": "Redesigning Fashion to Make It More Sustainable",
           "body": "Dayan was invited by Settat University and the Hult Prize Foundation to speak at the International Hult Prize On-Campus Programme, whose theme that year was making fashion more sustainable.",
           "alt": "Dayan Candamil in a white jacket, black-and-white portrait from the Hult Prize speaker announcement"
+        },
+        "coctelBlogger": {
+          "label": "Mundo Blogger",
+          "kicker": "“Cóctel de noticias” · Spanish-language press",
+          "title": "Dayan Candamil Moves into the Blogging World",
+          "body": "A society-page feature on the launch of The World of Dayan Candamil, her travel journal of inspiring destinations, photography, travel tips and the cities where she takes her art and finds inspiration for her pieces.",
+          "alt": "Magazine page: “Dayan Candamil se mueve al mundo blogger”, with a portrait of Dayan in a black dress"
+        },
+        "coctelAsia": {
+          "label": "Elefantes en Asia",
+          "kicker": "“Cóctel de noticias” · Spanish-language press",
+          "title": "Among Elephants in Asia",
+          "body": "A society-page feature on her journey through Thailand — Bangkok, Chiang Mai and Phuket, including a day with elephants — and a visit to the Padaung women of Laos, a trip the article describes as truly inspiring for her vision as a designer.",
+          "alt": "Magazine page: “Dayan Candamil, entre elefantes en Asia”, with photos of Dayan riding and bathing elephants and visiting Laos"
         }
       },
       "alsoHeading": "Also featured in",

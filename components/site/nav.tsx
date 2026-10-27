@@ -6,6 +6,7 @@ import {useTranslations} from 'next-intl';
 import {usePathname} from 'next/navigation';
 import {Link} from '@/lib/i18n/navigation';
 import {Container} from '@/components/ui/container';
+import {LanguageSwitcher} from './language-switcher';
 import {SOCIAL_ICONS} from '@/lib/site/social';
 import {LINKS} from '@/lib/home/content';
 import {VISIBLE_NAV_ITEMS, anchorId} from '@/lib/site/nav-items';
@@ -189,7 +190,8 @@ export function SiteNav() {
               );
             })}
           </nav>
-          <div className="ms-auto flex items-center gap-3 lg:hidden">
+          <div className="ms-auto flex items-center gap-3 lg:ms-0">
+            <LanguageSwitcher transparent={transparent} />
             <button
               type="button"
               aria-label={mobileOpen ? t('closeMenu') : t('openMenu')}
@@ -197,7 +199,7 @@ export function SiteNav() {
               aria-controls="mobile-nav-drawer"
               onClick={() => setMobileOpen((v) => !v)}
               className={cn(
-                'inline-flex h-10 w-10 items-center justify-center transition-colors',
+                'inline-flex h-10 w-10 items-center justify-center transition-colors lg:hidden',
                 transparent
                   ? 'text-white hover:text-white/85'
                   : 'text-[var(--text-title)] hover:text-[var(--accent)]'

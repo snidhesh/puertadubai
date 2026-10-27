@@ -1,6 +1,7 @@
 'use client';
 
 import {Children, useState, type ReactNode} from 'react';
+import {useTranslations} from 'next-intl';
 import {cn} from '@/lib/utils';
 
 /**
@@ -15,6 +16,7 @@ export function ExpandableVideoList({
   children: ReactNode;
   initialCount?: number;
 }) {
+  const t = useTranslations('Home.videos');
   const [expanded, setExpanded] = useState(false);
   const childArray = Children.toArray(children);
   const total = childArray.length;
@@ -38,7 +40,7 @@ export function ExpandableVideoList({
           className="mt-2 flex w-full items-center justify-center gap-3 border border-white/30 px-6 py-3 text-[11px] uppercase tracking-[0.22em] text-white/75 transition-colors hover:border-white hover:text-white"
           data-ui-label
         >
-          {expanded ? 'Show fewer' : `Show ${hiddenCount} more`}
+          {expanded ? t('showFewer') : t('showMore', {count: hiddenCount})}
           <svg
             viewBox="0 0 12 8"
             fill="none"

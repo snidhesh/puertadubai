@@ -41,20 +41,21 @@ export type InstagramPick = {
 };
 
 export const INSTAGRAM_POSTS: ReadonlyArray<InstagramPick> = [
-  // Hero: walking the pool deck of a waterfront villa (reel cover).
-  {id: 'DeHf7KAIjSH', image: '/images/instagram/DeHf7KAIjSH.jpg', permalink: 'https://www.instagram.com/reel/DeHf7KAIjSH/', video: true},
-  // "I don't sell homes. I build portfolios." — brand statement.
-  {id: 'Dd8p5Y1od00', image: '/images/instagram/Dd8p5Y1od00.jpg', permalink: 'https://www.instagram.com/p/Dd8p5Y1od00/'},
-  // MJL Lamaa apartment for sale, Madinat Jumeirah Living (reel cover).
+  // Latest seven reels on @dayancandamilglobal, newest first (refreshed 2026-10-13).
+  // Hero: Dayan crossing the office — "You work in a male dominated industry…" (12 Oct 2026).
+  {id: 'DeZmOO2oQYI', image: '/images/instagram/DeZmOO2oQYI.jpg', permalink: 'https://www.instagram.com/reel/DeZmOO2oQYI/', video: true},
+  // "Come with me to tour Al Naseem Villas by Modon" — title card (12 Oct 2026).
+  {id: 'DeZLx6RoP2A', image: '/images/instagram/DeZLx6RoP2A.jpg', permalink: 'https://www.instagram.com/reel/DeZLx6RoP2A/', video: true, focus: 'top'},
+  // Delano Residences Marrakech, official launch 30 October (10 Oct 2026).
+  {id: 'DeUmBGgoJQq', image: '/images/instagram/DeUmBGgoJQq.jpg', permalink: 'https://www.instagram.com/reel/DeUmBGgoJQq/', video: true, focus: 'top'},
+  // Walking the pool terrace of a waterfront villa (10 Oct 2026).
+  {id: 'DeUfB3HopgW', image: '/images/instagram/DeUfB3HopgW.jpg', permalink: 'https://www.instagram.com/reel/DeUfB3HopgW/', video: true},
+  // Booking units with the team at an Aldar launch (9 Oct 2026).
+  {id: 'DeRndeIIAoK', image: '/images/instagram/DeRndeIIAoK.jpg', permalink: 'https://www.instagram.com/reel/DeRndeIIAoK/', video: true},
+  // MJL Lamaa apartment for sale, Madinat Jumeirah Living (8 Oct 2026).
   {id: 'DePzJ-II4HQ', image: '/images/instagram/DePzJ-II4HQ.jpg', permalink: 'https://www.instagram.com/reel/DePzJ-II4HQ/', video: true, focus: 'top'},
-  // Dayan against the Dubai skyline at dusk (reel cover).
-  {id: 'Dd9Jeg1IkgP', image: '/images/instagram/Dd9Jeg1IkgP.jpg', permalink: 'https://www.instagram.com/reel/Dd9Jeg1IkgP/', video: true},
-  // Ramhan Island marina apartments, Abu Dhabi (reel cover).
-  {id: 'Dd1VI_Io6ai', image: '/images/instagram/Dd1VI_Io6ai.jpg', permalink: 'https://www.instagram.com/reel/Dd1VI_Io6ai/', video: true, focus: 'top'},
-  // Opening the door of a residence (reel cover).
-  {id: 'Ddv0Tj0oQwE', image: '/images/instagram/Ddv0Tj0oQwE.jpg', permalink: 'https://www.instagram.com/reel/Ddv0Tj0oQwE/', video: true},
-  // Delano Marrakech save-the-date, 30 October 2026 — monochrome sketch.
-  {id: 'DeKRlbUIQ2o', image: '/images/instagram/DeKRlbUIQ2o.jpg', permalink: 'https://www.instagram.com/p/DeKRlbUIQ2o/'}
+  // Ocean-front villas on a natural island, from AED 3.1M (5 Oct 2026).
+  {id: 'DeHf7KAIjSH', image: '/images/instagram/DeHf7KAIjSH.jpg', permalink: 'https://www.instagram.com/reel/DeHf7KAIjSH/', video: true}
 ];
 
 /** Profile picture saved locally; `undefined` falls back to the Instagram glyph. */
@@ -66,17 +67,19 @@ export const INSTAGRAM_AVATAR: string | undefined = '/images/instagram/profile.j
  * `Home.international.properties.<id>`; `focus` is the photo's object-position.
  */
 export const INTERNATIONAL_PROPERTIES = [
-  {id: 'portugalLand', image: '/images/international/portugal.jpg', focus: '50% 45%'}
+  {id: 'portugalLand', image: '/images/international/portugal.jpg', focus: '50% 45%'},
+  // Facts and render from delanoresidencesmarrakech.com (checked 2026-10-27); the
+  // site states no prices, sizes or delivery date, so none are shown.
+  {id: 'delanoMarrakech', image: '/images/international/delano-marrakech.jpg', focus: '35% 50%'}
 ] as const;
 
 export const PORTRAITS = {
   /**
-   * Black-and-white seated profile, cut out on transparent ground and cropped
-   * at the hips, so frames use object-contain and anchor it to a bottom edge.
-   * She faces left in the file; LTR layouts mirror it so she faces the copy
-   * (source: assets/about_me.png, swapped in 2026-10-13).
+   * Black-and-white seated portrait at her desk, full-frame 2:3. Frames use
+   * object-cover; never mirror it (the desk books carry lettering)
+   * (source: assets/dayan_gallery/2272BCA5-…F458875778B.JPG, swapped in 2026-10-27).
    */
-  about: '/images/dayan/about-me.png',
+  about: '/images/dayan/about-office.jpg',
   splash: '/images/dayan/turtleneck.jpg',
   /** Colour editorial shot used by the original Let's Connect band. */
   contact: '/images/dayan/connect.jpg',
@@ -236,7 +239,7 @@ export const TRUSTPILOT = {
  * gets a plain tone and a typographic placard so nothing fabricated is shown.
  */
 export type MediaItem = {
-  id: 'bazaar' | 'mfw' | 'elle' | 'alanba' | 'hultPrize';
+  id: 'bazaar' | 'mfw' | 'elle' | 'alanba' | 'hultPrize' | 'coctelBlogger' | 'coctelAsia';
   image?: string;
   /** Where the crop anchors. Defaults to `top` so magazine mastheads survive. */
   focus?: 'top' | 'center';
@@ -275,7 +278,12 @@ export const MEDIA: ReadonlyArray<MediaItem> = [
     id: 'hultPrize',
     image: '/images/press/hult-prize-settat-2023.jpg',
     href: 'https://www.linkedin.com/posts/dayancandamil_thankyou-settat-hultprizefoundation-ugcPost-7143319611235618816-mxmJ/'
-  }
+  },
+  // Two Spanish-language magazine pages ("coctel de noticias" column) supplied by
+  // the user 2026-10-27 (assets/IMG_8984.JPG, IMG_8985.JPG), cropped to Dayan's
+  // story only. Outlet and issue date unknown, so the copy names neither.
+  {id: 'coctelBlogger', image: '/images/press/coctel-mundo-blogger.jpg', focus: 'center'},
+  {id: 'coctelAsia', image: '/images/press/coctel-elefantes-asia.jpg', focus: 'center'}
 ];
 
 /**
@@ -289,14 +297,14 @@ export const FEATURED_VIDEOS: ReadonlyArray<{
   id: string;
   title: string;
   published: string;
-  blurb?: string;
+  /** Key under `Home.videos.blurbs` in messages/*.json. */
+  blurbKey?: 'meraasHq';
 }> = [
   {
     id: 'gIE6rMgkfUM',
     title: 'Inside Meraas HQ — Exclusive Access',
     published: '2026-06-03',
-    blurb:
-      "A walkthrough of what's currently available across Meraas's Dubai portfolio, presented from inside their headquarters with the development team. The kind of access a brochure can't substitute for."
+    blurbKey: 'meraasHq'
   },
   {id: 'Ts_3JFWGKoE', title: 'Ramhan Island by Eagle Hills', published: '2026-05-21'},
   {id: 'cIgil8feeVM', title: 'Four Seasons Private Residences, Saadiyat Island', published: '2026-05-08'},

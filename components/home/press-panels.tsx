@@ -21,12 +21,13 @@ export type PressPanelItem = {
 
 /**
  * Click-to-expand press features, after the "International Properties"
- * band on blackoak-re.com. From `md` up the items sit in one row of image
- * panels: the open one widens (flex-grow 4 against 1) to reveal a frosted
+ * band on blackoak-re.com. From `lg` up the items sit in one row of image
+ * panels: the open one widens (flex-grow 6 against 1) to reveal a frosted
  * caption card, the rest collapse to strips carrying the outlet name set
- * vertically. On phones the same items stack as an accordion of image
- * rows, the open row showing a 16:9 crop above its caption. One panel is
- * always open on the row; phone rows can be closed again.
+ * vertically. Below `lg` (seven panels are too cramped on tablets) the
+ * same items stack as an accordion of image rows, the open row showing a
+ * 16:9 crop above its caption. One panel is always open on the row;
+ * accordion rows can be closed again.
  *
  * Thin client component: copy is translated by the server page and passed
  * in, so the rest of the home page stays a Server Component.
@@ -39,8 +40,8 @@ export function PressPanels({items}: {items: PressPanelItem[]}) {
 
   return (
     <>
-      {/* Tablet and desktop: one row of expanding panels. */}
-      <ul className="hidden h-[420px] overflow-hidden md:flex lg:h-[480px]">
+      {/* Desktop: one row of expanding panels. */}
+      <ul className="hidden h-[480px] overflow-hidden lg:flex">
         {items.map((item, i) => {
           const open = i === rowActive;
           const panelId = `${baseId}-panel-${i}`;
@@ -48,7 +49,7 @@ export function PressPanels({items}: {items: PressPanelItem[]}) {
             <li
               key={item.id}
               className="relative min-w-0 basis-0 overflow-hidden border-e border-white/15 transition-[flex-grow] duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] last:border-e-0 motion-reduce:transition-none"
-              style={{flexGrow: open ? 4 : 1}}
+              style={{flexGrow: open ? 6 : 1}}
             >
               <PanelImage item={item} />
               <div className="absolute inset-0 bg-black/45" aria-hidden="true" />
@@ -65,7 +66,7 @@ export function PressPanels({items}: {items: PressPanelItem[]}) {
                 )}
               >
                 <span
-                  className="-rotate-90 whitespace-nowrap text-base uppercase tracking-[0.4em] !text-white lg:text-lg"
+                  className="-rotate-90 whitespace-nowrap text-lg uppercase tracking-[0.4em] !text-white"
                   style={{color: '#ffffff'}}
                   data-ui-label
                 >
@@ -77,21 +78,21 @@ export function PressPanels({items}: {items: PressPanelItem[]}) {
               <div
                 id={panelId}
                 className={cn(
-                  'absolute inset-0 flex flex-col justify-end p-8 transition-[opacity,visibility] duration-500 lg:p-10',
+                  'absolute inset-0 flex flex-col justify-end p-10 transition-[opacity,visibility] duration-500',
                   open ? 'visible opacity-100 delay-300' : 'invisible opacity-0'
                 )}
               >
                 {!item.image && (
                   <p
                     aria-hidden="true"
-                    className="absolute start-8 top-8 max-w-sm font-display text-4xl leading-[1.05] text-white/25 lg:start-10 lg:top-10 lg:text-5xl"
+                    className="absolute start-10 top-10 max-w-sm font-display text-5xl leading-[1.05] text-white/25"
                   >
                     {item.title}
                   </p>
                 )}
-                <div className="relative max-w-md bg-black/65 p-7 backdrop-blur-sm lg:p-8">
+                <div className="relative max-w-md bg-black/65 p-8 backdrop-blur-sm">
                   <h3
-                    className="font-display text-2xl leading-tight !text-white lg:text-[28px]"
+                    className="font-display text-[28px] leading-tight !text-white"
                     style={{color: '#ffffff'}}
                   >
                     {item.title}
@@ -111,8 +112,8 @@ export function PressPanels({items}: {items: PressPanelItem[]}) {
         })}
       </ul>
 
-      {/* Phones: stacked accordion of image rows. */}
-      <ul className="md:hidden">
+      {/* Phones and tablets: stacked accordion of image rows. */}
+      <ul className="lg:hidden">
         {items.map((item, i) => {
           const open = i === active;
           const rowId = `${baseId}-row-${i}`;

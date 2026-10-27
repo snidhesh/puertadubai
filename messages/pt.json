@@ -1,48 +1,49 @@
 {
   "Meta": {
     "title": "Dayan Candamil",
-    "description": "Dayan Candamil — cross-border real estate & investment adviser, Associate Partner at BlackOak Real Estate Dubai, and founder of House of Candamil."
+    "description": "Dayan Candamil — consultora internacional de imóveis e investimentos, Associate Partner da BlackOak Real Estate em Dubai e fundadora da House of Candamil."
   },
   "Nav": {
-    "about": "About",
-    "expertise": "Expertise",
-    "experience": "Experience",
-    "listings": "Listings",
+    "about": "Sobre",
+    "expertise": "Atuação",
+    "experience": "Experiência",
+    "listings": "Imóveis",
     "atelier": "House of Candamil",
-    "international": "International",
-    "media": "Press",
-    "contact": "Contact",
-    "openMenu": "Open menu",
-    "closeMenu": "Close menu",
-    "loading": "Loading Dayan Candamil",
-    "socialChannels": "Social channels",
-    "logoAria": "Dayan Candamil — home",
+    "international": "Internacional",
+    "media": "Imprensa",
+    "contact": "Contato",
+    "openMenu": "Abrir menu",
+    "closeMenu": "Fechar menu",
+    "loading": "Carregando Dayan Candamil",
+    "socialChannels": "Redes sociais",
+    "logoAria": "Dayan Candamil — início",
     "wordmark": "Dayan Candamil",
     "wordmarkLine": "Dubai · Miami · Bogotá",
-    "siteNavAria": "Site navigation",
-    "follow": "Follow",
-    "skipToContent": "Skip to content"
+    "siteNavAria": "Navegação do site",
+    "follow": "Siga",
+    "skipToContent": "Pular para o conteúdo",
+    "languageAria": "Idioma"
   },
   "Hero": {
-    "kicker": "Dubai · GCC · Americas",
-    "headline": "Representing the 1% since 2012.",
-    "subhead": "Cross-border real estate and investment adviser to UHNW families, family offices and developers — and founder of the luxury atelier House of Candamil.",
-    "primaryCta": "Book a private consultation",
-    "secondaryCta": "View experience",
-    "secondaryCtaAbout": "Meet Dayan"
+    "kicker": "Dubai · GCC · Américas",
+    "headline": "Representando o 1% desde 2012.",
+    "subhead": "Consultora internacional de imóveis e investimentos para famílias UHNW, family offices e incorporadoras — e fundadora do ateliê de luxo House of Candamil.",
+    "primaryCta": "Agende uma consulta privada",
+    "secondaryCta": "Ver experiência",
+    "secondaryCtaAbout": "Conheça Dayan"
   },
   "Splash": {
-    "tagline": "Cross-border real estate & investment adviser. Founder, House of Candamil."
+    "tagline": "Consultora internacional de imóveis e investimentos. Fundadora, House of Candamil."
   },
   "Footer": {
-    "ariaLabel": "Footer",
-    "brandLine": "Cross-border real estate & investment adviser. Founder, House of Candamil. Dubai · GCC · Americas.",
+    "ariaLabel": "Rodapé",
+    "brandLine": "Consultora internacional de imóveis e investimentos. Fundadora, House of Candamil. Dubai · GCC · Américas.",
     "exploreHeading": "Explore",
-    "elsewhereHeading": "Elsewhere",
-    "legalHeading": "Legal",
-    "rights": "All rights reserved.",
-    "legalNotice": "Legal Notice",
-    "privacy": "Privacy Policy",
+    "elsewhereHeading": "Em outros canais",
+    "legalHeading": "Jurídico",
+    "rights": "Todos os direitos reservados.",
+    "legalNotice": "Aviso legal",
+    "privacy": "Política de privacidade",
     "linkedin": "LinkedIn",
     "instagram": "Instagram",
     "youtube": "YouTube",
@@ -51,277 +52,299 @@
   },
   "Home": {
     "overview": {
-      "ariaLabel": "Dayan Candamil at a glance",
-      "eyebrow": "A private advisory practice",
-      "headingPart1": "Capital, culture, cross-border.",
-      "headingItalic": "One adviser.",
-      "headingPart2": "Three continents.",
-      "body": "Dayan connects Latin American, North American and Gulf private capital with prime real estate in the UAE and beyond — personally, discreetly, and end-to-end. Founder-led and deliberately selective, she takes on a limited number of mandates each year.",
+      "ariaLabel": "Dayan Candamil em resumo",
+      "eyebrow": "Uma consultoria privada",
+      "headingPart1": "Capital, cultura, além-fronteiras.",
+      "headingItalic": "Uma consultora.",
+      "headingPart2": "Três continentes.",
+      "body": "Dayan conecta capital privado da América Latina, da América do Norte e do Golfo a imóveis prime nos Emirados Árabes Unidos e além — pessoalmente, com discrição e do início ao fim. À frente de uma prática deliberadamente seletiva, ela aceita um número limitado de mandatos por ano.",
       "imageAlt": "Dubai International Financial Centre",
-      "statYears": "Years representing private clients",
-      "statMarkets": "Markets: GCC · LatAm · USA · Morocco · West Africa",
-      "statLanguages": "Languages, all native: EN · ES · PT"
+      "statYears": "Anos representando clientes privados",
+      "statMarkets": "Mercados: GCC · América Latina · EUA · Marrocos · África Ocidental",
+      "statLanguages": "Idiomas, todos nativos: EN · ES · PT"
     },
     "featuredListings": {
-      "eyebrow": "Featured",
-      "heading": "Listings",
-      "intro": "Active UAE listings, sourced live from the BlackOak Studio CRM and personally represented by Dayan. Click any listing for the full brief, or view the complete inventory.",
-      "viewAll": "View all listings",
-      "empty": "Listings are syncing from the CRM. Check back shortly, or view all listings."
+      "eyebrow": "Destaques",
+      "heading": "Imóveis",
+      "intro": "Imóveis ativos nos Emirados, sincronizados em tempo real com o CRM BlackOak Studio e representados pessoalmente por Dayan. Clique em qualquer imóvel para ver a ficha completa ou consulte todo o portfólio.",
+      "viewAll": "Ver todos os imóveis",
+      "empty": "Os imóveis estão sendo sincronizados com o CRM. Volte em breve ou veja todos os imóveis."
     },
     "international": {
-      "eyebrow": "International Properties",
-      "heading": "Selected Opportunities Across the Globe",
-      "intro": "A curated selection of international assets, presented to qualified investors on request.",
-      "advisoryLink": "Cross-border investment advisory",
+      "eyebrow": "Imóveis internacionais",
+      "heading": "Oportunidades selecionadas pelo mundo",
+      "intro": "Uma seleção criteriosa de ativos internacionais, apresentada a investidores qualificados mediante solicitação.",
+      "advisoryLink": "Consultoria de investimento internacional",
       "properties": {
         "portugalLand": {
-          "tag1": "Land",
-          "tag2": "Investment opportunity",
+          "tag1": "Terreno",
+          "tag2": "Oportunidade de investimento",
           "locationChip": "Portugal",
-          "location": "Portugal · Europe",
-          "title": "Exclusive Land Investment Opportunity",
-          "body": "An exceptional opportunity to acquire a substantial landholding in Portugal, offering significant scale and long-term investment potential.",
-          "audience": "A rare opportunity for institutional investors, private equity groups, family offices, and strategic land investors seeking large-scale assets in Europe.",
-          "priceLabel": "Asking price",
-          "price": "Upon request",
-          "detailsHeading": "Property details",
-          "detail1Label": "Location",
+          "location": "Portugal · Europa",
+          "title": "Oportunidade exclusiva de investimento em terras",
+          "body": "Uma oportunidade excepcional de adquirir uma extensa área de terras em Portugal, com escala significativa e grande potencial de investimento a longo prazo.",
+          "audience": "Uma oportunidade rara para investidores institucionais, fundos de private equity, family offices e investidores estratégicos em terras que buscam ativos de grande escala na Europa.",
+          "priceLabel": "Preço pedido",
+          "price": "Sob consulta",
+          "detailsHeading": "Detalhes do imóvel",
+          "detail1Label": "Localização",
           "detail1Value": "Portugal",
-          "detail2Label": "Total land area",
-          "detail2Value": "100,000,000 sqm (10,000 hectares)",
-          "detail3Label": "Asking price",
-          "detail3Value": "Upon request",
-          "detail4Label": "Further details",
-          "detail4Value": "Available to qualified investors upon inquiry",
-          "cta": "Enquire about this asset",
-          "imageAlt": "Rocky coastline and turquoise sea in Portugal"
+          "detail2Label": "Área total",
+          "detail2Value": "100.000.000 m² (10.000 hectares)",
+          "detail3Label": "Preço pedido",
+          "detail3Value": "Sob consulta",
+          "detail4Label": "Mais informações",
+          "detail4Value": "Disponíveis a investidores qualificados mediante consulta",
+          "cta": "Consultar sobre este ativo",
+          "imageAlt": "Costa rochosa e mar azul-turquesa em Portugal"
+        },
+        "delanoMarrakech": {
+          "tag1": "Residências de marca",
+          "tag2": "Vilas",
+          "locationChip": "Marrocos",
+          "location": "Marrakech · Marrocos",
+          "title": "Delano Hotel & Residences Marrakech",
+          "body": "Uma coleção privada de 80 vilas no Delano Hotel & Residences Marrakech, em um dos enclaves mais exclusivos da cidade. As residências unem elegância contemporânea à herança arquitetônica de Marrakech, sob o nome Delano, criado em Miami em 1947.",
+          "audience": "Incorporação da Yamed e operação da Ennismore, com projeto da Elastic Architects, paisagismo da Coopers Hill e gastronomia da Paris Society.",
+          "priceLabel": "Preço",
+          "price": "Sob consulta",
+          "detailsHeading": "Detalhes do projeto",
+          "detail1Label": "Localização",
+          "detail1Value": "Marrakech, Marrocos",
+          "detail2Label": "Coleção",
+          "detail2Value": "80 vilas privadas",
+          "detail3Label": "Incorporadora",
+          "detail3Value": "Yamed",
+          "detail4Label": "Operadora",
+          "detail4Value": "Ennismore",
+          "cta": "Consultar sobre este projeto",
+          "imageAlt": "Ilustração de uma vila do Delano Residences Marrakech com piscina e jardins de palmeiras"
         }
       }
     },
     "panels": {
-      "ariaLabel": "Ways to work with Dayan",
-      "mandatesEyebrow": "Private mandates",
-      "mandatesTitle": "Work with Dayan",
-      "mandatesBody": "By introduction. A limited number of buy-side and developer mandates each year, run in person.",
-      "mandatesCta": "Request an introduction",
-      "blackoakEyebrow": "Real estate",
+      "ariaLabel": "Formas de trabalhar com Dayan",
+      "mandatesEyebrow": "Mandatos privados",
+      "mandatesTitle": "Trabalhe com Dayan",
+      "mandatesBody": "Mediante apresentação. Um número limitado de mandatos de compra e de incorporadoras por ano, conduzidos pessoalmente.",
+      "mandatesCta": "Solicitar uma apresentação",
+      "blackoakEyebrow": "Imóveis",
       "blackoakTitle": "BlackOak Real Estate",
-      "blackoakBody": "Associate Partner at Dubai's boutique brokerage for prime, off-market and special-situations transactions.",
-      "blackoakCta": "Visit BlackOak",
-      "atelierEyebrow": "Atelier",
+      "blackoakBody": "Associate Partner da corretora boutique de Dubai especializada em transações prime, off-market e situações especiais.",
+      "blackoakCta": "Visitar a BlackOak",
+      "atelierEyebrow": "Ateliê",
       "atelierTitle": "House of Candamil",
-      "atelierBody": "Dayan's atelier of collectible design, built on partnerships with master artisans in Colombia and Morocco.",
-      "atelierCta": "Explore the House"
+      "atelierBody": "O ateliê de design colecionável de Dayan, construído em parceria com mestres artesãos da Colômbia e do Marrocos.",
+      "atelierCta": "Conheça a House"
     },
     "about": {
-      "eyebrow": "About",
+      "eyebrow": "Sobre",
       "name": "Dayan Candamil",
-      "tagline": "Senior Investment Strategist · Cultural Entrepreneur",
-      "introHeading": "Where capital meets culture.",
-      "intro": "Dayan Candamil advises families, family offices and private investors on the placement of capital in the United Arab Emirates and the wider Gulf. As Associate Partner at BlackOak Real Estate, she leads the firm's international markets and structures cross-border investment between Latin America, the United States, the GCC, Morocco and West Africa, across prime plots, luxury residences and branded developments. Mandates begin at USD 5 million.",
-      "h1": "Track record.",
-      "body1": "Dayan is credited with bringing significant private capital to the region and is regarded as a trusted bridge between Latin America and the Gulf. She has introduced some of Latin America's most distinguished family offices to the UAE. Her work includes major Aldar transactions on Yas and Saadiyat Islands, alongside prime plots in Dubai and Abu Dhabi. Her residential placements include Mandarin Oriental Residences, Four Seasons Residences DIFC, Emaar and Meraas. Each was concluded for clients who value discretion as highly as performance.",
-      "h2": "Fluent in the region.",
-      "body2": "Her greatest value lies beyond the transaction. Dayan understands the Gulf's culture, its relationships and how decisions are truly made there. For international clients, that understanding is the difference between entering a market and being welcomed into it.",
-      "h3": "A perspective shaped across continents.",
-      "body3": "Born in Colombia, Dayan read law in São Paulo, art history in San Francisco and luxury brand management at the London College of Fashion. Her career has taken her through Key Biscayne, Panama City, Miami, Marrakech and Dubai. She works alongside international counsel and family offices, so that every entry into the region is orderly and well considered.",
-      "linkedinCta": "LinkedIn profile",
-      "imageAlt": "Dayan Candamil, editorial portrait"
+      "tagline": "Estrategista sênior de investimentos · Empreendedora cultural",
+      "introHeading": "Onde o capital encontra a cultura.",
+      "intro": "Dayan Candamil assessora famílias, family offices e investidores privados na alocação de capital nos Emirados Árabes Unidos e em todo o Golfo. Como Associate Partner da BlackOak Real Estate, ela lidera os mercados internacionais da empresa e estrutura investimentos internacionais entre a América Latina, os Estados Unidos, o GCC, o Marrocos e a África Ocidental, em terrenos prime, residências de luxo e empreendimentos de marca. Os mandatos começam em USD 5 milhões.",
+      "h1": "Histórico.",
+      "body1": "Dayan é reconhecida por trazer um volume significativo de capital privado para a região e é vista como uma ponte de confiança entre a América Latina e o Golfo. Ela apresentou alguns dos family offices mais distintos da América Latina aos Emirados. Seu trabalho inclui grandes transações com a Aldar nas ilhas Yas e Saadiyat, além de terrenos prime em Dubai e Abu Dhabi. Entre suas colocações residenciais estão Mandarin Oriental Residences, Four Seasons Residences DIFC, Emaar e Meraas. Cada uma foi concluída para clientes que valorizam a discrição tanto quanto o desempenho.",
+      "h2": "Fluente na região.",
+      "body2": "Seu maior valor vai além da transação. Dayan entende a cultura do Golfo, suas relações e como as decisões são realmente tomadas ali. Para clientes internacionais, esse entendimento é a diferença entre entrar em um mercado e ser bem recebido nele.",
+      "h3": "Uma perspectiva formada entre continentes.",
+      "body3": "Nascida na Colômbia, Dayan estudou Direito em São Paulo, História da Arte em São Francisco e Gestão de Marcas de Luxo no London College of Fashion. Sua carreira passou por Key Biscayne, Cidade do Panamá, Miami, Marrakech e Dubai. Ela trabalha ao lado de assessores jurídicos internacionais e family offices, para que cada entrada na região seja organizada e bem pensada.",
+      "linkedinCta": "Perfil no LinkedIn",
+      "imageAlt": "Dayan Candamil, retrato editorial"
     },
     "expertise": {
-      "eyebrow": "Expertise",
-      "heading": "What Dayan does",
-      "explore": "Explore",
+      "eyebrow": "Atuação",
+      "heading": "O que Dayan faz",
+      "explore": "Explorar",
       "items": {
         "advisory": {
-          "eyebrow": "Advisory",
-          "title": "Cross-Border Investment",
-          "body": "Structured capital pathways from the Americas to the Gulf.",
-          "intro": "Dayan opens a considered path into the Gulf for private wealth from Latin America and the United States. Each placement is structured from first allocation to final title, connecting family offices and private investors directly with the most sought-after assets in Dubai and Abu Dhabi.",
-          "point1Title": "Inbound Capital Pathways",
-          "point1Body": "Guiding significant allocations from established family offices in the Americas into prime UAE real estate.",
-          "point2Title": "Transaction Structuring",
-          "point2Body": "Orchestrating multi-jurisdictional acquisitions across master developments and off-market plots, in concert with international counsel.",
-          "point3Title": "Cultural & Regional Alignment",
-          "point3Body": "Reconciling international legal and financial frameworks with the customs of the Gulf, so that capital is not merely placed but properly received."
+          "eyebrow": "Consultoria",
+          "title": "Investimento internacional",
+          "body": "Caminhos estruturados para o capital das Américas ao Golfo.",
+          "intro": "Dayan abre um caminho criterioso rumo ao Golfo para a riqueza privada da América Latina e dos Estados Unidos. Cada alocação é estruturada da primeira decisão até a escritura final, conectando family offices e investidores privados diretamente aos ativos mais disputados de Dubai e Abu Dhabi.",
+          "point1Title": "Entrada de capital",
+          "point1Body": "Conduzindo alocações significativas de family offices consolidados das Américas para imóveis prime nos Emirados.",
+          "point2Title": "Estruturação de transações",
+          "point2Body": "Coordenando aquisições em múltiplas jurisdições, em grandes empreendimentos planejados e terrenos off-market, em conjunto com assessores jurídicos internacionais.",
+          "point3Title": "Alinhamento cultural e regional",
+          "point3Body": "Conciliando estruturas jurídicas e financeiras internacionais com os costumes do Golfo, para que o capital não seja apenas alocado, mas bem recebido."
         },
         "privateClients": {
-          "eyebrow": "Private clients",
-          "title": "Private Clients & Family Offices",
-          "body": "Discreet representation for ultra-high-net-worth families.",
-          "intro": "Dayan represents private clients and family offices on the buy side. Every mandate is handled with complete confidentiality, and client identities and transaction details stay private.",
-          "point1Title": "Bespoke Buy-Side Mandates",
-          "point1Body": "Sourcing and negotiating off-market acquisitions of branded residences, private estates and plots, in complete confidence.",
-          "point2Title": "Relocation & Corporate Domiciliation",
-          "point2Body": "Coordinating with international counsel on family relocation, residency, and company formation within the DIFC and ADGM.",
-          "point3Title": "Portfolio Composition",
-          "point3Body": "Assembling real estate holdings across Dubai and Abu Dhabi with a view to preservation, protection and enduring yield."
+          "eyebrow": "Clientes privados",
+          "title": "Clientes privados e family offices",
+          "body": "Representação discreta para famílias de altíssimo patrimônio.",
+          "intro": "Dayan representa clientes privados e family offices do lado comprador. Cada mandato é conduzido com total confidencialidade, e a identidade dos clientes e os detalhes das transações permanecem privados.",
+          "point1Title": "Mandatos de compra sob medida",
+          "point1Body": "Prospecção e negociação de aquisições off-market de residências de marca, propriedades privadas e terrenos, com total sigilo.",
+          "point2Title": "Mudança e domicílio corporativo",
+          "point2Body": "Coordenação com assessores jurídicos internacionais para mudança familiar, residência e constituição de empresas no DIFC e no ADGM.",
+          "point3Title": "Composição de portfólio",
+          "point3Body": "Montagem de patrimônio imobiliário em Dubai e Abu Dhabi com foco em preservação, proteção e rendimento duradouro."
         },
         "transactions": {
-          "eyebrow": "Transactions",
-          "title": "Prime & Off-Market Assets",
-          "body": "Land, residences and rare opportunities, privately held.",
-          "intro": "The most desirable assets in the Emirates seldom reach the open market. Dayan sources them through long-standing private relationships and presents only those of genuine strategic merit.",
-          "point1Title": "Prime Land",
-          "point1Body": "Acquisition of residential, commercial and mixed-use plots in the most coveted districts of Dubai and Abu Dhabi.",
-          "point2Title": "Branded & Landmark Residences",
-          "point2Body": "Completed and off-plan residences in the region's most exclusive enclaves, operated by the world's leading hospitality houses.",
-          "point3Title": "Private Opportunities",
-          "point3Body": "Quiet portfolio sales, bulk acquisitions and time-sensitive situations that call for decisive capital and exacting execution."
+          "eyebrow": "Transações",
+          "title": "Ativos prime e off-market",
+          "body": "Terrenos, residências e oportunidades raras, fora do mercado aberto.",
+          "intro": "Os ativos mais desejados dos Emirados raramente chegam ao mercado aberto. Dayan os encontra por meio de relações privadas de longa data e apresenta apenas aqueles de real mérito estratégico.",
+          "point1Title": "Terrenos prime",
+          "point1Body": "Aquisição de terrenos residenciais, comerciais e de uso misto nos bairros mais cobiçados de Dubai e Abu Dhabi.",
+          "point2Title": "Residências de marca e emblemáticas",
+          "point2Body": "Residências prontas e na planta nos enclaves mais exclusivos da região, operadas pelas principais marcas de hotelaria do mundo.",
+          "point3Title": "Oportunidades privadas",
+          "point3Body": "Vendas discretas de portfólios, aquisições em bloco e situações urgentes que exigem capital decidido e execução rigorosa."
         },
         "developers": {
-          "eyebrow": "Developers",
-          "title": "Market-Entry Strategy",
-          "body": "For developers seeking capital in Latin America and Africa.",
-          "intro": "Dayan advises Gulf developers on presenting their projects to private capital in Latin America and Africa, shaping positioning, pricing and distribution through relationships built over two decades.",
-          "point1Title": "Investor Positioning",
-          "point1Body": "Shaping each development's narrative to the cultural and financial expectations of Latin American and African family offices.",
-          "point2Title": "Pricing & Payment Architecture",
-          "point2Body": "Calibrating pricing and payment structures to the preferences of international buyers.",
-          "point3Title": "Private Distribution",
-          "point3Body": "Opening direct access to qualified private wealth through select placement channels across multiple jurisdictions."
+          "eyebrow": "Incorporadoras",
+          "title": "Estratégia de entrada em mercados",
+          "body": "Para incorporadoras que buscam capital na América Latina e na África.",
+          "intro": "Dayan assessora incorporadoras do Golfo na apresentação de seus projetos ao capital privado da América Latina e da África, definindo posicionamento, preços e distribuição por meio de relações construídas ao longo de duas décadas.",
+          "point1Title": "Posicionamento para investidores",
+          "point1Body": "Adequando a narrativa de cada empreendimento às expectativas culturais e financeiras dos family offices latino-americanos e africanos.",
+          "point2Title": "Arquitetura de preços e pagamentos",
+          "point2Body": "Calibrando preços e condições de pagamento às preferências dos compradores internacionais.",
+          "point3Title": "Distribuição privada",
+          "point3Body": "Abrindo acesso direto a investidores privados qualificados por meio de canais seletos de colocação em várias jurisdições."
         },
         "marrakech": {
-          "eyebrow": "Morocco",
-          "title": "Marrakech & North African Estates",
-          "body": "A private bridge between Morocco and the Gulf.",
-          "intro": "Dayan presents a select collection of Marrakech estates and developments to buyers across the GCC, acting as a discreet intermediary between distinguished Moroccan owners and Gulf capital.",
-          "point1Title": "Estate Placement",
-          "point1Body": "Exceptional private estates and historic riads, presented privately to ultra-high-net-worth families in the GCC.",
-          "point2Title": "Development Partnerships",
-          "point2Body": "Representing Moroccan master-planned and hospitality projects seeking Gulf investment, joint ventures or portfolio acquisitions.",
-          "point3Title": "Cross-Border Execution",
-          "point3Body": "Navigating the regulatory, currency and ownership frameworks between Morocco and the GCC, alongside counsel in both jurisdictions."
+          "eyebrow": "Marrocos",
+          "title": "Propriedades em Marrakech e no Norte da África",
+          "body": "Uma ponte privada entre o Marrocos e o Golfo.",
+          "intro": "Dayan apresenta uma seleção de propriedades e empreendimentos em Marrakech a compradores de todo o GCC, atuando como intermediária discreta entre proprietários marroquinos de prestígio e o capital do Golfo.",
+          "point1Title": "Colocação de propriedades",
+          "point1Body": "Propriedades privadas excepcionais e riads históricos, apresentados de forma reservada a famílias de altíssimo patrimônio do GCC.",
+          "point2Title": "Parcerias em empreendimentos",
+          "point2Body": "Representando projetos marroquinos planejados e de hotelaria que buscam investimento do Golfo, joint ventures ou aquisições de portfólio.",
+          "point3Title": "Execução internacional",
+          "point3Body": "Navegando pelas estruturas regulatórias, cambiais e de propriedade entre o Marrocos e o GCC, ao lado de assessores jurídicos nas duas jurisdições."
         },
         "houseOfCandamil": {
-          "eyebrow": "Atelier",
+          "eyebrow": "Ateliê",
           "title": "House of Candamil",
-          "body": "Creative direction, craft and provenance.",
-          "intro": "Founded in Dubai in 2020, House of Candamil is Dayan's atelier of collectible design. It is built on enduring partnerships with master artisans in Colombia and Morocco, preserving ancestral techniques and refining them for contemporary residences of distinction. Its work has received recognition from the governments of both Morocco and Colombia.",
-          "point1Title": "Artisanal Heritage",
-          "point1Body": "Sustaining traditional craft through direct partnerships with master makers, so that it becomes modern collectible design.",
-          "point2Title": "Bespoke Commissions",
-          "point2Body": "Furniture, architectural elements and curated objects made to order, each with documented provenance.",
-          "point3Title": "Placement",
-          "point3Body": "Private gallery collaborations and curated interiors for residences, hospitality and select retail."
+          "body": "Direção criativa, artesanato e procedência.",
+          "intro": "Fundada em Dubai em 2020, a House of Candamil é o ateliê de design colecionável de Dayan. Ela se apoia em parcerias duradouras com mestres artesãos da Colômbia e do Marrocos, preservando técnicas ancestrais e aprimorando-as para residências contemporâneas de distinção. Seu trabalho foi reconhecido pelos governos do Marrocos e da Colômbia.",
+          "point1Title": "Herança artesanal",
+          "point1Body": "Mantendo vivo o artesanato tradicional por meio de parcerias diretas com mestres artesãos, para que ele se torne design colecionável contemporâneo.",
+          "point2Title": "Encomendas sob medida",
+          "point2Body": "Móveis, elementos arquitetônicos e objetos selecionados feitos por encomenda, cada um com procedência documentada.",
+          "point3Title": "Colocação",
+          "point3Body": "Colaborações com galerias privadas e interiores com curadoria para residências, hotelaria e varejo selecionado."
         }
       }
     },
     "caseStudies": {
-      "heading": "Case Studies",
-      "view": "View case study",
+      "heading": "Estudos de caso",
+      "view": "Ver estudo de caso",
       "items": {
         "familyOffice": {
-          "title": "Family Office Allocation",
+          "title": "Alocação de family office",
           "client": "Single-family office · Bogotá / São Paulo",
-          "objective": "To diversify multi-generational wealth into dollar-pegged assets in the Gulf.",
-          "approach": "Acting under a strict confidentiality mandate, Dayan identified off-market plots in Dubai and Abu Dhabi. She coordinated with international counsel to establish holding structures within the DIFC and ADGM, and conducted the acquisition from start to finish without any public listing.",
-          "outcome": "A protected multi-asset portfolio, composed for preservation, steady yield and orderly succession."
+          "objective": "Diversificar um patrimônio multigeracional em ativos atrelados ao dólar no Golfo.",
+          "approach": "Sob um mandato de estrita confidencialidade, Dayan identificou terrenos off-market em Dubai e Abu Dhabi. Ela coordenou com assessores jurídicos internacionais a criação de estruturas de holding no DIFC e no ADGM e conduziu a aquisição do início ao fim, sem nenhuma divulgação pública.",
+          "outcome": "Um portfólio protegido e diversificado, composto para preservação, rendimento estável e uma sucessão organizada."
         },
         "estateCommission": {
-          "title": "Private Estate & Atelier Commission",
-          "client": "Private client · GCC / Marrakech",
-          "objective": "To acquire a landmark estate in Marrakech and furnish it to the highest standard of provenance.",
-          "approach": "Dayan led the private, off-market acquisition in complete confidence. She then engaged House of Candamil's master artisans in Colombia and Morocco to create bespoke furniture, architectural elements and collectible pieces for the residence.",
-          "outcome": "A turnkey legacy estate of lasting value, both as an investment and as a work of culture."
+          "title": "Propriedade privada e encomenda ao ateliê",
+          "client": "Cliente privado · GCC / Marrakech",
+          "objective": "Adquirir uma propriedade emblemática em Marrakech e mobiliá-la com o mais alto padrão de procedência.",
+          "approach": "Dayan conduziu a aquisição privada e off-market com total sigilo. Em seguida, envolveu os mestres artesãos da House of Candamil na Colômbia e no Marrocos para criar móveis sob medida, elementos arquitetônicos e peças colecionáveis para a residência.",
+          "outcome": "Uma propriedade de legado, pronta para morar e de valor duradouro, tanto como investimento quanto como obra cultural."
         }
       }
     },
     "career": {
-      "eyebrow": "Career",
-      "heading": "A career arc across capital and culture.",
-      "intro": "Fourteen years of building and advising at the intersection of luxury, hospitality and real estate — across Bogotá, San Francisco, Key Biscayne, Panama City, Miami, Marrakech and Dubai.",
+      "eyebrow": "Carreira",
+      "heading": "Uma trajetória entre capital e cultura.",
+      "intro": "Catorze anos construindo e assessorando na interseção entre luxo, hotelaria e imóveis — em Bogotá, São Francisco, Key Biscayne, Cidade do Panamá, Miami, Marrakech e Dubai.",
       "items": {
         "blackoak": {
-          "years": "2025 — Present",
+          "years": "2025 — Atual",
           "company": "BlackOak Real Estate",
-          "role": "Associate Partner · Dubai, UAE",
-          "summary": "Senior Investment Strategist & International Markets Lead. Cross-border flows between Latin America, the US, the GCC, Morocco and West Africa; origination across prime land, luxury residential and branded developments."
+          "role": "Associate Partner · Dubai, Emirados Árabes Unidos",
+          "summary": "Estrategista sênior de investimentos e líder de mercados internacionais. Fluxos internacionais entre a América Latina, os EUA, o GCC, o Marrocos e a África Ocidental; originação em terrenos prime, residências de luxo e empreendimentos de marca."
         },
         "houseOfCandamil": {
-          "years": "2020 — Present",
+          "years": "2020 — Atual",
           "company": "House of Candamil",
-          "role": "Founder & Creative Director · Dubai, UAE",
-          "summary": "Creative direction of the atelier across accessories, jewellery and ready-to-wear; artisan partnerships, campaigns, e-commerce and international presentation."
+          "role": "Fundadora e diretora criativa · Dubai, Emirados Árabes Unidos",
+          "summary": "Direção criativa do ateliê em acessórios, joias e prêt-à-porter; parcerias com artesãos, campanhas, e-commerce e apresentação internacional."
         },
         "pulse": {
           "years": "2024 — 2025",
           "company": "Pulse Real Estate",
-          "role": "Private Client Advisor · Dubai, UAE",
-          "summary": "UAE and GCC market entry for large Latin American investors in prime and ultra-prime real estate; large-ticket transactions and long-term portfolio building."
+          "role": "Private Client Advisor · Dubai, Emirados Árabes Unidos",
+          "summary": "Entrada de grandes investidores latino-americanos nos mercados dos Emirados e do GCC em imóveis prime e ultra-prime; transações de alto valor e construção de portfólio de longo prazo."
         },
         "europeEmirates": {
           "years": "2023 — 2024",
           "company": "Europe Emirates Group",
-          "role": "Senior Corporate Advisor, UAE · Dubai",
-          "summary": "Corporate structuring and inbound advisory for international clients establishing a presence in the UAE."
+          "role": "Senior Corporate Advisor, Emirados · Dubai",
+          "summary": "Estruturação corporativa e assessoria de entrada para clientes internacionais que se estabelecem nos Emirados."
         },
         "fortune": {
           "years": "2021 — 2024",
           "company": "Fortune International Group",
-          "role": "Real Estate Advisor, Prada Bridger · Miami, FL",
-          "summary": "Advising Latin American investors on US market entry, large-ticket real estate and strategic portfolio building."
+          "role": "Consultora imobiliária, Prada Bridger · Miami, FL",
+          "summary": "Assessoria a investidores latino-americanos na entrada no mercado americano, em imóveis de alto valor e na construção estratégica de portfólio."
         },
         "chevre": {
           "years": "2019 — 2022",
           "company": "Chevre S.A.",
-          "role": "Senior Consultant · Panama City",
-          "summary": "Integrated PR and marketing strategy for a multi-brand restaurant group and gourmet retail chain; seven-figure budget; premium sourcing from Italy and Spain."
+          "role": "Consultora sênior · Cidade do Panamá",
+          "summary": "Estratégia integrada de RP e marketing para um grupo de restaurantes multimarcas e uma rede de varejo gourmet; orçamento de sete dígitos; fornecimento premium da Itália e da Espanha."
         },
         "accessories": {
           "years": "2011 — 2022",
           "company": "Dayan Candamil Accessories",
-          "role": "Founder & Creative Director · Key Biscayne, FL",
-          "summary": "Built the luxury accessories, jewellery and lifestyle label across the US, Latin America and select international markets — creative direction, sourcing, manufacturing and distribution."
+          "role": "Fundadora e diretora criativa · Key Biscayne, FL",
+          "summary": "Criou a marca de acessórios, joias e lifestyle de luxo nos EUA, na América Latina e em mercados internacionais selecionados — direção criativa, fornecimento, produção e distribuição."
         },
         "retail": {
           "years": "2009 — 2011",
           "company": "Mango · Guess",
-          "role": "Visual Merchandising & Stock Management · San Francisco",
-          "summary": "Retail merchandising foundations: collection distribution, visual standards and team training."
+          "role": "Visual merchandising e gestão de estoque · São Francisco",
+          "summary": "Fundamentos de merchandising no varejo: distribuição de coleções, padrões visuais e treinamento de equipes."
         }
       }
     },
     "endorsements": {
-      "eyebrow": "Endorsements",
-      "heading": "What partners say",
+      "eyebrow": "Recomendações",
+      "heading": "O que dizem os parceiros",
       "items": {
         "blackoakAppointment": {
           "quote": "Her international relationships, market insight, and proven ability to connect global families with the region bring significant value to our platform as we continue to expand internationally.",
           "name": "BlackOak Real Estate",
-          "sub": "Appointment announcement · 2026",
+          "sub": "Anúncio de nomeação · 2026",
           "initials": "B"
         },
         "caviarSpoon": {
           "quote": "One-of-a-kind bags, accessories and fine jewellery, with a client base ranging from the most prominent royalties in the Middle East to celebrities in Europe and the US.",
           "name": "The Caviar Spoon",
-          "sub": "Dubai lifestyle media",
+          "sub": "Mídia de lifestyle de Dubai",
           "initials": "CS"
         },
         "blackoakBridge": {
           "quote": "Widely regarded as a trusted bridge between Latin America and the region — supporting relocation, investment and long-term engagement of private capital into the Middle East.",
           "name": "BlackOak Real Estate",
-          "sub": "On Dayan's client work",
+          "sub": "Sobre o trabalho de Dayan com clientes",
           "initials": "B"
         }
       }
     },
     "reviews": {
-      "eyebrow": "Reviews",
-      "heading": "On Trustpilot",
-      "body": "Quoted from Dayan's public Trustpilot profile.",
+      "eyebrow": "Avaliações",
+      "heading": "No Trustpilot",
+      "body": "Citações do perfil público de Dayan no Trustpilot, no idioma original.",
       "source": "Trustpilot",
-      "ratingLabel": "Rated {rating} out of 5 stars",
+      "ratingLabel": "Avaliado com {rating} de 5 estrelas",
       "trustScoreLabel": "TrustScore",
-      "scoreBand": "Great",
-      "scoreLink": "View the profile on Trustpilot",
-      "reviewTotal": "{count, plural, one {# review} other {# reviews}}",
-      "starRow": "{stars}-star",
-      "experienceDate": "Date of experience",
-      "readReview": "Read on Trustpilot",
-      "readAll": "See all reviews on Trustpilot",
-      "write": "Write a review",
+      "scoreBand": "Ótimo",
+      "scoreLink": "Ver o perfil no Trustpilot",
+      "reviewTotal": "{count, plural, one {# avaliação} other {# avaliações}}",
+      "starRow": "{stars} estrelas",
+      "experienceDate": "Data da experiência",
+      "readReview": "Ler no Trustpilot",
+      "readAll": "Ver todas as avaliações no Trustpilot",
+      "write": "Escrever uma avaliação",
       "items": {
         "antonio": {
           "name": "Antonio Santana",
@@ -339,209 +362,228 @@
       }
     },
     "videos": {
-      "eyebrow": "Featured",
-      "heading": "Videos",
-      "body": "Property tours and walkthroughs from across the UAE, presented in person by Dayan. Each visit gives a clearer sense of the listing — the building, the developer, the context — than a brochure ever could.",
-      "viewAll": "View all videos on YouTube"
+      "eyebrow": "Destaques",
+      "heading": "Vídeos",
+      "body": "Visitas e apresentações de imóveis em todos os Emirados, conduzidas pessoalmente por Dayan. Cada visita dá uma ideia mais clara do imóvel — o edifício, a incorporadora, o contexto — do que qualquer folheto.",
+      "viewAll": "Ver todos os vídeos no YouTube",
+      "showMore": "Mostrar mais {count}",
+      "showFewer": "Mostrar menos",
+      "blurbs": {
+        "meraasHq": "Um tour pelo que está disponível hoje no portfólio da Meraas em Dubai, apresentado de dentro da sede da empresa, com a equipe de desenvolvimento. O tipo de acesso que nenhum folheto substitui."
+      }
     },
     "atelier": {
-      "eyebrow": "The atelier",
+      "eyebrow": "O ateliê",
       "heading": "House of Candamil",
-      "tagline": "Creative direction, craft and provenance.",
-      "intro": "Founded in Dubai in 2020, House of Candamil is Dayan's atelier of collectible design. It is built on enduring partnerships with master artisans in Colombia and Morocco, preserving ancestral techniques and refining them for contemporary residences of distinction. Its work has received recognition from the governments of both Morocco and Colombia.",
-      "h1": "Artisanal Heritage",
-      "body1": "Sustaining traditional craft through direct partnerships with master makers, so that it becomes modern collectible design.",
-      "h2": "Bespoke Commissions",
-      "body2": "Furniture, architectural elements and curated objects made to order, each with documented provenance.",
-      "h3": "Placement",
-      "body3": "Private gallery collaborations and curated interiors for residences, hospitality and select retail.",
-      "cta": "Visit houseofcandamil.com",
-      "imageAlt": "Dayan Candamil in House of Candamil"
+      "tagline": "Direção criativa, artesanato e procedência.",
+      "intro": "Fundada em Dubai em 2020, a House of Candamil é o ateliê de design colecionável de Dayan. Ela se apoia em parcerias duradouras com mestres artesãos da Colômbia e do Marrocos, preservando técnicas ancestrais e aprimorando-as para residências contemporâneas de distinção. Seu trabalho foi reconhecido pelos governos do Marrocos e da Colômbia.",
+      "h1": "Herança artesanal",
+      "body1": "Mantendo vivo o artesanato tradicional por meio de parcerias diretas com mestres artesãos, para que ele se torne design colecionável contemporâneo.",
+      "h2": "Encomendas sob medida",
+      "body2": "Móveis, elementos arquitetônicos e objetos selecionados feitos por encomenda, cada um com procedência documentada.",
+      "h3": "Colocação",
+      "body3": "Colaborações com galerias privadas e interiores com curadoria para residências, hotelaria e varejo selecionado.",
+      "cta": "Visite houseofcandamil.com",
+      "imageAlt": "Dayan Candamil na House of Candamil"
     },
     "instagram": {
-      "ariaLabel": "Dayan Candamil on Instagram",
+      "ariaLabel": "Dayan Candamil no Instagram",
       "eyebrow": "Instagram",
-      "cta": "Follow on Instagram",
-      "postLabel": "View post {number} on Instagram"
+      "cta": "Siga no Instagram",
+      "postLabel": "Ver publicação {number} no Instagram"
     },
     "media": {
-      "eyebrow": "In the Press",
-      "heading": "A presence across fashion, culture and the Arab world.",
-      "watchOnYouTube": "Watch on YouTube",
-      "viewOnLinkedIn": "View on LinkedIn",
+      "eyebrow": "Na imprensa",
+      "heading": "Presença na moda, na cultura e no mundo árabe.",
+      "watchOnYouTube": "Assistir no YouTube",
+      "viewOnLinkedIn": "Ver no LinkedIn",
       "items": {
         "bazaar": {
           "label": "Harper's Bazaar",
-          "kicker": "Harper's Bazaar Vietnam · August 2021",
-          "title": "The Cover",
-          "body": "A cover story and portrait of Dayan Candamil, and of the vision that shaped House of Candamil.",
-          "alt": "Harper's Bazaar Vietnam cover, August 2021, featuring Dayan Candamil"
+          "kicker": "Harper's Bazaar Vietnã · Agosto de 2021",
+          "title": "A capa",
+          "body": "Uma reportagem de capa e um retrato de Dayan Candamil e da visão que deu forma à House of Candamil.",
+          "alt": "Capa da Harper's Bazaar Vietnã, agosto de 2021, com Dayan Candamil"
         },
         "mfw": {
           "label": "Marrakech Fashion Week",
           "kicker": "Marrakech Fashion Week · 2022",
-          "title": "House of Candamil on the Runway",
-          "body": "The House of Candamil collection was unveiled in Marrakech under Dayan's creative direction.",
-          "alt": "House of Candamil runway at Marrakech Fashion Week 2022"
+          "title": "House of Candamil na passarela",
+          "body": "A coleção da House of Candamil foi apresentada em Marrakech sob a direção criativa de Dayan.",
+          "alt": "Desfile da House of Candamil na Marrakech Fashion Week 2022"
         },
         "elle": {
           "label": "ELLE Arabia",
           "kicker": "ELLE Arabia · 2021",
-          "title": "Introducing Dayan Candamil",
-          "body": "A feature celebrating her arrival in the Emirates and the debut of House of Candamil, in collaboration with The Caviar Spoon.",
-          "alt": "Dayan Candamil, editorial portrait"
+          "title": "Apresentando Dayan Candamil",
+          "body": "Uma matéria que celebra sua chegada aos Emirados e a estreia da House of Candamil, em colaboração com The Caviar Spoon.",
+          "alt": "Dayan Candamil, retrato editorial"
         },
         "alanba": {
           "label": "Alanba",
-          "kicker": "Alanba · Kuwait · August 2022",
-          "title": "Craft, Identity & Heritage",
-          "body": "In one of the Arab world's most established newspapers, Dayan speaks about craftsmanship, national identity and the preservation of heritage.",
-          "alt": "Kuwait Towers against a clear sky, Kuwait City"
+          "kicker": "Alanba · Kuwait · Agosto de 2022",
+          "title": "Artesanato, identidade e herança",
+          "body": "Em um dos jornais mais tradicionais do mundo árabe, Dayan fala sobre artesanato, identidade nacional e preservação do patrimônio.",
+          "alt": "As Kuwait Towers sob céu limpo, Cidade do Kuwait"
         },
         "hultPrize": {
           "label": "Hult Prize",
-          "kicker": "Hult Prize On-Campus Programme · Settat, Morocco · 2023",
-          "title": "Redesigning Fashion to Make It More Sustainable",
-          "body": "Dayan was invited by Settat University and the Hult Prize Foundation to speak at the International Hult Prize On-Campus Programme, whose theme that year was making fashion more sustainable.",
-          "alt": "Dayan Candamil in a white jacket, black-and-white portrait from the Hult Prize speaker announcement"
+          "kicker": "Hult Prize On-Campus Programme · Settat, Marrocos · 2023",
+          "title": "Redesenhando a moda para torná-la mais sustentável",
+          "body": "Dayan foi convidada pela Universidade de Settat e pela Hult Prize Foundation para palestrar no International Hult Prize On-Campus Programme, cujo tema naquele ano foi tornar a moda mais sustentável.",
+          "alt": "Dayan Candamil de blazer branco, retrato em preto e branco do anúncio de palestrantes do Hult Prize"
+        },
+        "coctelBlogger": {
+          "label": "Mundo Blogger",
+          "kicker": "“Cóctel de noticias” · Imprensa em espanhol",
+          "title": "Dayan Candamil entra no mundo dos blogs",
+          "body": "Uma matéria de coluna social sobre o lançamento de The World of Dayan Candamil, seu diário de viagens com destinos inspiradores, fotografias, dicas de viagem e as cidades para onde ela leva sua arte e onde encontra inspiração para suas peças.",
+          "alt": "Página de revista: “Dayan Candamil se mueve al mundo blogger”, com um retrato de Dayan de vestido preto"
+        },
+        "coctelAsia": {
+          "label": "Elefantes en Asia",
+          "kicker": "“Cóctel de noticias” · Imprensa em espanhol",
+          "title": "Entre elefantes na Ásia",
+          "body": "Uma matéria de coluna social sobre sua viagem pela Tailândia — Bangcoc, Chiang Mai e Phuket, incluindo um dia com elefantes — e uma visita às mulheres Padaung, no Laos, uma viagem que a reportagem descreve como realmente inspiradora para sua visão como designer.",
+          "alt": "Página de revista: “Dayan Candamil, entre elefantes en Asia”, com fotos de Dayan montando e banhando elefantes e visitando o Laos"
         }
       },
-      "alsoHeading": "Also featured in",
+      "alsoHeading": "Também em destaque",
       "also1": "ELLE Magazine",
       "also2": "CNN US",
       "also3": "The Emerald Book",
       "also4": "Dubai Fashion Week / Arab Fashion Council",
       "also5": "Globe Soccer Awards, Dubai 2024",
-      "honoursHeading": "Honours",
-      "honour1": "Keys to the Cundinamarca State — awarded by Mayor Miguel Barbosa R.",
-      "honour2": "Recognition for \"Redesigning Fashion to Make It More Sustainable\"",
-      "educationHeading": "Education & languages",
-      "education1": "London College of Fashion, UAL — Fashion Entrepreneurship & Luxury Brand Management (2011); Fashion Buying & Merchandising (2009)",
-      "education2": "City College of San Francisco — Art History, Fashion Illustration (2009–10)",
-      "education3": "Centro Universitário FMU, São Paulo — Bachelor of Laws, LLB (2006)",
-      "education4": "English · Spanish · Portuguese — native/bilingual"
+      "honoursHeading": "Honrarias",
+      "honour1": "Chaves do Estado de Cundinamarca — concedidas pelo prefeito Miguel Barbosa R.",
+      "honour2": "Reconhecimento por “Redesenhando a moda para torná-la mais sustentável”",
+      "educationHeading": "Formação e idiomas",
+      "education1": "London College of Fashion, UAL — Empreendedorismo em Moda e Gestão de Marcas de Luxo (2011); Compras e Merchandising de Moda (2009)",
+      "education2": "City College of San Francisco — História da Arte, Ilustração de Moda (2009–10)",
+      "education3": "Centro Universitário FMU, São Paulo — Bacharelado em Direito (2006)",
+      "education4": "Inglês · Espanhol · Português — nativo/bilíngue"
     },
     "dataRoom": {
-      "eyebrow": "Coming soon",
+      "eyebrow": "Em breve",
       "heading": "Data Room",
-      "body": "A private area for clients is on the way. Log in to see the full data behind each project in one place.",
+      "body": "Uma área privada para clientes está a caminho. Faça login para ver em um só lugar todos os dados de cada projeto.",
       "items": {
         "plans": {
-          "title": "Payment plans",
-          "body": "Instalments and milestones for each project will appear here."
+          "title": "Planos de pagamento",
+          "body": "As parcelas e os marcos de cada projeto aparecerão aqui."
         },
         "returns": {
-          "title": "Returns",
-          "body": "The return figures for each project will appear here."
+          "title": "Retornos",
+          "body": "Os números de retorno de cada projeto aparecerão aqui."
         },
         "details": {
-          "title": "Project data",
-          "body": "The rest of the project information will appear here."
+          "title": "Dados do projeto",
+          "body": "As demais informações do projeto aparecerão aqui."
         }
       },
-      "login": "Client login — coming soon"
+      "login": "Login de clientes — em breve"
     },
     "contact": {
-      "ariaLabel": "Let's connect",
-      "eyebrow": "Let's connect",
-      "heading": "Contact Dayan",
-      "body": "A short, no-commitment conversation about your investment, relocation or collaboration. Replies within 48 hours, in English, Spanish or Portuguese.",
-      "email": "Email",
+      "ariaLabel": "Vamos conversar",
+      "eyebrow": "Vamos conversar",
+      "heading": "Fale com Dayan",
+      "body": "Uma conversa breve e sem compromisso sobre seu investimento, mudança ou colaboração. Resposta em até 48 horas, em inglês, espanhol ou português.",
+      "email": "E-mail",
       "whatsApp": "WhatsApp",
-      "office": "Office",
+      "office": "Escritório",
       "officeValue": "Rolex Tower, DIFC, Dubai",
       "imageAlt": "Dayan Candamil"
     }
   },
   "ContactForm": {
-    "name": "Name",
-    "phone": "Phone",
-    "email": "Email",
-    "message": "Message",
-    "consent": "I agree to Dayan Candamil contacting me about this enquiry and have read the Privacy Policy.",
-    "submit": "Send message",
-    "successTitle": "Message received.",
-    "successBody": "Dayan will be in touch within 48 hours.",
-    "error": "Something went wrong. Please try again or use the WhatsApp link."
+    "name": "Nome",
+    "phone": "Telefone",
+    "email": "E-mail",
+    "message": "Mensagem",
+    "consent": "Autorizo Dayan Candamil a entrar em contato comigo sobre esta solicitação e li a Política de privacidade.",
+    "submit": "Enviar mensagem",
+    "successTitle": "Mensagem recebida.",
+    "successBody": "Dayan entrará em contato em até 48 horas.",
+    "error": "Algo deu errado. Tente novamente ou use o link do WhatsApp."
   },
   "ExpertiseDetail": {
-    "back": "All expertise",
-    "coversHeading": "What this covers",
-    "cta": "Request an introduction",
-    "moreHeading": "More expertise",
+    "back": "Todas as áreas de atuação",
+    "coversHeading": "O que abrange",
+    "cta": "Solicitar uma apresentação",
+    "moreHeading": "Outras áreas de atuação",
     "related": {
-      "listings": "View active listings",
-      "atelier": "Explore House of Candamil"
+      "listings": "Ver imóveis ativos",
+      "atelier": "Conheça a House of Candamil"
     }
   },
   "CaseStudyDetail": {
-    "back": "All case studies",
-    "eyebrow": "Case study",
-    "placeholderNote": "Sample layout — placeholder content.",
+    "back": "Todos os estudos de caso",
+    "eyebrow": "Estudo de caso",
+    "placeholderNote": "Layout de exemplo — conteúdo provisório.",
     "sections": {
-      "objective": "Objective",
-      "approach": "Approach",
-      "outcome": "Outcome"
+      "objective": "Objetivo",
+      "approach": "Abordagem",
+      "outcome": "Resultado"
     },
-    "cta": "Request an introduction",
-    "pagerLabel": "Case studies",
-    "pagerItem": "Case study {number}"
+    "cta": "Solicitar uma apresentação",
+    "pagerLabel": "Estudos de caso",
+    "pagerItem": "Estudo de caso {number}"
   },
   "Projects": {
-    "metaTitle": "Listings",
-    "metaDescription": "Active UAE real-estate listings personally represented by Dayan Candamil.",
-    "eyebrow": "Listings",
-    "heading": "Active listings",
-    "body": "UAE real-estate listings personally represented by Dayan, sourced live from the BlackOak Studio CRM. Inventory updates automatically; click any listing to enquire directly.",
-    "activeListings": "{count, plural, =0 {No active listings} one {# active listing} other {# active listings}}",
-    "empty": "No active listings at the moment. New inventory is added regularly — check back soon, or send an enquiry via the contact section.",
-    "beds": "Beds",
-    "baths": "Baths",
-    "sqft": "Sq.Ft.",
-    "refPrefix": "Ref",
-    "viewDetails": "View details",
-    "fromPrefix": "From"
+    "metaTitle": "Imóveis",
+    "metaDescription": "Imóveis ativos nos Emirados Árabes Unidos representados pessoalmente por Dayan Candamil.",
+    "eyebrow": "Imóveis",
+    "heading": "Imóveis ativos",
+    "body": "Imóveis nos Emirados representados pessoalmente por Dayan, sincronizados em tempo real com o CRM BlackOak Studio. O portfólio é atualizado automaticamente; clique em qualquer imóvel para consultar diretamente.",
+    "activeListings": "{count, plural, =0 {Nenhum imóvel ativo} one {# imóvel ativo} other {# imóveis ativos}}",
+    "empty": "Nenhum imóvel ativo no momento. Novos imóveis são adicionados regularmente — volte em breve ou envie uma consulta pela seção de contato.",
+    "beds": "Quartos",
+    "baths": "Banheiros",
+    "sqft": "Pés²",
+    "refPrefix": "Ref.",
+    "viewDetails": "Ver detalhes",
+    "fromPrefix": "A partir de"
   },
   "ProjectDetail": {
-    "metaFallback": "Listing",
-    "forRent": "For rent",
-    "forSale": "For sale",
-    "listed": "Listed",
-    "backToProjects": "Back to listings",
-    "refPrefix": "Ref",
-    "aboutHeading": "About this property",
-    "amenitiesHeading": "Amenities",
-    "agent": "Agent",
-    "reference": "Reference",
-    "inquire": "Enquire about this listing",
-    "whatsapp": "WhatsApp Dayan",
-    "gallery": "Gallery",
-    "imageAlt": "{title} — image {number}",
+    "metaFallback": "Imóvel",
+    "forRent": "Para alugar",
+    "forSale": "À venda",
+    "listed": "Anunciado em",
+    "backToProjects": "Voltar aos imóveis",
+    "refPrefix": "Ref.",
+    "aboutHeading": "Sobre este imóvel",
+    "amenitiesHeading": "Comodidades",
+    "agent": "Corretora",
+    "reference": "Referência",
+    "inquire": "Consultar sobre este imóvel",
+    "whatsapp": "WhatsApp de Dayan",
+    "gallery": "Galeria",
+    "imageAlt": "{title} — imagem {number}",
     "facts": {
-      "beds": "Beds",
-      "baths": "Baths",
-      "sqft": "Sq.Ft.",
-      "type": "Type",
-      "furnishing": "Furnishing",
-      "parking": "Parking"
+      "beds": "Quartos",
+      "baths": "Banheiros",
+      "sqft": "Pés²",
+      "type": "Tipo",
+      "furnishing": "Mobília",
+      "parking": "Vagas"
     }
   },
   "LegalNotice": {
-    "metaTitle": "Legal notice",
-    "metaDescription": "Legal notice for dayancandamil.com.",
-    "heading": "Legal notice",
-    "body": "This website is published by Dayan Candamil, Rolex Tower, DIFC, Dubai, United Arab Emirates. Contact: dayan@dayancandamil.com. Full legal notice pending counsel review."
+    "metaTitle": "Aviso legal",
+    "metaDescription": "Aviso legal de dayancandamil.com.",
+    "heading": "Aviso legal",
+    "body": "Este site é publicado por Dayan Candamil, Rolex Tower, DIFC, Dubai, Emirados Árabes Unidos. Contato: dayan@dayancandamil.com. Aviso legal completo pendente de revisão jurídica."
   },
   "Privacy": {
-    "metaTitle": "Privacy policy",
-    "metaDescription": "How Dayan Candamil handles personal data.",
-    "heading": "Privacy policy",
-    "body": "Details submitted through the contact form (name, email, phone, message) are used solely to reply to your enquiry and are retained for no longer than 24 months from last contact. To request access to or deletion of your data, write to dayan@dayancandamil.com.",
-    "required": "Full policy pending counsel review: data collected, lawful basis, storage region, retention, data-subject rights, request contact and cookie inventory."
+    "metaTitle": "Política de privacidade",
+    "metaDescription": "Como Dayan Candamil trata dados pessoais.",
+    "heading": "Política de privacidade",
+    "body": "Os dados enviados pelo formulário de contato (nome, e-mail, telefone, mensagem) são usados exclusivamente para responder à sua solicitação e mantidos por no máximo 24 meses a partir do último contato. Para solicitar acesso ou exclusão dos seus dados, escreva para dayan@dayancandamil.com.",
+    "required": "Política completa pendente de revisão jurídica: dados coletados, base legal, região de armazenamento, retenção, direitos dos titulares, contato para solicitações e inventário de cookies."
   },
   "NotFound": {
-    "heading": "Not found",
-    "body": "The page you were looking for could not be found.",
-    "returnHome": "Return home"
+    "heading": "Página não encontrada",
+    "body": "A página que você procurava não foi encontrada.",
+    "returnHome": "Voltar ao início"
   }
 }
