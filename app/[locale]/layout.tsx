@@ -1,6 +1,7 @@
 import type {Metadata} from 'next';
 import {Suspense} from 'react';
 import {notFound} from 'next/navigation';
+import {Analytics} from '@vercel/analytics/next';
 import {NextIntlClientProvider} from 'next-intl';
 import {getMessages, getTranslations, setRequestLocale} from 'next-intl/server';
 import {Arsenal, Roboto_Flex, El_Messiri, IBM_Plex_Sans_Arabic} from 'next/font/google';
@@ -113,6 +114,7 @@ export default async function LocaleLayout({children, params}: Props) {
             <SiteFooter />
           </Suspense>
         </NextIntlClientProvider>
+        <Analytics />
       </body>
     </html>
   );
