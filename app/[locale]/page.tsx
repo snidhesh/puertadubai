@@ -9,6 +9,8 @@ import {ExpandableVideoList} from '@/components/home/expandable-video-list';
 import {StickySocials} from '@/components/home/sticky-socials';
 import {PressPanels} from '@/components/home/press-panels';
 import {InstagramMosaic} from '@/components/home/instagram-mosaic';
+import {SwipeRail} from '@/components/home/swipe-rail';
+import {MobileDisclosure} from '@/components/home/mobile-disclosure';
 import {
   CAREER_ENABLED,
   CAREER_IDS,
@@ -152,14 +154,14 @@ export default async function HomePage({params}: Props) {
       {/* Sticky social column — stays right-edge through scroll, fades near footer */}
       <StickySocials />
 
-      {/* 2. OVERVIEW STRIP — image | editorial | stats, split-color bg. On
-       * tablets the stats drop beneath as a three-up row; the three-column
-       * strip only from lg, where the stats column has room. */}
+      {/* 2. OVERVIEW STRIP — image | editorial | stats, split-color bg. Below
+       * lg the stats sit as a three-up row (stacked only under 360px); the
+       * three-column strip only from lg, where the stats column has room. */}
       <section
         aria-label={tHome('overview.ariaLabel')}
         className="grid md:grid-cols-2 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)]"
       >
-        <div className="relative min-h-[260px] bg-[var(--bg-alt)] md:min-h-[440px]">
+        <div className="relative min-h-[200px] bg-[var(--bg-alt)] md:min-h-[440px]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/images/uae/difc.jpg"
@@ -168,7 +170,7 @@ export default async function HomePage({params}: Props) {
           />
         </div>
 
-        <div className="flex items-center justify-center bg-[var(--bg-alt)] px-6 py-14 md:px-10 md:py-20 lg:px-16">
+        <div className="flex items-center justify-center bg-[var(--bg-alt)] px-6 py-12 md:px-10 md:py-20 lg:px-16">
           <div className="md:max-w-md">
             <p
               className="text-[11px] uppercase tracking-[0.32em] text-[var(--text-muted)]"
@@ -188,8 +190,8 @@ export default async function HomePage({params}: Props) {
           </div>
         </div>
 
-        <div className="flex items-center justify-center bg-[var(--bg)] px-6 py-14 md:col-span-2 md:px-10 md:py-16 lg:col-span-1 lg:px-16 lg:py-20">
-          <ul className="w-full max-w-sm space-y-7 md:grid md:max-w-none md:grid-cols-3 md:gap-8 md:space-y-0 lg:block lg:max-w-sm lg:space-y-9">
+        <div className="flex items-center justify-center bg-[var(--bg)] px-6 py-10 md:col-span-2 md:px-10 md:py-16 lg:col-span-1 lg:px-16 lg:py-20">
+          <ul className="grid w-full gap-5 min-[360px]:grid-cols-3 min-[360px]:gap-4 md:gap-8 lg:block lg:max-w-sm lg:space-y-9">
             <Stat value="14" label={tHome('overview.statYears')} />
             <Stat value="5" label={tHome('overview.statMarkets')} />
             <Stat value="3" label={tHome('overview.statLanguages')} last />
@@ -200,8 +202,8 @@ export default async function HomePage({params}: Props) {
       {/* 3. FEATURED LISTINGS — dark band, title cell + live Studio CRM cards */}
       <Section id="listings" tone="dark" className="scroll-mt-16 py-14 md:py-20">
         <Container>
-          <div className="grid gap-x-8 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
-            <div className="flex flex-col items-start justify-center gap-8 py-8">
+          <div className="grid gap-x-8 gap-y-10 md:grid-cols-2 md:gap-y-12 lg:grid-cols-3">
+            <div className="flex flex-col items-start justify-center gap-6 md:gap-8 md:py-8">
               <h2 className="font-display">
                 <span
                   className="block text-sm uppercase tracking-[0.32em] !text-white/75"
@@ -234,14 +236,18 @@ export default async function HomePage({params}: Props) {
               </Link>
             </div>
             {/* Streams in behind a skeleton so a cold CRM walk never blocks
-             * the page shell; warm reads come from the data cache. */}
-            <Suspense fallback={<ListingCardSkeletons count={5} />}>
-              <FeaturedListingCards
-                locale={locale}
-                labels={listingLabels}
-                emptyLabel={tHome('featuredListings.empty')}
-              />
-            </Suspense>
+             * the page shell; warm reads come from the data cache. A swipe
+             * rail on phones; from md the rail dissolves (`contents`) and the
+             * cards join this grid beside the title cell. */}
+            <SwipeRail tone="dark" wrapperClassName="md:contents" className="md:contents">
+              <Suspense fallback={<ListingCardSkeletons count={5} />}>
+                <FeaturedListingCards
+                  locale={locale}
+                  labels={listingLabels}
+                  emptyLabel={tHome('featuredListings.empty')}
+                />
+              </Suspense>
+            </SwipeRail>
           </div>
         </Container>
       </Section>
@@ -280,7 +286,7 @@ export default async function HomePage({params}: Props) {
             </Link>
           </div>
 
-          <ul className="mt-8 space-y-8 md:mt-10">
+          <SwipeRail as="ul" wrapperClassName="mt-8 md:mt-10" className="md:block md:space-y-8">
             {INTERNATIONAL_PROPERTIES.map((property) => {
               const key = `international.properties.${property.id}` as const;
               return (
@@ -307,7 +313,7 @@ export default async function HomePage({params}: Props) {
                 </li>
               );
             })}
-          </ul>
+          </SwipeRail>
         </Container>
       </Section>
 
@@ -381,7 +387,7 @@ export default async function HomePage({params}: Props) {
                 {tHome('about.tagline')}
               </p>
               {/* Below lg the portrait sits between the tagline and the biography. */}
-              <div className="relative mt-8 aspect-[4/5] w-full overflow-hidden lg:hidden">
+              <div className="relative mt-8 aspect-[4/5] w-full overflow-hidden max-md:aspect-square lg:hidden">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={PORTRAITS.about}
@@ -395,16 +401,21 @@ export default async function HomePage({params}: Props) {
               <p className="mt-4 max-w-xl text-base leading-[1.7] text-[var(--text-body)]">
                 {tHome('about.intro')}
               </p>
-              <div className="mt-10 space-y-10">
+              {/* Phones: the three sub-sections fold into accordion rows under
+               * the intro, so the biography reads as headlines first. */}
+              <div className="mt-8 border-t border-[var(--divider)] md:mt-10 md:space-y-10 md:border-t-0">
                 {(['1', '2', '3'] as const).map((n) => (
-                  <div key={n}>
-                    <h3 className="font-display text-xl text-[var(--text-title)] md:text-2xl">
-                      {tHome(`about.h${n}`)}
-                    </h3>
-                    <p className="mt-4 max-w-xl text-base leading-[1.7] text-[var(--text-body)]">
+                  <MobileDisclosure
+                    key={n}
+                    heading={tHome(`about.h${n}`)}
+                    headingClassName="font-display text-xl text-[var(--text-title)] md:text-2xl"
+                    className="border-b border-[var(--divider)] md:border-b-0"
+                    contentClassName="max-md:pb-5"
+                  >
+                    <p className="max-w-xl text-base leading-[1.7] text-[var(--text-body)] md:mt-4">
                       {tHome(`about.body${n}`)}
                     </p>
-                  </div>
+                  </MobileDisclosure>
                 ))}
               </div>
               <a
@@ -443,12 +454,17 @@ export default async function HomePage({params}: Props) {
           </div>
           {/* Uniform grid: every tile is one square linking to its detail page.
            * Greyscale at rest → colour on hover. */}
-          <ul className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 md:mt-12">
+          <SwipeRail
+            as="ul"
+            tone="dark"
+            wrapperClassName="mt-10 md:mt-12"
+            className="md:grid md:grid-cols-2 md:gap-6 lg:grid-cols-3"
+          >
             {EXPERTISE.map((tile) => (
               <li key={tile.id}>
                 <Link
                   href={`/expertise/${tile.slug}`}
-                  className="group relative block aspect-square overflow-hidden text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+                  className="group relative block aspect-[4/5] overflow-hidden md:aspect-square text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
@@ -499,7 +515,7 @@ export default async function HomePage({params}: Props) {
                 </Link>
               </li>
             ))}
-          </ul>
+          </SwipeRail>
         </Container>
       </Section>
 
@@ -645,11 +661,11 @@ export default async function HomePage({params}: Props) {
               </span>
             </h2>
           </div>
-          <ul className="mt-10 grid gap-8 md:mt-12 lg:grid-cols-3">
+          <SwipeRail as="ul" wrapperClassName="mt-10 md:mt-12" className="md:grid md:gap-8 lg:grid-cols-3">
             {ENDORSEMENT_IDS.map((id) => (
               <li
                 key={id}
-                className="relative flex flex-col gap-6 bg-[var(--bg-alt)] p-8 md:p-10"
+                className="relative flex flex-col gap-6 bg-[var(--bg-alt)] p-6 md:p-10"
               >
                 <span
                   aria-hidden="true"
@@ -681,7 +697,7 @@ export default async function HomePage({params}: Props) {
                 </div>
               </li>
             ))}
-          </ul>
+          </SwipeRail>
         </Container>
       </Section>
 
@@ -731,7 +747,7 @@ export default async function HomePage({params}: Props) {
           {/* Rows stretch, titles and bodies are line-clamped, and the
            * blockquote grows, so the three cards share one height and their
            * footers align whatever the review length. */}
-          <ul className="mt-8 grid gap-6 md:mt-10 lg:grid-cols-3">
+          <SwipeRail as="ul" wrapperClassName="mt-8 md:mt-10" className="md:grid md:gap-6 lg:grid-cols-3">
             {TRUSTPILOT.reviews.map((review) => {
               const name = tHome(`reviews.items.${review.id}.name`);
               const hasTitle = tHome.has(`reviews.items.${review.id}.title`);
@@ -804,8 +820,8 @@ export default async function HomePage({params}: Props) {
                 </li>
               );
             })}
-          </ul>
-          <div className="mt-12 flex flex-wrap items-center gap-x-10 gap-y-5">
+          </SwipeRail>
+          <div className="mt-10 flex flex-wrap items-center gap-x-10 gap-y-5 md:mt-12">
             <a
               href={TRUSTPILOT.profile}
               target="_blank"
@@ -907,7 +923,7 @@ export default async function HomePage({params}: Props) {
                 {tHome('atelier.tagline')}
               </p>
               <div className="mt-8 lg:hidden">
-                <div className="relative mx-auto aspect-[2/3] w-full max-w-[420px] overflow-hidden">
+                <div className="relative mx-auto aspect-[2/3] w-full max-w-[260px] overflow-hidden md:max-w-[420px]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={PORTRAITS.atelier}
@@ -919,16 +935,19 @@ export default async function HomePage({params}: Props) {
               <p className="mt-8 max-w-xl text-base leading-[1.7] text-[var(--text-body)]">
                 {tHome('atelier.intro')}
               </p>
-              <div className="mt-10 space-y-10">
+              <div className="mt-8 border-t border-[var(--divider)] md:mt-10 md:space-y-10 md:border-t-0">
                 {(['1', '2', '3'] as const).map((n) => (
-                  <div key={n}>
-                    <h3 className="font-display text-xl text-[var(--text-title)] md:text-2xl">
-                      {tHome(`atelier.h${n}`)}
-                    </h3>
-                    <p className="mt-4 max-w-xl text-base leading-[1.7] text-[var(--text-body)]">
+                  <MobileDisclosure
+                    key={n}
+                    heading={tHome(`atelier.h${n}`)}
+                    headingClassName="font-display text-xl text-[var(--text-title)] md:text-2xl"
+                    className="border-b border-[var(--divider)] md:border-b-0"
+                    contentClassName="max-md:pb-5"
+                  >
+                    <p className="max-w-xl text-base leading-[1.7] text-[var(--text-body)] md:mt-4">
                       {tHome(`atelier.body${n}`)}
                     </p>
-                  </div>
+                  </MobileDisclosure>
                 ))}
               </div>
               <a
@@ -1064,7 +1083,8 @@ export default async function HomePage({params}: Props) {
             }))}
           />
 
-          <div className="mt-12 grid gap-10 border-t border-white/10 pt-10 md:mt-14 md:grid-cols-3">
+          {/* Credentials: three columns from md, accordion rows on phones. */}
+          <div className="mt-10 grid border-t border-white/10 md:mt-14 md:grid-cols-3 md:gap-10 md:pt-10">
             <CredentialList
               heading={tHome('media.alsoHeading')}
               items={[1, 2, 3, 4, 5].map((n) => tHome(`media.also${n}`))}
@@ -1165,7 +1185,7 @@ export default async function HomePage({params}: Props) {
         aria-label={tHome('contact.ariaLabel')}
         className="grid scroll-mt-16 bg-[var(--bg-dark)] md:grid-cols-2"
       >
-        <div className="relative min-h-[420px] md:min-h-[720px]">
+        <div className="relative min-h-[340px] md:min-h-[720px]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={PORTRAITS.contact}
@@ -1232,18 +1252,17 @@ function Stat({value, label, last = false}: {value: string; label: string; last?
   return (
     <li
       className={cn(
-        'flex items-baseline justify-between gap-6',
-        // Tablet row: number over label, hairline on top of each cell.
-        'md:flex-col md:items-start md:gap-3 md:border-t md:border-[var(--divider)] md:pt-5',
+        // Phone and tablet row: number over label, hairline on top of each cell.
+        'flex flex-col items-start gap-2 border-t border-[var(--divider)] pt-4 md:gap-3 md:pt-5',
         'lg:flex-row lg:items-baseline lg:justify-between lg:gap-6 lg:border-t-0 lg:pt-0',
-        !last && 'border-b border-[var(--divider)] pb-5 md:border-b-0 md:pb-0 lg:border-b lg:pb-5'
+        !last && 'lg:border-b lg:pb-5'
       )}
     >
-      <span className="font-display text-5xl leading-none text-[var(--text-title)] md:text-6xl">
+      <span className="font-display text-4xl leading-none text-[var(--text-title)] md:text-6xl">
         <bdi>{value}</bdi>
       </span>
       <span
-        className="max-w-[14rem] text-end text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)] md:text-start lg:text-end"
+        className="max-w-[14rem] text-start text-[10px] uppercase tracking-[0.12em] text-[var(--text-muted)] md:text-[11px] md:tracking-[0.22em] lg:text-end"
         data-ui-label
       >
         {label}
@@ -1383,22 +1402,22 @@ function ContactDetail({label, children}: {label: string; children: React.ReactN
 
 function CredentialList({heading, items}: {heading: string; items: string[]}) {
   return (
-    <div>
-      <h3
-        className="font-sans text-[11px] uppercase tracking-[0.22em] !text-white/55"
-        style={{color: 'rgba(255,255,255,0.55)'}}
-        data-ui-label
-      >
-        {heading}
-      </h3>
-      <ul className="mt-4 divide-y divide-white/10 border-t border-white/10">
+    <MobileDisclosure
+      uiLabel
+      heading={heading}
+      headingClassName="font-sans text-[11px] uppercase tracking-[0.22em] !text-white/55"
+      buttonClassName="!text-white/75"
+      className="border-b border-white/10 md:border-b-0"
+      contentClassName="max-md:pb-4"
+    >
+      <ul className="divide-y divide-white/10 border-t border-white/10 md:mt-4">
         {items.map((item) => (
           <li key={item} className="py-3 text-sm leading-[1.7] text-white/80">
             {item}
           </li>
         ))}
       </ul>
-    </div>
+    </MobileDisclosure>
   );
 }
 
@@ -1509,7 +1528,7 @@ function InternationalPropertyCard({
 }) {
   const chip = 'px-3 py-1.5 text-[10px] uppercase tracking-[0.22em]';
   return (
-    <article className="grid overflow-hidden lg:grid-cols-2">
+    <article className="grid h-full grid-rows-[auto_1fr] overflow-hidden lg:grid-cols-2 lg:grid-rows-1">
       <div className="relative aspect-[4/3] lg:aspect-auto lg:min-h-[640px]">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -1542,7 +1561,7 @@ function InternationalPropertyCard({
           {locationChip}
         </span>
       </div>
-      <div className="flex flex-col justify-center bg-[var(--bg-dark)] p-8 md:p-12 lg:p-14">
+      <div className="flex flex-col justify-center bg-[var(--bg-dark)] p-6 md:p-12 lg:p-14">
         <p
           className="text-[11px] uppercase tracking-[0.28em] !text-white/60"
           style={{color: 'rgba(255,255,255,0.6)'}}
@@ -1551,18 +1570,18 @@ function InternationalPropertyCard({
           {location}
         </p>
         <h3
-          className="mt-4 font-display text-3xl leading-[1.1] !text-white md:text-4xl"
+          className="mt-4 font-display text-2xl leading-[1.1] !text-white sm:text-3xl md:text-4xl"
           style={{color: '#ffffff'}}
         >
           {title}
         </h3>
         <p
-          className="mt-5 max-w-xl text-sm leading-[1.7] !text-white/80 md:text-base"
+          className="mt-4 max-w-xl text-sm leading-[1.7] !text-white/80 md:mt-5 md:text-base"
           style={{color: 'rgba(255,255,255,0.8)'}}
         >
           {body}
         </p>
-        <div className="mt-8 border-t border-white/15 pt-8">
+        <div className="mt-6 border-t border-white/15 pt-6 md:mt-8 md:pt-8">
           <p
             className="text-[10px] uppercase tracking-[0.28em] !text-white/55"
             style={{color: 'rgba(255,255,255,0.55)'}}
@@ -1570,58 +1589,61 @@ function InternationalPropertyCard({
           >
             {priceLabel}
           </p>
-          <p className="mt-2 font-display text-3xl !text-white md:text-4xl" style={{color: '#ffffff'}}>
+          <p className="mt-2 font-display text-2xl !text-white sm:text-3xl md:text-4xl" style={{color: '#ffffff'}}>
             {price}
           </p>
         </div>
-        {/* A <p>, not a heading: the unlayered global h1–h6 rule would force the
-         * display face and tight tracking over these utilities. */}
-        <p
-          className="mt-8 text-[10px] uppercase tracking-[0.28em] !text-white/55"
-          style={{color: 'rgba(255,255,255,0.55)'}}
-          data-ui-label
+        {/* Details + audience fold behind a disclosure on phones. The heading
+         * is a <p>, not an <h*>: the unlayered global h1–h6 rule would force
+         * the display face and tight tracking over these utilities. */}
+        <MobileDisclosure
+          as="p"
+          uiLabel
+          heading={detailsHeading}
+          headingClassName="text-[10px] uppercase tracking-[0.28em] !text-white/55"
+          className="mt-6 border-white/15 max-md:border-y md:mt-8"
+          contentClassName="max-md:pb-6"
         >
-          {detailsHeading}
-        </p>
-        <dl className="mt-4 grid gap-x-8 gap-y-4 sm:grid-cols-2">
-          {details.map((detail) => (
-            <div key={detail.label} className="flex gap-3">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.75"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="mt-1 h-3.5 w-3.5 shrink-0 text-white/70"
-                aria-hidden="true"
-              >
-                <path d="M5 12l5 5L20 7" />
-              </svg>
-              <div>
-                <dt
-                  className="text-[11px] uppercase tracking-[0.18em] !text-white/55"
-                  style={{color: 'rgba(255,255,255,0.55)'}}
-                  data-ui-label
+          <dl className="grid gap-x-8 gap-y-4 sm:grid-cols-2 md:mt-4">
+            {details.map((detail) => (
+              <div key={detail.label} className="flex gap-3">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.75"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="mt-1 h-3.5 w-3.5 shrink-0 text-white/70"
+                  aria-hidden="true"
                 >
-                  {detail.label}
-                </dt>
-                <dd className="mt-1 text-sm !text-white/90" style={{color: 'rgba(255,255,255,0.9)'}}>
-                  <bdi>{detail.value}</bdi>
-                </dd>
+                  <path d="M5 12l5 5L20 7" />
+                </svg>
+                <div>
+                  <dt
+                    className="text-[11px] uppercase tracking-[0.18em] !text-white/55"
+                    style={{color: 'rgba(255,255,255,0.55)'}}
+                    data-ui-label
+                  >
+                    {detail.label}
+                  </dt>
+                  <dd className="mt-1 text-sm !text-white/90" style={{color: 'rgba(255,255,255,0.9)'}}>
+                    <bdi>{detail.value}</bdi>
+                  </dd>
+                </div>
               </div>
-            </div>
-          ))}
-        </dl>
-        <p
-          className="mt-8 max-w-xl font-display text-lg italic leading-[1.5] !text-white/75"
-          style={{color: 'rgba(255,255,255,0.75)'}}
-        >
-          {audience}
-        </p>
+            ))}
+          </dl>
+          <p
+            className="mt-6 max-w-xl font-display text-lg italic leading-[1.5] !text-white/75 md:mt-8"
+            style={{color: 'rgba(255,255,255,0.75)'}}
+          >
+            {audience}
+          </p>
+        </MobileDisclosure>
         <a
           href="#contact"
-          className="relative before:absolute before:inset-x-0 before:-inset-y-3 before:content-[''] mt-8 inline-flex w-fit items-center gap-2 border-b border-white/40 pb-1 text-[11px] uppercase tracking-[0.22em] !text-white transition-colors hover:border-white"
+          className="relative before:absolute before:inset-x-0 before:-inset-y-3 before:content-[''] mt-6 md:mt-8 inline-flex w-fit items-center gap-2 border-b border-white/40 pb-1 text-[11px] uppercase tracking-[0.22em] !text-white transition-colors hover:border-white"
           style={{color: '#ffffff'}}
           data-ui-label
         >

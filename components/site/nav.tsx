@@ -127,6 +127,19 @@ export function SiteNav() {
            * 0.28em) and DUBAI · MIAMI · BOGOTÁ (Roboto Flex, 0.32em). */}
           <Link
             href="/"
+            onClick={(e) => {
+              // Next skips a Link whose URL is already current (`/` with no
+              // hash), so on the home page scroll back to the hero ourselves.
+              // Modified clicks (new tab/window) keep the browser default.
+              if (!isHome || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+              e.preventDefault();
+              setMobileOpen(false);
+              const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+              window.scrollTo({top: 0, behavior: reduce ? 'auto' : 'smooth'});
+              if (window.location.hash) {
+                history.replaceState(history.state, '', window.location.pathname + window.location.search);
+              }
+            }}
             aria-label={t('logoAria')}
             className={cn(
               'flex flex-col items-center gap-1.5 transition-colors duration-300',
