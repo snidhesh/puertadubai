@@ -6,6 +6,7 @@ import {Container, Section} from '@/components/ui/container';
 import {DAYAN_AGENT, fetchAgentListings, type StudioListingCard} from '@/lib/studio/properties';
 import {cn} from '@/lib/utils';
 import {routing, type Locale} from '@/lib/i18n/routing';
+import {pageMetadata} from '@/lib/site/seo';
 
 export const revalidate = 300;
 // The agent feed walk downloads the whole CRM feed (~37 MB); see lib/studio/properties.ts.
@@ -20,10 +21,12 @@ type Props = {params: Promise<{locale: Locale}>};
 export async function generateMetadata({params}: Props): Promise<Metadata> {
   const {locale} = await params;
   const t = await getTranslations({locale, namespace: 'Projects'});
-  return {
+  return pageMetadata({
+    locale,
+    path: '/projects',
     title: t('metaTitle'),
     description: t('metaDescription')
-  };
+  });
 }
 
 export default async function ProjectsIndexPage({params}: Props) {

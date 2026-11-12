@@ -1,15 +1,21 @@
 import type {MetadataRoute} from 'next';
-import {routing, type Locale} from '@/lib/i18n/routing';
+import {routing} from '@/lib/i18n/routing';
 import {CASE_STUDIES, EXPERTISE} from '@/lib/home/content';
+import {absoluteUrl, languageAlternates} from '@/lib/site/seo';
+import {DAYAN_AGENT, fetchAgentListings} from '@/lib/studio/properties';
 
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.dayancandamil.com').replace(/\/$/, '');
+// Listings come and go in the CRM; rebuild the sitemap hourly.
+export const revalidate = 3600;
 
 /**
- * Public routes (locale-prefixed except EN which uses the bare path under
- * `as-needed`). Every entry emits `alternates.languages` so search engines
- * discover the localised variants. The portfolio is a single page plus the
- * listings index, the expertise and case-study pages and the two legal pages;
- * legacy routes 301 to anchors via next.config.ts.
+ * Every indexable route, once per routed locale, each carrying the full
+ * hreflang set (itself included) so the sitemap agrees with the page-level
+ * `<link rel="alternate">` tags. Legacy routes 301 to anchors via
+ * next.config.ts and are deliberately absent.
+ *
+ * No `lastModified`: the copy is static, so the only honest date would be the
+ * deploy time, and a date that changes on every build teaches crawlers to
+ * ignore the field.
  */
 const STATIC_PATHS = [
   '/',
@@ -20,24 +26,18 @@ const STATIC_PATHS = [
   '/privacy'
 ];
 
-function localePath(locale: Locale, path: string): string {
-  if (locale === routing.defaultLocale) return path;
-  return path === '/' ? `/${locale}` : `/${locale}${path}`;
+function buildEntries(path: string): MetadataRoute.Sitemap {
+  const languages = languageAlternates(path);
+  return routing.locales.map((locale) => ({
+    url: absoluteUrl(locale, path),
+    alternates: {languages}
+  }));
 }
 
-function buildEntry(path: string): MetadataRoute.Sitemap[number] {
-  const languages: Record<string, string> = {};
-  for (const locale of routing.locales) {
-    languages[locale] = `${SITE_URL}${localePath(locale, path)}`;
-  }
-  languages['x-default'] = `${SITE_URL}${localePath(routing.defaultLocale, path)}`;
-  return {
-    url: `${SITE_URL}${path}`,
-    alternates: {languages},
-    lastModified: new Date()
-  };
-}
-
-export default function sitemap(): MetadataRoute.Sitemap {
-  return STATIC_PATHS.map(buildEntry);
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  // Without the CRM feed (no API key, or the feed is down) the sitemap still
+  // ships the static routes.
+  const listings = await fetchAgentListings(DAYAN_AGENT, routing.defaultLocale).catch(() => []);
+  const paths = [...STATIC_PATHS, ...listings.map((listing) => `/projects/${listing.id}`)];
+  return paths.flatMap(buildEntries);
 }

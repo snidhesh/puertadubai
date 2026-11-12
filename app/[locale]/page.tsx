@@ -33,6 +33,8 @@ import {PlayGlyph} from '@/components/home/play-glyph';
 import {SOCIAL_ICONS} from '@/lib/site/social';
 import {fetchLatestPosts} from '@/lib/instagram/posts';
 import {routing, type Locale} from '@/lib/i18n/routing';
+import {safeJsonLd} from '@/lib/sanity/safe-json-ld';
+import {SITE_NAME, SITE_URL, absoluteUrl} from '@/lib/site/seo';
 
 // Featured listings come from the BlackOak Studio CRM feed; ISR every 5 min.
 export const revalidate = 300;
@@ -67,7 +69,8 @@ export default async function HomePage({params}: Props) {
   const {locale} = await params;
   setRequestLocale(locale);
 
-  const [t, tHome, tForm, tProjects] = await Promise.all([
+  const [tMeta, t, tHome, tForm, tProjects] = await Promise.all([
+    getTranslations({locale, namespace: 'Meta'}),
     getTranslations({locale, namespace: 'Hero'}),
     getTranslations({locale, namespace: 'Home'}),
     getTranslations({locale, namespace: 'ContactForm'}),
@@ -91,6 +94,43 @@ export default async function HomePage({params}: Props) {
     successTitle: tForm('successTitle'),
     successBody: tForm('successBody'),
     error: tForm('error')
+  };
+
+  // Structured data: who the site is about and which profiles are hers, so
+  // search engines can tie the name to one entity. Every value restates
+  // something already on the page (role and firm from the meta description,
+  // profiles from LINKS) — nothing here may go beyond the published copy.
+  const personId = `${SITE_URL}/#dayan-candamil`;
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebSite',
+        '@id': `${SITE_URL}/#website`,
+        url: `${SITE_URL}/`,
+        name: SITE_NAME,
+        inLanguage: locale,
+        about: {'@id': personId}
+      },
+      {
+        '@type': 'Person',
+        '@id': personId,
+        name: SITE_NAME,
+        url: absoluteUrl(locale, '/'),
+        image: `${SITE_URL}${PORTRAITS.contact}`,
+        description: tMeta('description'),
+        jobTitle: 'Associate Partner',
+        worksFor: {'@type': 'Organization', name: 'BlackOak Real Estate', url: LINKS.blackoak},
+        sameAs: [LINKS.linkedin, LINKS.instagram, LINKS.youtube]
+      },
+      {
+        '@type': 'Organization',
+        '@id': `${SITE_URL}/#house-of-candamil`,
+        name: 'House of Candamil',
+        url: LINKS.houseOfCandamil,
+        founder: {'@id': personId}
+      }
+    ]
   };
 
   return (
@@ -1242,6 +1282,8 @@ export default async function HomePage({params}: Props) {
           </div>
         </div>
       </section>
+      {/* Last, not first: the layout styles `main > section:first-child#hero`. */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{__html: safeJsonLd(jsonLd)}} />
     </>
   );
 }
@@ -1810,7 +1852,7 @@ function FeaturedVideoHero({
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={`https://i.ytimg.com/vi/${video.id}/maxresdefault.jpg`}
-          alt=""
+          alt={video.title}
           loading="lazy"
           className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
         />
@@ -1848,7 +1890,7 @@ function StackedVideoCard({video, locale}: {video: VideoData; locale: string}) {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={`https://i.ytimg.com/vi/${video.id}/maxresdefault.jpg`}
-          alt=""
+          alt={video.title}
           loading="lazy"
           className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
         />

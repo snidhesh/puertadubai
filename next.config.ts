@@ -113,16 +113,30 @@ const nextConfig: NextConfig = {
   // responses headroom beyond the 60s default.
   staticPageGenerationTimeout: 180,
   async redirects() {
-    return LEGACY_ROUTES.flatMap(({from, hash}) => [
-      {source: from, destination: `/${hash}`, permanent: true},
-      {
-        source: `/:locale(fr|es|pt|ar)${from}`,
-        destination: `/:locale/${hash}`,
-        permanent: true
-      }
-    ]);
+    return [
+      // Planned locales without a translation yet (PENDING_LOCALES in
+      // lib/i18n/routing.ts) land on the English page instead of serving
+      // English copy under a foreign-language URL. Temporary on purpose:
+      // these URLs come back when the translations ship, and a permanent
+      // redirect would stay cached in browsers. Listed first so a legacy
+      // path under one of them (/fr/about) is unprefixed before the legacy
+      // rules below run.
+      {source: '/:locale(fr|es|ar)', destination: '/', permanent: false},
+      {source: '/:locale(fr|es|ar)/:path*', destination: '/:path*', permanent: false},
+      ...LEGACY_ROUTES.flatMap(({from, hash}) => [
+        {source: from, destination: `/${hash}`, permanent: true},
+        {
+          source: `/:locale(pt)${from}`,
+          destination: `/:locale/${hash}`,
+          permanent: true
+        }
+      ])
+    ];
   },
   experimental: {
+    // app/global-not-found.tsx: a branded page with a real 404 status for
+    // URLs that match no route.
+    globalNotFound: true,
     // Lead forms are tiny — cap the request body to cut abuse surface.
     // `allowedOrigins` is deliberately omitted: Next 16 enforces same-origin
     // for Server Actions by default, and exact preview domains aren't

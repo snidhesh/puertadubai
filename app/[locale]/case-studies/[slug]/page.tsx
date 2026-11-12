@@ -4,6 +4,7 @@ import {setRequestLocale, getTranslations} from 'next-intl/server';
 import {Link} from '@/lib/i18n/navigation';
 import {Container, Section} from '@/components/ui/container';
 import {routing, type Locale} from '@/lib/i18n/routing';
+import {clip, pageMetadata} from '@/lib/site/seo';
 import {CASE_STUDIES, CASE_STUDY_SECTIONS} from '@/lib/home/content';
 import {cn} from '@/lib/utils';
 
@@ -21,12 +22,15 @@ export async function generateMetadata({params}: Props): Promise<Metadata> {
   const study = CASE_STUDIES.find((item) => item.slug === slug);
   if (!study) return {};
   const t = await getTranslations({locale, namespace: 'Home.caseStudies.items'});
-  return {
+  return pageMetadata({
+    locale,
+    path: `/case-studies/${study.slug}`,
     title: t(`${study.id}.title`),
-    description: t(`${study.id}.objective`),
+    description: clip(`${t(`${study.id}.objective`)} ${t(`${study.id}.approach`)}`),
+    image: study.image,
     // Dummy entries must not be indexed.
-    ...(study.placeholder && {robots: {index: false, follow: false}})
-  };
+    index: !study.placeholder
+  });
 }
 
 /**

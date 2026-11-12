@@ -45,14 +45,8 @@ export const SANITY_LANGUAGES = routing.locales.map((id) => ({
     switch (id) {
       case 'en':
         return 'English';
-      case 'fr':
-        return 'Français';
-      case 'es':
-        return 'Español';
       case 'pt':
         return 'Português';
-      case 'ar':
-        return 'العربية';
     }
   })()
 }));

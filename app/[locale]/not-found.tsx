@@ -5,7 +5,8 @@ export default async function NotFound() {
   const t = await getTranslations('NotFound');
 
   return (
-    <main className="flex-1 flex items-center justify-center px-6 py-24">
+    // A div, not <main>: the locale layout already wraps this in <main>.
+    <div className="flex flex-1 items-center justify-center px-6 py-24">
       <div className="text-center max-w-md">
         <p className="text-[12px] uppercase tracking-[0.12em] text-[var(--text-muted)]" data-ui-label>
           404
@@ -22,6 +23,6 @@ export default async function NotFound() {
           {t('returnHome')}
         </Link>
       </div>
-    </main>
+    </div>
   );
 }

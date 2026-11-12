@@ -6,6 +6,7 @@ import {Container, Section} from '@/components/ui/container';
 import {fetchListingById, type StudioListingDetail} from '@/lib/studio/properties';
 import {routing, type Locale} from '@/lib/i18n/routing';
 import {LINKS} from '@/lib/home/content';
+import {clip, pageMetadata} from '@/lib/site/seo';
 
 export const revalidate = 300;
 
@@ -25,13 +26,20 @@ export async function generateMetadata({params}: Props): Promise<Metadata> {
     getTranslations({locale, namespace: 'ProjectDetail'}),
     fetchListingById(slug, locale).catch(() => null)
   ]);
-  if (!listing) return {title: t('metaFallback')};
-  return {
-    title: listing.title,
-    description:
-      listing.description?.slice(0, 160) ??
-      `${listing.title} — ${listing.area}, ${listing.emirate}.`
-  };
+  if (!listing) return {title: t('metaFallback'), robots: {index: false, follow: false}};
+  // CRM titles are agent shorthand ("3BR TH | Motivated Seller") with no
+  // place name, so the location is appended; the brand suffix is dropped to
+  // keep the result near the length search engines display.
+  const place = [listing.area, listing.emirate].filter(Boolean).join(', ');
+  const title = place ? `${listing.title} · ${place}` : listing.title;
+  return pageMetadata({
+    locale,
+    path: `/projects/${listing.id}`,
+    title,
+    absoluteTitle: true,
+    description: listing.description ? clip(listing.description) : `${title}.`,
+    image: listing.images[0]
+  });
 }
 
 export default async function ListingDetailPage({params}: Props) {

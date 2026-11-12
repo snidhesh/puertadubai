@@ -9,6 +9,7 @@ import {SiteNav} from '@/components/site/nav';
 import {SiteFooter} from '@/components/site/footer';
 import {SplashScreen} from '@/components/site/splash-screen';
 import {getDirection, routing, type Locale} from '@/lib/i18n/routing';
+import {SITE_URL, pageMetadata} from '@/lib/site/seo';
 import '../globals.css';
 
 // Latin stack (EN/FR/ES/PT) — Mahsheed-inspired pairing.
@@ -28,18 +29,23 @@ const robotoFlex = Roboto_Flex({
 
 // Arabic stack. The Nautigal script accent is intentionally NOT loaded —
 // it has no Arabic glyphs and would never render on AR pages.
+// `preload: false`: no Arabic locale is routed yet, so preloading these on
+// every Latin page only competes with the fonts that do render. Drop the flag
+// when `ar` joins `routing.locales`.
 const elMessiri = El_Messiri({
   subsets: ['arabic'],
   weight: ['400', '700'],
   variable: '--font-display-arabic',
-  display: 'swap'
+  display: 'swap',
+  preload: false
 });
 
 const ibmPlexArabic = IBM_Plex_Sans_Arabic({
   subsets: ['arabic'],
   weight: ['300', '400', '500', '600', '700'],
   variable: '--font-sans-arabic',
-  display: 'swap'
+  display: 'swap',
+  preload: false
 });
 
 export function generateStaticParams() {
@@ -58,15 +64,15 @@ export async function generateMetadata({params}: Props): Promise<Metadata> {
     : routing.defaultLocale;
   const t = await getTranslations({locale: safeLocale, namespace: 'Meta'});
 
+  // The home page's metadata; every other page overrides title, description,
+  // canonical and social tags through pageMetadata() (lib/site/seo.ts).
   return {
+    ...pageMetadata({locale: safeLocale, path: '/', title: t('title'), description: t('description')}),
     title: {
       default: t('title'),
-      template: `%s · ${t('title')}`
+      template: `%s · ${t('siteName')}`
     },
-    description: t('description'),
-    metadataBase: process.env.NEXT_PUBLIC_SITE_URL
-      ? new URL(process.env.NEXT_PUBLIC_SITE_URL)
-      : undefined
+    metadataBase: new URL(SITE_URL)
   };
 }
 

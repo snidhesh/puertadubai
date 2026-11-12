@@ -14,13 +14,21 @@ It is third person throughout ("Dayan", never "we"); keep that voice in any new 
 The header switcher (`components/site/language-switcher.tsx`) lists only `SWITCHER_LOCALES` in
 `lib/i18n/routing.ts`, currently EN · PT. `pt.json` is a Brazilian Portuguese translation pending Dayan's
 review; quoted reviews/endorsements stay in their original English. `fr/es/ar.json` still mirror
-`en.json`; add a locale to the switcher only once its file is really translated, and add every new key
-to all five files.
+`en.json`, so those locales are **not routed**: they are `PENDING_LOCALES` and `/fr`, `/es`, `/ar` 307 to
+the English page (`next.config.ts`). Route a locale (and add it to the switcher) only once its file is
+really translated — a routed locale is indexable and listed in hreflang and the sitemap. Add every new
+key to all five files.
+
+## SEO
+Every page builds its metadata with `pageMetadata()` in `lib/site/seo.ts` (self-referencing canonical,
+hreflang set, Open Graph/Twitter). Next merges metadata shallowly, so never set `openGraph` or
+`alternates` piecemeal on a page. Person/WebSite JSON-LD lives on the home page and may only restate
+published copy. `app/global-not-found.tsx` serves unmatched URLs with a real 404 status.
 
 ## Stack
 - Next.js 16 (App Router, TypeScript strict, RSC). `proxy.ts` replaces `middleware.ts` and uses a *named* export `proxy`.
 - pnpm 10.x, Node >= 20.9 (`.nvmrc` + `engines`).
-- next-intl 4.x with `localePrefix: 'as-needed'`; locales `en` (default at `/`), `fr`, `es`, `pt`, `ar`.
+- next-intl 4.x with `localePrefix: 'as-needed'`; routed locales `en` (default at `/`) and `pt`; `fr`, `es`, `ar` are planned.
 - Tailwind CSS v4 + (later) shadcn/ui primitives.
 - Sanity v3 as the headless CMS (phase 3+).
 - Auth.js v5 + Upstash adapter wrapped with `withTokenHashing()` for the admin (phase 9).

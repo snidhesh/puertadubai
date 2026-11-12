@@ -4,6 +4,7 @@ import {setRequestLocale, getTranslations} from 'next-intl/server';
 import {Link} from '@/lib/i18n/navigation';
 import {Container, Section} from '@/components/ui/container';
 import {routing, type Locale} from '@/lib/i18n/routing';
+import {clip, pageMetadata} from '@/lib/site/seo';
 import {EXPERTISE, EXPERTISE_POINTS} from '@/lib/home/content';
 
 // The six expertise pages are fully static; anything else is a 404.
@@ -20,10 +21,15 @@ export async function generateMetadata({params}: Props): Promise<Metadata> {
   const tile = EXPERTISE.find((item) => item.slug === slug);
   if (!tile) return {};
   const t = await getTranslations({locale, namespace: 'Home.expertise.items'});
-  return {
+  // The tile tagline (`body`) is a six-word strapline; the intro paragraph
+  // says what the service is, so it makes the better search snippet.
+  return pageMetadata({
+    locale,
+    path: `/expertise/${tile.slug}`,
     title: t(`${tile.id}.title`),
-    description: t(`${tile.id}.body`)
-  };
+    description: clip(t(`${tile.id}.intro`)),
+    image: tile.image
+  });
 }
 
 /**

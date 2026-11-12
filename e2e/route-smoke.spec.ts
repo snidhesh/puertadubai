@@ -8,7 +8,9 @@ import {expect, test} from '@playwright/test';
  * matrix from the plan's Verification section.
  */
 
-const PUBLIC_LOCALES = ['en', 'fr', 'es', 'pt', 'ar'] as const;
+const PUBLIC_LOCALES = ['en', 'pt'] as const;
+// Planned locales without a translation yet; they redirect to English.
+const PENDING_LOCALES = ['fr', 'es', 'ar'] as const;
 
 test.describe('locale routing', () => {
   test('EN serves at /, not /en (localePrefix: as-needed)', async ({page}) => {
@@ -23,12 +25,22 @@ test.describe('locale routing', () => {
       const response = await page.goto(`/${locale}`);
       expect(response?.status()).toBe(200);
       await expect(page.locator('html')).toHaveAttribute('lang', locale);
-      await expect(page.locator('html')).toHaveAttribute(
-        'dir',
-        locale === 'ar' ? 'rtl' : 'ltr'
-      );
+      await expect(page.locator('html')).toHaveAttribute('dir', 'ltr');
     });
   }
+
+  for (const locale of PENDING_LOCALES) {
+    test(`/${locale} redirects to the English page`, async ({request}) => {
+      const response = await request.get(`/${locale}/projects`, {maxRedirects: 0});
+      expect(response.status()).toBe(307);
+      expect(response.headers()['location']).toBe('/projects');
+    });
+  }
+
+  test('pages carry a self-referencing canonical', async ({page}) => {
+    await page.goto('/pt/projects');
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', /\/pt\/projects$/);
+  });
 });
 
 test.describe('security headers', () => {

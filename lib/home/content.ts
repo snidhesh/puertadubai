@@ -117,7 +117,7 @@ export const EXPERTISE: ReadonlyArray<ExpertiseTile> = [
     image: '/images/tiles/tile-06.jpg',
     related: {href: '/projects', label: 'listings'}
   },
-  {id: 'developers', slug: 'developer-market-entry', image: '/images/uae/business-bay.png'},
+  {id: 'developers', slug: 'developer-market-entry', image: '/images/uae/business-bay.jpg'},
   {id: 'marrakech', slug: 'marrakech-north-africa', image: '/images/uae/bluewaters-island.jpg'},
   {
     id: 'houseOfCandamil',

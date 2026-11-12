@@ -7,10 +7,7 @@ import {cn} from '@/lib/utils';
 
 const LABELS: Record<Locale, {short: string; long: string}> = {
   en: {short: 'EN', long: 'English'},
-  fr: {short: 'FR', long: 'Français'},
-  es: {short: 'ES', long: 'Español'},
-  pt: {short: 'PT', long: 'Português'},
-  ar: {short: 'AR', long: 'العربية'}
+  pt: {short: 'PT', long: 'Português'}
 };
 
 type Props = {
@@ -49,7 +46,11 @@ export function LanguageSwitcher({className, transparent = false}: Props) {
             )}
             <Link
               href={pathname}
-              locale={locale}
+              // The current locale links to the page itself. Passing `locale`
+              // makes next-intl prefix even the default locale (`/en/…`, so the
+              // proxy can reset the cookie), which would put a redirecting
+              // self-link on every English page.
+              locale={current ? undefined : locale}
               lang={locale}
               aria-label={LABELS[locale].long}
               aria-current={current ? 'true' : undefined}
