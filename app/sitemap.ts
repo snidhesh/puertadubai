@@ -20,6 +20,7 @@ export const revalidate = 3600;
 const STATIC_PATHS = [
   '/',
   '/projects',
+  '/house-of-candamil',
   ...EXPERTISE.map((tile) => `/expertise/${tile.slug}`),
   ...CASE_STUDIES.filter((study) => !study.placeholder).map((study) => `/case-studies/${study.slug}`),
   '/legal-notice',

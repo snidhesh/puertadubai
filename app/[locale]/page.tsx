@@ -375,7 +375,15 @@ export default async function HomePage({params}: Props) {
           body={tHome('panels.mandatesBody')}
           cta={tHome('panels.mandatesCta')}
           image={PORTRAITS.mandates}
-          imagePosition="top"
+          // Tall 1080×1819 portrait in a landscape card. Phones crop lower so
+          // the face clears the (proportionally taller) copy block; wider
+          // cards keep headroom above the hair. Slightly dimmed so the grey
+          // studio wall sits closer to the black backdrop and the dark band.
+          imageClassName="object-[50%_50%] brightness-[0.86] md:object-[50%_30%]"
+          // Feathers the hard seam where the studio wall meets the black
+          // backdrop (~69% across the photo) so it fades into the band.
+          // Physical direction on purpose: the photo itself never mirrors.
+          imageOverlayClassName="bg-gradient-to-r from-transparent from-[56%] to-black/90 to-[76%]"
         />
         <PanelCard
           href={LINKS.blackoak}
@@ -397,20 +405,32 @@ export default async function HomePage({params}: Props) {
         />
       </section>
 
-      {/* 5. ABOUT — full-frame desk portrait left + stacked content right.
-       * The portrait column stretches to the copy column's height, so the
-       * photo runs from the eyebrow to the LinkedIn link as one block. */}
-      <Section id="about" className="scroll-mt-16 py-14 md:py-20">
+      {/* 5. ABOUT — copy left, portrait right. From lg the portrait is not a
+       * framed box: it runs the full height of the section and bleeds off the
+       * end edge, and its inner edge (the photo's dark negative space)
+       * dissolves into the page through a mask, so the copy and the picture
+       * read as one spread. The photo's dark top meets the dark panel band
+       * above it. */}
+      <Section id="about" className="relative isolate scroll-mt-16 overflow-hidden py-14 md:py-20">
+        <div
+          className={[
+            'absolute inset-y-0 end-0 -z-10 hidden w-[44vw] max-w-[920px] lg:block xl:w-[48vw]',
+            // The fade runs from the copy side to opaque at `--fade`. Kept short
+            // on narrow desktops, where the face sits closer to that edge.
+            '[--fade:24%] xl:[--fade:46%]',
+            '[mask-image:linear-gradient(to_right,transparent_3%,#000_var(--fade))]',
+            'rtl:[mask-image:linear-gradient(to_left,transparent_3%,#000_var(--fade))]'
+          ].join(' ')}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={PORTRAITS.about}
+            alt={tHome('about.imageAlt')}
+            className="absolute inset-0 h-full w-full object-cover object-[100%_22%] rtl:object-[0%_22%]"
+          />
+        </div>
         <Container>
-          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,36rem)] lg:gap-16">
-            <div className="relative hidden overflow-hidden lg:block">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={PORTRAITS.about}
-                alt={tHome('about.imageAlt')}
-                className="absolute inset-0 h-full w-full object-cover object-[50%_35%]"
-              />
-            </div>
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,30rem)_minmax(0,1fr)] lg:gap-16 xl:grid-cols-[minmax(0,36rem)_minmax(0,1fr)]">
             <div>
               <h2 className="font-display text-[var(--text-title)]">
                 <span
@@ -426,13 +446,14 @@ export default async function HomePage({params}: Props) {
               <p className="mt-3 font-display text-xl italic text-[var(--text-muted)] md:text-2xl">
                 {tHome('about.tagline')}
               </p>
-              {/* Below lg the portrait sits between the tagline and the biography. */}
-              <div className="relative mt-8 aspect-[4/5] w-full overflow-hidden max-md:aspect-square lg:hidden">
+              {/* Below lg the portrait sits between the tagline and the
+               * biography, edge to edge, its foot fading into the page. */}
+              <div className="relative -mx-6 mt-8 aspect-[4/5] overflow-hidden max-md:aspect-square md:-mx-10 lg:hidden [mask-image:linear-gradient(to_bottom,#000_78%,transparent)]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={PORTRAITS.about}
                   alt={tHome('about.imageAlt')}
-                  className="absolute inset-0 h-full w-full object-cover object-[50%_35%]"
+                  className="absolute inset-0 h-full w-full object-cover object-[75%_24%]"
                 />
               </div>
               <h3 className="mt-8 font-display text-xl text-[var(--text-title)] md:text-2xl">
@@ -503,7 +524,7 @@ export default async function HomePage({params}: Props) {
             {EXPERTISE.map((tile) => (
               <li key={tile.id}>
                 <Link
-                  href={`/expertise/${tile.slug}`}
+                  href={tile.href ?? `/expertise/${tile.slug}`}
                   className="group relative block aspect-[4/5] overflow-hidden md:aspect-square text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -972,33 +993,32 @@ export default async function HomePage({params}: Props) {
                   />
                 </div>
               </div>
-              <p className="mt-8 max-w-xl text-base leading-[1.7] text-[var(--text-body)]">
-                {tHome('atelier.intro')}
-              </p>
-              <div className="mt-8 border-t border-[var(--divider)] md:mt-10 md:space-y-10 md:border-t-0">
-                {(['1', '2', '3'] as const).map((n) => (
-                  <MobileDisclosure
-                    key={n}
-                    heading={tHome(`atelier.h${n}`)}
-                    headingClassName="font-display text-xl text-[var(--text-title)] md:text-2xl"
-                    className="border-b border-[var(--divider)] md:border-b-0"
-                    contentClassName="max-md:pb-5"
-                  >
-                    <p className="max-w-xl text-base leading-[1.7] text-[var(--text-body)] md:mt-4">
-                      {tHome(`atelier.body${n}`)}
-                    </p>
-                  </MobileDisclosure>
+              {/* Excerpt only — origin, then recognition. The full letter
+               * (materials, journey, sign-off) lives at /house-of-candamil. */}
+              <div className="mt-8 max-w-xl space-y-5 text-base leading-[1.7] text-[var(--text-body)]">
+                {(['1', '2', '5'] as const).map((n) => (
+                  <p key={n}>{tHome(`atelier.p${n}`)}</p>
                 ))}
               </div>
-              <a
-                href={LINKS.houseOfCandamil}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="relative before:absolute before:inset-x-0 before:-inset-y-3 before:content-[''] mt-10 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.22em] text-[var(--accent)] hover:underline"
-                data-ui-label
-              >
-                {tHome('atelier.cta')} <span aria-hidden="true" className="rtl:scale-x-[-1]">→</span>
-              </a>
+              <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-6">
+                <Link
+                  href="/house-of-candamil"
+                  className="inline-flex items-center justify-center bg-[var(--text-title)] px-7 py-4 text-[11px] uppercase tracking-[0.22em] !text-white transition-opacity hover:opacity-85"
+                  style={{color: '#ffffff'}}
+                  data-ui-label
+                >
+                  {tHome('atelier.readMore')}
+                </Link>
+                <a
+                  href={LINKS.houseOfCandamil}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="relative before:absolute before:inset-x-0 before:-inset-y-3 before:content-[''] inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.22em] text-[var(--accent)] hover:underline"
+                  data-ui-label
+                >
+                  {tHome('atelier.cta')} <span aria-hidden="true" className="rtl:scale-x-[-1]">→</span>
+                </a>
+              </div>
             </div>
             <div className="hidden lg:block">
               <div className="relative h-full min-h-[630px] w-[420px] overflow-hidden xl:min-h-[780px] xl:w-[520px]">
@@ -1471,7 +1491,9 @@ function PanelCard({
   body,
   cta,
   image,
-  imagePosition = 'center'
+  imagePosition = 'center',
+  imageClassName,
+  imageOverlayClassName
 }: {
   href: string;
   external?: boolean;
@@ -1481,6 +1503,10 @@ function PanelCard({
   cta: string;
   image: string;
   imagePosition?: 'top' | 'center';
+  /** Extra classes for the photo (crop, tone); applied after `imagePosition`. */
+  imageClassName?: string;
+  /** Optional extra tone layer between the photo and the shared gradient. */
+  imageOverlayClassName?: string;
 }) {
   return (
     <a
@@ -1495,9 +1521,13 @@ function PanelCard({
         loading="lazy"
         className={cn(
           'absolute inset-0 -z-20 h-full w-full object-cover transition-transform duration-[800ms] ease-out group-hover:scale-[1.06]',
-          imagePosition === 'top' && 'object-top'
+          imagePosition === 'top' && 'object-top',
+          imageClassName
         )}
       />
+      {imageOverlayClassName && (
+        <div aria-hidden="true" className={cn('absolute inset-0 -z-10', imageOverlayClassName)} />
+      )}
       <div
         aria-hidden="true"
         className="absolute inset-0 -z-10 bg-gradient-to-t from-black/85 via-black/45 to-black/15 transition-opacity duration-500 group-hover:opacity-90"
@@ -1803,15 +1833,17 @@ function TrustScoreBox({
   );
 }
 
-/** Curated hero plus the six latest live posts when the feed is available;
- * otherwise the curated small tiles. Renders nothing with no posts at all. */
+/** Curated hero plus the six curated small tiles (Dayan's best reels). The
+ * live feed only stands in when fewer than six are curated. Renders nothing
+ * with no posts at all. */
 async function LiveInstagramMosaic({locale}: {locale: Locale}) {
+  const [hero, ...curated] = INSTAGRAM_POSTS;
+  const needsLive = curated.length < 6;
   const [live, t] = await Promise.all([
-    fetchLatestPosts(6),
+    needsLive ? fetchLatestPosts(6) : Promise.resolve([]),
     getTranslations({locale, namespace: 'Home.instagram'})
   ]);
-  const [hero, ...curated] = INSTAGRAM_POSTS;
-  const small = live.length === 6 ? live : curated;
+  const small = needsLive && live.length === 6 ? live : curated;
   const tiles = hero ? [hero, ...small] : small;
   return <InstagramMosaic tiles={tiles} labelFor={(n) => t('postLabel', {number: n})} />;
 }

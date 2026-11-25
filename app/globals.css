@@ -104,3 +104,96 @@ h1, h2, h3, h4, h5, h6 {
 :root[lang="ar"] h6 {
   letter-spacing: 0;
 }
+
+/* House of Candamil hero (app/[locale]/house-of-candamil/page.tsx).
+ * The masthead tracks in from wide spacing, the portrait settles from a
+ * slight push-in, then the cover lines fade up. The photo and its cut-out
+ * share `.hoc-rise` so the two layers never drift apart. Without motion the
+ * elements simply render in their final state. */
+@media (prefers-reduced-motion: no-preference) {
+  .hoc-track {
+    animation: hoc-track 1.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .hoc-rise {
+    animation: hoc-rise 1.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+    transform-origin: 50% 0%;
+  }
+  .hoc-fade {
+    animation: hoc-fade 1s ease-out 0.9s both;
+  }
+}
+
+@keyframes hoc-track {
+  from {
+    letter-spacing: 0.55em;
+    opacity: 0;
+    filter: blur(8px);
+  }
+}
+
+@keyframes hoc-rise {
+  from {
+    opacity: 0;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes hoc-fade {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+/* House of Candamil — phone layer. Scroll-driven, CSS only: browsers without
+ * scroll timelines (and visitors who ask for less motion) get the static page.
+ *   .hoc-progress  reading-progress hairline under the fixed header
+ *   .hoc-reveal    blocks rise in as they enter the viewport
+ *   .hoc-cue       light running down the hero's scroll hairline */
+.hoc-progress {
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+:root[dir="rtl"] .hoc-progress {
+  transform-origin: 100% 50%;
+}
+
+@media (max-width: 767px) and (prefers-reduced-motion: no-preference) {
+  .hoc-cue {
+    animation: hoc-cue 2.4s cubic-bezier(0.65, 0, 0.35, 1) 1.4s infinite;
+  }
+
+  @supports (animation-timeline: scroll()) {
+    .hoc-progress {
+      animation: hoc-progress linear both;
+      animation-timeline: scroll(root block);
+    }
+    .hoc-reveal {
+      animation: hoc-reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 5% cover 28%;
+    }
+  }
+}
+
+@keyframes hoc-progress {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes hoc-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+}
+
+@keyframes hoc-cue {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(200%);
+  }
+}

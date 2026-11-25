@@ -164,7 +164,7 @@ export default async function ExpertiseDetailPage({params}: Props) {
           <ul className="mt-8 grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-5">
             {others.map((item) => (
               <li key={item.id}>
-                <Link href={`/expertise/${item.slug}`} className="group block">
+                <Link href={item.href ?? `/expertise/${item.slug}`} className="group block">
                   <span
                     className="block text-[10px] uppercase tracking-[0.32em] text-[var(--text-muted)]"
                     data-ui-label

@@ -26,9 +26,9 @@ export const LINKS = {
  * Curated posts for the Instagram mosaic on the home page: the first is
  * the hero tile, the next six fill the small tiles. Images are our own
  * copies of the post media (Instagram's CDN URLs are signed and expire);
- * each tile links to the public post. When the live feed is available
- * (`INSTAGRAM_ACCESS_TOKEN`) the latest posts take the small tiles and the
- * hero stays curated.
+ * each tile links to the public post. The curated picks always win; the
+ * live feed (`INSTAGRAM_ACCESS_TOKEN`) only fills the small tiles if fewer
+ * than six are curated.
  */
 export type InstagramPick = {
   /** Post shortcode, e.g. the `Cx…` part of instagram.com/p/Cx…/ */
@@ -41,21 +41,27 @@ export type InstagramPick = {
 };
 
 export const INSTAGRAM_POSTS: ReadonlyArray<InstagramPick> = [
-  // Latest seven reels on @dayancandamilglobal, newest first (refreshed 2026-10-13).
-  // Hero: Dayan crossing the office — "You work in a male dominated industry…" (12 Oct 2026).
+  // Dayan's most-viewed reels on @dayancandamilglobal, by view count on the
+  // Reels tab (checked 2026-11-25), keeping only covers with Dayan on camera.
+  // Left out despite their views: two collab reels posted by @moza_queiroz
+  // (DKxdD9_osj2 15.2K, DMvNl82IF8m), DaSsx5mIQmL (4.8K, cover built around
+  // Mohamed Alabbar's portrait), Db_QtNUoMYP (4.2K, developer ad with a QR
+  // code), DcrAyRRoeuk (1.9K, cover shows someone else), and covers carrying
+  // QR codes or a phone number (DcOH8YMof5d, DYJuHAPI1wA, DYCZRc-oLcx).
+  // Hero: crossing the office — "You work in a male dominated industry…" (82.5K, 12 Oct 2026).
   {id: 'DeZmOO2oQYI', image: '/images/instagram/DeZmOO2oQYI.jpg', permalink: 'https://www.instagram.com/reel/DeZmOO2oQYI/', video: true},
-  // "Come with me to tour Al Naseem Villas by Modon" — title card (12 Oct 2026).
-  {id: 'DeZLx6RoP2A', image: '/images/instagram/DeZLx6RoP2A.jpg', permalink: 'https://www.instagram.com/reel/DeZLx6RoP2A/', video: true, focus: 'top'},
-  // Delano Residences Marrakech, official launch 30 October (10 Oct 2026).
-  {id: 'DeUmBGgoJQq', image: '/images/instagram/DeUmBGgoJQq.jpg', permalink: 'https://www.instagram.com/reel/DeUmBGgoJQq/', video: true, focus: 'top'},
-  // Walking the pool terrace of a waterfront villa (10 Oct 2026).
-  {id: 'DeUfB3HopgW', image: '/images/instagram/DeUfB3HopgW.jpg', permalink: 'https://www.instagram.com/reel/DeUfB3HopgW/', video: true},
-  // Booking units with the team at an Aldar launch (9 Oct 2026).
-  {id: 'DeRndeIIAoK', image: '/images/instagram/DeRndeIIAoK.jpg', permalink: 'https://www.instagram.com/reel/DeRndeIIAoK/', video: true},
-  // MJL Lamaa apartment for sale, Madinat Jumeirah Living (8 Oct 2026).
-  {id: 'DePzJ-II4HQ', image: '/images/instagram/DePzJ-II4HQ.jpg', permalink: 'https://www.instagram.com/reel/DePzJ-II4HQ/', video: true, focus: 'top'},
-  // Ocean-front villas on a natural island, from AED 3.1M (5 Oct 2026).
-  {id: 'DeHf7KAIjSH', image: '/images/instagram/DeHf7KAIjSH.jpg', permalink: 'https://www.instagram.com/reel/DeHf7KAIjSH/', video: true}
+  // Ocean-front villas, "with just over a thousand families" (6.2K, 28 May 2026).
+  {id: 'DY5HtaJItWd', image: '/images/instagram/DY5HtaJItWd.jpg', permalink: 'https://www.instagram.com/reel/DY5HtaJItWd/', video: true},
+  // "Explaining to my client why they should buy from me" (4.0K, 21 Oct 2026).
+  {id: 'Dewtyn4o0Ah', image: '/images/instagram/Dewtyn4o0Ah.jpg', permalink: 'https://www.instagram.com/reel/Dewtyn4o0Ah/', video: true},
+  // "You're such a strong woman" (3.7K, 19 Oct 2026).
+  {id: 'DerhwjIIAHw', image: '/images/instagram/DerhwjIIAHw.jpg', permalink: 'https://www.instagram.com/reel/DerhwjIIAHw/', video: true},
+  // "You have so many clients. Where do you find them?" at her desk (1.5K).
+  {id: 'DdY3O6SI4GB', image: '/images/instagram/DdY3O6SI4GB.jpg', permalink: 'https://www.instagram.com/reel/DdY3O6SI4GB/', video: true},
+  // At the Aldar launch of Marsa Al Saadiyat with BlackOak (1.3K, 21 Aug 2026).
+  {id: 'DcT0ukjIq4D', image: '/images/instagram/DcT0ukjIq4D.jpg', permalink: 'https://www.instagram.com/reel/DcT0ukjIq4D/', video: true},
+  // "We are here" — touring a villa (1.1K).
+  {id: 'DaMzFkSIngp', image: '/images/instagram/DaMzFkSIngp.jpg', permalink: 'https://www.instagram.com/reel/DaMzFkSIngp/', video: true}
 ];
 
 /** Profile picture saved locally; `undefined` falls back to the Instagram glyph. */
@@ -75,18 +81,26 @@ export const INTERNATIONAL_PROPERTIES = [
 
 export const PORTRAITS = {
   /**
-   * Black-and-white seated portrait at her desk, full-frame 2:3. Frames use
-   * object-cover; never mirror it (the desk books carry lettering)
-   * (source: assets/dayan_gallery/2272BCA5-…F458875778B.JPG, swapped in 2026-10-27).
+   * Black-and-white seated portrait in a white suit, 1125×1930. She sits on
+   * the right of the frame with dark negative space to her left, so the About
+   * section places it on the right and feathers that dark edge into the page.
+   * Never mirror it. Source: assets/new_pic_2.JPG (swapped in 2026-11-25),
+   * cropped 70px at the foot to remove a "Meta AI" watermark.
    */
-  about: '/images/dayan/about-office.jpg',
+  about: '/images/dayan/about-white-suit.jpg',
   splash: '/images/dayan/turtleneck.jpg',
   /** Colour editorial shot used by the original Let's Connect band. */
   contact: '/images/dayan/connect.jpg',
   /** Cut-out figure on transparent ground — frames use object-contain
    * (source: assets/dayan_gallery/house of candamil.png, 408×612, swapped in 2026-10-09). */
   atelier: '/images/dayan/house-of-candamil.png',
-  mandates: '/images/dayan/black-blazer.jpg',
+  /**
+   * Black-and-white seated turtleneck portrait, 1080×1819 (source:
+   * assets/new_pic_1.JPG, swapped in 2026-11-25). The panel is landscape, so
+   * the card crops to the face and lets the black turtleneck run into the
+   * card's dark gradient under the copy (crop set at the PanelCard call).
+   */
+  mandates: '/images/dayan/mandates-portrait.jpg',
   hultPrize: '/images/dayan/bw-white-blazer-profile.jpg',
   elleArabia: '/images/dayan/bw-satin-blouse.jpg',
   uzbek: '/images/dayan/emerald-earrings.jpg'
@@ -103,6 +117,12 @@ export type ExpertiseTile = {
    * pulled up to the face; landscape photos crop fine from the centre.
    */
   focus?: string;
+  /**
+   * Where the tile links instead of its /expertise/[slug] page. House of
+   * Candamil goes to the home page's Atelier section, which leads on to the
+   * full /house-of-candamil page.
+   */
+  href?: string;
   /** Optional onward link shown on the detail page. */
   related?: {href: string; label: 'listings' | 'atelier'};
 };
@@ -122,9 +142,10 @@ export const EXPERTISE: ReadonlyArray<ExpertiseTile> = [
   {
     id: 'houseOfCandamil',
     slug: 'house-of-candamil',
+    href: '/#atelier',
     image: '/images/dayan/bw-studio-satin.jpg',
     focus: '50% 8%',
-    related: {href: '/#atelier', label: 'atelier'}
+    related: {href: '/house-of-candamil', label: 'atelier'}
   }
 ];
 
